@@ -1,0 +1,38 @@
+BikeWind is a Python library that allows you to study the impact of wind on cycling routes described by GPS tracks.
+
+It allows you to:
+
+* retrospective analysis of actual routes already traveled (replay) in order to observe the impact of wind after the fact and measure the effort expended (power calculation)
+
+*  simulation of planned routes up to the current date plus 16 days 
+
+The Bikewind library is based on a model of the physical laws of cycling , incorporating continuous wind calculations using weather forecast data files (GRIB files).
+
+The library incorporates all the functions required for managing and downloading GRIB files, pre-processing GPX files, and using the simulation results.
+
+
+The library also comes with a set of sample programs that allow you to quickly perform simulations and analyze cycling routes in a real-world context with wind.
+
+This tool is designed to be as general as possible and usable by all types of cyclists exposed to wind conditions, regardless of their level or cycling practices (competition, leisure, cycle touring).
+
+refwindcycle documentation
+==========================
+
+Welcome to the official documentation for **refwindcycle**.
+
+This documentation is organized for users and developers:
+
+- Quick setup and installation
+- User-oriented workflow guide
+- Practical examples and sample scripts
+- API reference generated from Python docstrings
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+
+   installation
+   user_guide:
+   examples
+   api
+   changelog
