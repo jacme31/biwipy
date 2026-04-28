@@ -4,7 +4,7 @@ Analyse tactique pour cyclisme de compétition
 Module optionnel - n'impacte pas les simulations standards
 
 Usage:
-    from refwindcycle.analysis.tactical_analysis import (
+    from biwipy.analysis.tactical_analysis import (
         analyze_echelon_opportunities,
         print_echelon_report,
     )

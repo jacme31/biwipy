@@ -5,7 +5,7 @@ roughness_provider.py
 Optional roughness (z0) map provider based on ESA WorldCover raster data.
 
 Usage pattern:
-    from refwindcycle.weather.roughness_provider import RoughnessProvider
+    from biwipy.weather.roughness_provider import RoughnessProvider
 
     provider = RoughnessProvider(raster_dir="G:/grib/data/roughness_cache")
     # prepare once after GPX processing:

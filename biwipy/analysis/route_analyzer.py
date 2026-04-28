@@ -298,9 +298,9 @@ class GPXProcessingResult:
     
     Example:
     --------
-    >>> from refwindcycle.analysis.route_analyzer import RouteAnalyzer
-    >>> from refwindcycle.weather import WeatherProvider
-    >>> from refwindcycle.weather.grib_finder import build_grib_list
+    >>> from biwipy.analysis.route_analyzer import RouteAnalyzer
+    >>> from biwipy.weather import WeatherProvider
+    >>> from biwipy.weather.grib_finder import build_grib_list
     >>> 
     >>> # Load GPX and extract temporal info
     >>> analyzer = RouteAnalyzer()

@@ -25,7 +25,7 @@ def _generate_statistics_html(segments: List[Dict]) -> str:
     str : HTML des statistiques
     """
     try:
-        from refwindcycle.analysis.anareswind import compute_average_twd_vectorial, twd_to_text
+        from biwipy.analysis.anareswind import compute_average_twd_vectorial, twd_to_text
     except ImportError:
         # Fallback for legacy script usage outside the package context.
         from anareswind import compute_average_twd_vectorial, twd_to_text
