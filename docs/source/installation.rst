@@ -17,12 +17,12 @@ Install from PyPI (recommended)
 Compatibility note
 ------------------
 
-For this first publication phase, the installable distribution is named
-``biwipy`` but the Python import namespace remains ``refwindcycle``.
+The installable distribution name and Python import namespace are both
+``biwipy``.
 
 .. code-block:: python
 
-   from refwindcycle.core import Simulator
+   from biwipy.core import Simulator
 
 Install from source
 -------------------
@@ -34,7 +34,6 @@ From repository root:
    pip install .
 
 Install documentation dependencies
----------------------------------
 
 .. code-block:: bash
 

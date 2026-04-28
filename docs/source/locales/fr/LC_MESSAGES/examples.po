@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Jacques
+# This file is distributed under the same license as the biwipy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biwipy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 22:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples.rst:27
+msgid "Contents"
+msgstr ""
+
+#: ../../source/examples.rst:2
+msgid "Examples"
+msgstr ""
+
+#: ../../source/examples.rst:4
+msgid "This section highlights practical scripts shipped with the repository."
+msgstr ""
+
+#: ../../source/examples.rst:7
+msgid "Recommended showcase set"
+msgstr ""
+
+#: ../../source/examples.rst:9
+msgid "``run_wind_demo.py``: full end-to-end workflow"
+msgstr ""
+
+#: ../../source/examples.rst:10
+msgid "``run_gpx_processor_demo.py``: GPX preprocessing focus"
+msgstr ""
+
+#: ../../source/examples.rst:11
+msgid "``run_wind_course_demo.py``: route simulation scenarios"
+msgstr ""
+
+#: ../../source/examples.rst:12
+msgid "``run_wind_equivalent_slope_check.py``: wind virtual slope analysis"
+msgstr ""
+
+#: ../../source/examples.rst:15
+msgid "Example execution"
+msgstr ""
+
+#: ../../source/examples.rst:21
+msgid "Each example should describe:"
+msgstr ""
+
+#: ../../source/examples.rst:23
+msgid "Required input files"
+msgstr ""
+
+#: ../../source/examples.rst:24
+msgid "Main runtime parameters"
+msgstr ""
+
+#: ../../source/examples.rst:25
+msgid "Key outputs to inspect"
+msgstr ""
+

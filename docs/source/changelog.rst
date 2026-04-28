@@ -1,7 +1,6 @@
 Changelog
 =========
 
-The canonical changelog is maintained in the repository root.
+The changelog is maintained in the project repository.
 
-.. literalinclude:: ../../CHANGELOG.md
-   :language: markdown
+For now, release notes are published on GitHub releases.

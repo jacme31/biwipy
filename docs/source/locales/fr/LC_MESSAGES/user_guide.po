@@ -1,0 +1,2840 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Jacques
+# This file is distributed under the same license as the biwipy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biwipy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 22:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user_guide.rst:19
+msgid "Contents"
+msgstr ""
+
+#: ../../source/user_guide.rst:2
+msgid "User Guide"
+msgstr ""
+
+#: ../../source/user_guide.rst:4
+msgid "This section is intended for end users who want a practical workflow."
+msgstr ""
+
+#: ../../source/user_guide.rst:6
+msgid "Suggested structure for this guide:"
+msgstr ""
+
+#: ../../source/user_guide.rst:8
+msgid "Input data and assumptions (GPX, GRIB, cyclist parameters)"
+msgstr ""
+
+#: ../../source/user_guide.rst:9
+msgid "Route preprocessing and quality checks"
+msgstr ""
+
+#: ../../source/user_guide.rst:10
+msgid "Simulation modes (replay, no-wind baseline, wind-aware forecast)"
+msgstr ""
+
+#: ../../source/user_guide.rst:11
+msgid "Interpreting outputs (speed, power, virtual slope, wind score)"
+msgstr ""
+
+#: ../../source/user_guide.rst:12
+msgid "Typical troubleshooting"
+msgstr ""
+
+#: ../../source/user_guide.rst:14
+msgid "Integrating your existing user guide"
+msgstr ""
+
+#: ../../source/user_guide.rst:16
+msgid ""
+"You can progressively migrate your current draft into this page, or split"
+" it into sub-pages and include them with a ``toctree``."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:1
+msgid "Analysis of Simulation Results"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:3
+msgid "This page explains how to interpret simulation outputs in practice."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:5
+msgid "Scope of This Page"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:7
+msgid "Use this page to understand:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:9
+msgid "summary metrics (`print_summary_statistics`),"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:10
+msgid "virtual elevation and effective slope,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:11
+msgid "WindScore interpretation,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:12
+msgid "recommended plots and what to look for."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:14
+msgid "For simulation execution, see [Simulation and Replay](Simulation.md)."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:16
+msgid "Quick Summary First: print_summary_statistics"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:18
+msgid ""
+"`print_summary_statistics(result, label)` is the fastest way to inspect a"
+" run."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:20
+msgid "Typical usage:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:28
+msgid "What it gives at a glance:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:30
+msgid "distance, total time, speed and power,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:31
+msgid "mean/min/max wind and gusts,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:32
+msgid "terrain slope, virtual slope, effective slope,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:33
+msgid "wind-along split (headwind vs tailwind),"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:34
+msgid "final WindScore and sub-scores."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:36
+msgid "Recommended workflow:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:38
+msgid "Run one no-wind baseline."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:39
+msgid "Run wind-enabled simulation."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:40
+msgid "Compare both summaries before opening plots."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:42
+msgid "Virtual Elevation and Effective Slope"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:44
+msgid "Definitions"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:46
+msgid "Terrain slope: slope from GPX elevation profile only."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:47
+msgid "Virtual slope: slope-equivalent effect of wind."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:48
+msgid "Effective slope: terrain slope + virtual slope."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:50
+#: ../../source/user_guide/Analysis.md:75
+msgid "Interpretation rule:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:52
+msgid "positive virtual slope means wind behaves like extra climbing,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:53
+msgid "negative virtual slope means wind behaves like downhill assistance."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:55
+msgid "Practical reading:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:57
+msgid ""
+"If terrain slope is moderate but effective slope is high, wind is a major"
+" load driver."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:58
+msgid ""
+"If terrain is hard but effective slope drops, tailwind is compensating "
+"part of the effort."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:60
+msgid "WindScore: How to Read It"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:62
+msgid "WindScore combines two dimensions:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:64
+msgid "Performance component: impact on speed/effort."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:65
+msgid "Safety component: absolute wind hazard (gusts, crosswind, etc.)."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:67
+msgid "Main fields:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:69
+msgid "`result.wind_score.grade`: final grade,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:70
+msgid ""
+"`result.wind_score.reason`: why this grade dominates (`safety`, "
+"`performance`, or both),"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:71
+msgid "`result.wind_score.performance_grade`,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:72
+msgid "`result.wind_score.safety_grade`,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:73
+msgid "`result.wind_score.safety_danger_score`."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:77
+msgid ""
+"The final grade is the most restrictive one between safety and "
+"performance dimensions."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:79
+msgid "Plot Guide"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:81
+msgid "The analysis module provides several useful plotting functions:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:83
+msgid "`plot_segments_evolution(...)`"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:84
+msgid "`plot_elevation_profile(...)`"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:85
+msgid "`plot_wind_rose(...)`"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:86
+msgid "`compare_scenarios(...)`"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:88
+msgid "1. Segments Evolution Plot"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:90
+msgid "Use it for time/distance evolution of key signals:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:92
+msgid "speed,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:93
+msgid "power,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:94
+msgid "wind-along,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:95
+msgid "slopes."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:97
+#: ../../source/user_guide/Analysis.md:111
+msgid "Look for:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:99
+msgid "speed drops aligned with strong headwind or high effective slope,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:100
+msgid ""
+"sustained high power in sections that are not steep terrain-wise (wind "
+"penalty),"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:101
+msgid "descents with limited speed due to safety constraints."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:103
+msgid "2. Elevation Profile Plot"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:105
+msgid "Use it to compare:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:107
+msgid "real terrain elevation,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:108
+msgid "virtual elevation from wind,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:109
+msgid "combined profile intuition."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:113
+msgid "long sections where virtual elevation accumulates,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:114
+msgid "mismatch between terrain shape and perceived effort."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:116
+msgid "3. Wind Rose Plot"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:118
+msgid "Use it to understand directional wind structure:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:120
+msgid "dominant wind directions,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:121
+msgid "spread and consistency,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:122
+msgid "whether the route repeatedly exposes the same bearings."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:124
+msgid "4. Scenario Comparison"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:126
+msgid "Use `compare_scenarios` for side-by-side analysis:"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:128
+msgid "no wind vs wind,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:129
+msgid "different days,"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:130
+msgid "different behavior profiles."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:132
+msgid "Practical Comparison Recipe"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:146
+msgid "Then inspect evolution plots to localize where differences are produced."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:148
+msgid "Common Interpretation Pitfalls"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:150
+msgid "Looking only at average speed and ignoring safety indicators."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:151
+msgid "Reading terrain slope alone and ignoring effective slope."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:152
+msgid "Comparing scenarios with different rider parameters/profile settings."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:153
+msgid "Over-interpreting a single run without a no-wind baseline."
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:155
+msgid "Suggested Reading Order"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:157
+msgid "[Input data](Input-data.md)"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:158
+msgid "[Simulation and Replay](Simulation.md)"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:159
+msgid "This page (Analysis)"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:160
+msgid "[Tips](Tips.md)"
+msgstr ""
+
+#: ../../source/user_guide/Analysis.md:161
+msgid "[Troubleshooting](Troubleshooting.md)"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:1
+msgid "Input Data"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:3
+msgid "To simulate a bike ride, you need to define the following input data:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:5
+msgid ""
+"[Physical cycling parameters](PCP-label): physical characteristics of the"
+" rider, bike, and road surface."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:6
+msgid ""
+"[Cyclist effort level](CEL-label): baseline effort for simulation, "
+"defined by base power or base speed."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:7
+msgid ""
+"[Behavioral cycling parameters](BCP-label): how the rider behaves on "
+"climbs, descents, and turns."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:8
+msgid ""
+"[Wind](W-label): data required to estimate wind speed and direction along"
+" the route over time."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:9
+msgid "[Route](R-label): the route, provided as a GPX file."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:12
+msgid "Physical Cycling Parameters"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:14
+msgid "CdA and Crr"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:16
+msgid "Definition"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:18
+msgid "CdA and Crr are two key simulation parameters."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:20
+msgid ""
+"The aerodynamic drag coefficient (CdA) represents air resistance for a "
+"moving cyclist. It depends on several factors, including:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:22
+msgid "rider position,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:23
+msgid "bike and component shape,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:24
+msgid "rider morphology."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:26
+msgid "CdA is expressed in m²."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:28
+msgid "The rolling resistance coefficient (Crr or Cr) depends mainly on:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:30
+msgid "road and surface type (smooth/rough asphalt, concrete, gravel, etc.),"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:31
+msgid "tires (size, pressure, compound)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:33
+msgid "Quick Reference Table"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:35
+msgid "The table below can help for a quick start:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "Activity"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "CdA range"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "Crr range"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "Typical [CdA - Crr]"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "*Bikepacking / Travel*"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.45-0.65"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.005-0.007"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "**[0.55 - 0.006]**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "*Gravel bike*"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.35-0.55"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "**[0.40 - 0.006]**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "*Amateur road cycling*"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.30-0.40"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.004-0.005"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "**[0.35 - 0.0045]**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "*Pro road cycling*"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.24-0.32"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.003-0.004"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "**[0.28 - 0.0035]**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "*Pro triathlon / TT*"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "0.17-0.24"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md
+msgid "**[0.21 - 0.0035]**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:45
+msgid "For more precise settings:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:47
+msgid ""
+"For Crr, see https://www.bicyclerollingresistance.com/ (adjust by load "
+"and pressure)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:48
+msgid "For CdA, calibrate from one or more real rides."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:50
+msgid "This simulation is primarily designed for solo riding."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:52
+msgid ""
+"Riding in a group reduces aerodynamic drag, and the effect varies by "
+"position in the group. For group rides, one practical approach is to "
+"reduce solo CdA, then calibrate against real rides in similar conditions."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:55
+msgid "Mass"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:57
+msgid ""
+"Mass corresponds to the combined weight of rider + bike (including "
+"typical clothing/gear), in kilograms."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:60
+msgid "Cyclist Effort Level"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:62
+msgid "Base Power (P0)"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:64
+msgid ""
+"Base power quantifies rider effort in simulation. It is the power (W) on "
+"flat terrain with no wind."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:67
+msgid "This base power is then adjusted by:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:69
+msgid "rider behavior profile,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:70
+msgid "route gradient,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:71
+msgid "turns,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:72
+msgid "wind effects."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:74
+msgid ""
+"If you replay a completed ride with GPX timestamps, providing P0 is not "
+"mandatory. For future simulation, P0 (or v0) is required to compute speed"
+" and timing."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:77
+msgid "Recommended practice:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:79
+msgid "use a P0 calibrated from replaying this same route,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:80
+msgid "or replay a similar ride and reuse the calibrated value,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:81
+msgid "or provide a realistic base speed v0 (flat, no wind), then convert to P0."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:83
+#: ../../source/user_guide/Simulation.md:105
+#: ../../source/user_guide/Simulation.md:214
+msgid "Notes:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:85
+msgid ""
+"Power meters measure crank power. Some power is lost in drivetrain "
+"transmission."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:86
+msgid "The model does not explicitly model drivetrain losses."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:87
+#, python-format
+msgid ""
+"If you use power-meter values directly, reducing by about 3% to 5% can be"
+" reasonable."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:90
+msgid "Physical Parameter Settings"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:92
+msgid "In Python, CdA, Crr, and Mass are floating-point values:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:94
+msgid "`CdA` in m²,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:95
+msgid "`Crr` as a dimensionless coefficient,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:96
+msgid "`Mass` in kg."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:105
+msgid "P0 and v0 are also floating-point values:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:107
+msgid "`P0` in watts,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:108
+msgid "`v0` in m/s."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:117
+msgid "Behavioral Cycling Parameters"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:119
+msgid "Behavior Profiles"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:121
+msgid ""
+"Cyclists naturally adjust power output based on terrain. The simulation "
+"uses an adaptive power model."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:124
+msgid "The behavior profile controls how power is adjusted for:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:126
+msgid "uphills,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:127
+msgid "downhills,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:128
+msgid "corners."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:130
+msgid ""
+"Wind is treated as virtual slope (positive or negative), so behavior "
+"settings for climbs/descents also influence wind response."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:132
+msgid "Three behavior modes are available:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:134
+msgid "`realistic`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:135
+msgid "`conservative`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:136
+msgid "`aggressive`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:138
+msgid "You can choose different modes for uphill, downhill, and cornering."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:140
+msgid "For a quick start, three preset profiles are available:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Profile name"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Uphill behavior"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Downhill behavior"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Corner behavior"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**amateur**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "conservative"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**competitive**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "realistic"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**pro**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "aggressive"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:148
+msgid "You can also build a custom profile by:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:150
+msgid "combining modes differently per category,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:151
+msgid "manually tuning one or more internal factors."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:153
+msgid "You can display a profile at any time, save it, and reload it later."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:155
+msgid "Built-in Presets"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:157
+msgid "Uphill Modes"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Mode"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Steep slope"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Medium slope"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Gentle slope"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Description"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**realistic**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "3.5"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "2.5"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "1.5"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Balanced effort"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**conservative**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "2.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Prudent and steady"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "**aggressive**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "4.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "High-effort climbing"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:165
+msgid "Downhill Modes"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Max speed"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "6.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "20.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "22 m/s"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Safe, controlled descent"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "3.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "18 m/s"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Very cautious"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "5.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Confident, performance-oriented"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:173
+msgid "Corner Modes (max speed, m/s)"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Straight"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Slight"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Moderate"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Sharp"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "Hairpin"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "22.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "18.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "14.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "7.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "4.5"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "16.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:110
+msgid "12.0"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:181
+msgid "Behavior Profile Settings"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:183
+msgid "A behavior profile can be created with helper functions."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:185
+msgid "Example: predefined competitive profile."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:206
+msgid "**Mixed mode profile:**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:216
+msgid "**Customizing individual parameters:**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:225
+msgid "**Saving and loading profiles:**"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:233
+msgid "Wind"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:235
+msgid "GFS Model"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:237
+msgid ""
+"Wind analysis currently relies on meteorological forecasts. As with any "
+"forecast, results should be interpreted with uncertainty in mind."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:240
+msgid ""
+"For replay on a past date, the most recent forecast available for that "
+"time is used. This is usually reliable (short forecast horizon)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:241
+msgid ""
+"For future simulations, reliability decreases as the ride date gets "
+"farther away."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:242
+msgid "Results beyond about 5 days should be interpreted with caution."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:244
+msgid "The tool currently uses NOAA GFS. Main characteristics:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:247
+msgid "global coverage,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:248
+msgid "4 model runs per day: 00Z, 06Z, 12Z, 18Z,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:249
+msgid "0.25° x 0.25° grid,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:250
+msgid "forecast horizon up to 16 days,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:251
+msgid "hourly steps up to 120 h, then 3-hour steps up to 384 h."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:253
+msgid "GRIB Files"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:255
+msgid ""
+"Forecast data is retrieved on demand using GRIB files. The tool downloads"
+" only required variables:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:258
+msgid "`u10` and `v10` wind components at 10 m,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:259
+msgid "gust speed at 10 m."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:261
+msgid "From these, the model derives:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:263
+msgid "True Wind Speed (TWS),"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:264
+msgid "True Wind Direction (TWD),"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:265
+msgid "gust speed,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:266
+msgid "wind-along component along route bearing."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:268
+msgid ""
+"Ground-level wind is lower than 10 m wind due to roughness and obstacles."
+" The model supports two approaches:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:271
+msgid "default constant roughness scaling,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:272
+msgid ""
+"optional terrain-based roughness map (see [Roughness factor](roughness-"
+"factor-label))."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:274
+msgid "Default normalization:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:276
+msgid "`TWS0 = TWS10 * 58%`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:278
+msgid "`GUST0 = GUST10 * 58%`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:280
+msgid "`TWS_final = TWS0 - 25% * (GUST0 - TWS0)`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:282
+msgid "Requesting GRIB Files"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:284
+msgid "To simulate a ride, download the required GRIB files based on:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:286
+msgid "ride start datetime,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:287
+msgid "estimated ride duration,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:288
+msgid "time step (1 h or 3 h)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:290
+msgid "Helper function:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:308
+msgid ""
+"The following diagram summarizes how step size and duration determine the"
+" GRIB files to request:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:310
+msgid "![](/_static/Gribs.png)"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:312
+msgid "Weather Initialization"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:314
+msgid "Once GRIB files are available:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:323
+msgid "GRIB Size and Storage Notes"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:325
+msgid ""
+"Downloaded files are stored under a `gfs/YYYYMMDD/` tree in your selected"
+" directory."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:331
+msgid "Name fields:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:333
+msgid "`subset_01ef10f5`: subset hash (u10/v10/gust),"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:334
+msgid "`t18z`: 18:00 UTC model run,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:335
+msgid "`f003`: forecast hour (+3 h from run)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:337
+msgid "Typical file size is around 2.5 MB."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:339
+msgid "Files already present are reused."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:341
+msgid ""
+"Wind model loading is accelerated with an optional cache "
+"(`~/.cache/grib/`) automatically purged after 48 h."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:343
+msgid "To disable cache:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:352
+msgid "Air Density"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:354
+msgid ""
+"Aerodynamic drag also depends on air density (rho), which decreases with "
+"altitude."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:356
+msgid "Standard sea-level value: `rho = 1.225 kg/m3`."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:358
+msgid "The tool estimates rho along the route from altitude."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:368
+msgid "You can also force a constant rho value in simulation methods."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:371
+msgid "Routes"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:373
+msgid ""
+"For full simulation workflows, see [Simulation and "
+"replay](Simulation.md). For detailed interfaces and signatures, see [API "
+"Reference](../api.rst)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:376
+msgid "Two Types of GPX"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:378
+msgid "Routes are provided through GPX files."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:380
+msgid "There are two main GPX types:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:382
+msgid "GPX with timestamps: supports replay and full timing analysis."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:383
+msgid ""
+"GPX without timestamps: supports route geometry analysis and future "
+"simulation."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:385
+msgid "Platforms such as Strava often include timestamps only for your own rides."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:387
+msgid "In this tool:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:389
+msgid "GPX without timestamps can be used with `simulate_future()`."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:390
+msgid ""
+"GPX with timestamps can be used with `simulate_future()` and "
+"`simulate_replay()`."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:392
+msgid "Preprocessing"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:394
+msgid "A GPX file is processed as follows:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:396
+msgid "parse and convert to route segments,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:397
+msgid "detect and filter GPS outliers,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:398
+msgid "smooth altitude signal,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:399
+msgid "merge very short segments,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:400
+msgid "optionally remove stop segments (if timestamps are available)."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:402
+msgid "Route Analysis"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:404
+msgid "`RouteAnalyzer` is the main interface for GPX preprocessing."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:413
+msgid "Preprocessing Output"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:415
+msgid "`gpx_result` contains:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:417
+msgid "`has_timestamps` (bool),"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:418
+msgid "`t_start`, `t_end`, and duration when timestamps are present,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:419
+msgid "`segments` list for simulation,"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:420
+msgid "`stats` dictionary with route and preprocessing metrics."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:432
+msgid "Useful Feature: Route Cutting"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:434
+msgid "You can isolate a subsection of the route by distance markers."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:451
+msgid "Roughness Factor"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:453
+#: ../../source/user_guide/Notebook-3.ipynb:297
+msgid ""
+"For finer near-ground wind estimation, you can use a roughness (z0) map "
+"based on ESA WorldCover."
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:455
+msgid "The preprocessing step provides an integer bounding box:"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:457
+msgid "`stats['rectangle_SN']` as `(south, north)`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:458
+msgid "`stats['rectangle_EW']` as `(west, east)`"
+msgstr ""
+
+#: ../../source/user_guide/Input-data.md:460
+msgid ""
+"Raster files are stored in your selected cache directory and reused when "
+"available."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:9
+msgid "Should I stay or should I go?"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:11
+msgid "When you plan a bike ride, you probably check the weather forecast."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:13
+msgid ""
+"While it is fairly easy to assess temperature and rain risk, interpreting"
+" the wind is often more difficult."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:15
+msgid ""
+"This notebook aims to determine the best wind conditions over the coming "
+"days for a favorite bike ride (and, above all, to avoid the worst "
+"conditions)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:54
+#: ../../source/user_guide/Notebook-2.ipynb:50
+msgid "1. Building the wind model"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:57
+msgid "1.1. Selecting the GRIB files for the wind"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:59
+msgid "First, we focus on wind data."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:61
+msgid "The idea is to select the best days from all possible departure times."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:63
+msgid ""
+"Weather forecasts are available for 384 hours (at 0h, 6h, 12h, and 18h), "
+"but forecasts are generally reliable only for the first 5 days."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:65
+msgid ""
+"So we consider departure times for the next 5 days at 10h and 15h. The "
+"estimated duration of our ride is ~2h (conservative estimate with "
+"headwind)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:67
+msgid ""
+"We build the list of all GRIB files required to simulate the different "
+"rides. The function ``build_grib_list``:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:69
+msgid ""
+"automatically adds margins to include all files required by temporal "
+"interpolation for each departure time,"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:71
+msgid ""
+"downloads the required GRIB files if needed (about 30 files; this may "
+"take a few minutes),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:73
+msgid "returns the list of files after download."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:146
+msgid "1.2. Initializing the weather provider"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:148
+msgid ""
+"With all required GRIB files for the different departure times, we can "
+"initialize the weather provider (the GRIB content is loaded into memory)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:199
+msgid "2. Building the simulator"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:202
+msgid "2.1. Defining parameters"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:204
+#: ../../source/user_guide/Notebook-3.ipynb:373
+msgid "We define the required parameters:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:206
+msgid ""
+"CdA: 0.53 for a gravel bike with a relaxed position (hands on top of the "
+"bars),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:208
+msgid "Cr: 0.0055 (Tufo Thundero 38 mm tires),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:210
+msgid "Weight: 87 (rider) + 10 (steel gravel bike) + 1 (clothes...),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:212
+#: ../../source/user_guide/Notebook-3.ipynb:381
+msgid "Intermediate behavior profile (``realistic``)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:215
+msgid "2.2. Initializing the Simulator and baseline power"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:217
+#: ../../source/user_guide/Notebook-3.ipynb:386
+msgid ""
+"We build the simulator using the previously defined parameters: weather "
+"component, rider profile, and cyclist parameters."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:219
+msgid ""
+"To define the power used by the simulation, we choose a baseline flat "
+"speed ``v0`` in m/s (convert from km/h by dividing by 3.6). The chosen "
+"speed is 25 km/h."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:221
+msgid ""
+"We can then compute the equivalent baseline power ``P0`` in watts. With "
+"these parameters, the corresponding power at 25 km/h is about 154.4 W."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:290
+msgid "3. Defining the ride with the GPX file"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:292
+msgid "Then we define the GPX file corresponding to the planned ride."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:294
+msgid "The GPX file used for this sample is provided in the sample directory."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:296
+msgid "Replace it with your favorite ride!"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:298
+msgid ""
+"The GPX file must be preprocessed before simulation. At the end, we can "
+"inspect the distance and elevation gain."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:361
+msgid "4. Running the simulation"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:363
+msgid ""
+"Now we simulate the ride for each departure time and store results in a "
+"list."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:365
+msgid "We call ``simulate_future`` for every departure time."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:367
+msgid ""
+"We pass preprocessed segments, the departure time, and the previously "
+"computed baseline power ``P0``."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:422
+msgid "5. Analyzing results"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:424
+msgid "The ``results_wind`` list now stores all simulation results."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:426
+msgid "We first focus on:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:428
+msgid "the wind score (grade from A to F),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:430
+msgid "the safety and performance components of the wind score,"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:432
+msgid "wind direction,"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:434
+msgid "estimated travel times."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:436
+msgid ""
+"Both lists are sorted by wind score grade (primary key) and estimated "
+"time (secondary key)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-1.ipynb:438
+msgid "The results are compiled into a readable table."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:9
+msgid "Hellish Conditions for Seixas?"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:11
+msgid ""
+"In February 2026, the Decathlon CMA CGM cycling team was at a training "
+"camp in southern Spain."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:13
+msgid ""
+"On February 14, after returning from a training session, rising French "
+"cycling star Paul Seixas posted the ride on his public Strava account "
+"with the comment: \"A bit dangerous this wind 😬\""
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:15
+msgid "|Strava Paul Seixas|"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:19
+msgid "Strava Paul Seixas"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:17
+msgid ""
+"I immediately downloaded the GPX and measured the wind conditions along "
+"his ride..."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:52
+msgid ""
+"We cannot use the time provided by the GPX file because it does not "
+"contain any timestamp. GPX files downloaded from Strava do not include "
+"timestamps unless it is a file associated with your account."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:54
+msgid ""
+"Since the GPX file does not contain timestamps, a replay simulation is "
+"not possible."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:56
+msgid ""
+"However, it is still possible to run a simulation in \"future mode\" by "
+"choosing the actual date and time of the ride."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:58
+msgid ""
+"This will allow us to assess the actual wind conditions encountered by "
+"Paul Seixas."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:60
+msgid "Therefore, we will use the date displayed on the Strava webpage."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:120
+msgid "2. Parameters and simulator initialization"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:122
+msgid ""
+"We use typical pro-level parameters for this simulation. Paul Seixas's "
+"weight is easy to find online."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:124
+msgid ""
+"We previously ran several simulations to tune a base power that gives "
+"realistic results (time and average speed). For this tuning, we selected "
+"``v0`` values consistent with the average speed reported by Strava and "
+"the elevation profile."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:126
+msgid ""
+"Remember that ``v0`` is the speed corresponding to power ``P0`` on flat "
+"terrain and without wind. Here, the route has significant elevation gain "
+"(> 2000 m) and strong wind. A ``v0`` of 39 km/h is a realistic choice to "
+"obtain an average speed close to 32 km/h."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:182
+msgid "3. Loading the GPX"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:184
+msgid ""
+"GPX preprocessing. Stop filtering is not relevant here because this GPX "
+"has no timestamps."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:291
+msgid "4. Simulation launch"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:293
+msgid "Before running the simulation, we recall the Strava ride summary:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:295
+msgid "**Distance**: 103.20 km **Time**: 3:13:54 **Elevation gain**: 2416 m"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:297
+msgid "**Average**: 31.9 km/h **Max**: 87.3 km/h"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:299
+msgid "The simulation results are very close."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:301
+msgid ""
+"I cannot guarantee that the estimated power exactly matches the value "
+"measured by Paul Seixas's power meter, but it seems realistic for a "
+"training ride."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:367
+msgid "4. Wind analysis"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:369
+msgid "The ride summary gives a WindScore grade of ``F``."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:371
+msgid "This grade is driven by both safety and performance criteria."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:595
+msgid "5. Conclusion"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:597
+msgid "The main reasons for this poor safety rating are:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:599
+msgid "strong gusts,"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:601
+msgid "high average wind speed (TWS),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:603
+msgid "high lateral instability (crosswind)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-2.ipynb:605
+msgid ""
+"Paul Seixas was right to highlight how dangerous the wind was. Beyond his"
+" impressive performance for his age, this also shows strong maturity and "
+"risk awareness."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:9
+#: ../../source/user_guide/S-3.ipynb:9
+msgid "I'm feeling great... or is it the wind?"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:11
+msgid ""
+"Sometimes during a bike ride, you feel particularly fit. The road unfolds"
+" smoothly, effortlessly. You're proud of your physical condition and your"
+" performance. But could the wind be helping you a little?"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:13
+msgid ""
+"This notebook will show you how to replay one of your rides to see to "
+"what extent you benefited from the wind."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:71
+msgid "1. Selecting and loading the GPX file"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:73
+msgid ""
+"We define the GPX file corresponding to the ride already completed. The "
+"GPX file must include timestamps."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:75
+msgid ""
+"The GPX file used for this sample is provided in the sample directory. "
+"Replace it with your ride!"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:77
+msgid "If the GPX has timestamps, we can retrieve the ride start date."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:210
+msgid "2. Building the wind model"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:213
+msgid "2.1. Selecting the GRIB files for the wind"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:215
+msgid ""
+"We use the ``build_grib_list`` function to select the relevant GRIB files"
+" for our simulation."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:217
+msgid "We specify :"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:219
+msgid "the weather model: GFS is the default, but IFS can also be used."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:221
+msgid ""
+"the replay start date and duration, both provided by GPX preprocessing "
+"(duration is rounded up to the next hour)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:223
+msgid "and the directory where the GRIB files are stored."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:226
+msgid "2.2. Initializing the weather provider"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:228
+msgid ""
+"Once all required GRIB files are available for the selected time window, "
+"we can initialize the weather provider (the GRIB content is loaded into "
+"memory)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:230
+msgid "By default, GFS files are assumed (GFS and IFS files cannot be mixed)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:295
+msgid "3. Enabling a RoughnessProvider"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:299
+msgid "You need to:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:301
+msgid ""
+"initialize the roughness provider by specifying the directory where "
+"roughness files are stored,"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:303
+msgid ""
+"call the roughness provider method ``prepare`` with a bounding box "
+"previously computed during GPX preprocessing. The raster file will be "
+"stored in your selected cache directory and reused when available."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:305
+msgid ""
+"link your current weather GRIB object to the roughness provider via the "
+"``roughness_provider`` attribute."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:307
+msgid ""
+"Note: If you skip this step, a default constant roughness scaling is "
+"applied. After many simulations and replays, this constant value "
+"generally provides a good average and satisfactory results."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:368
+msgid "4. Replay with wind"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:371
+msgid "4.1. Defining parameters"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:375
+msgid "CdA: 0.42 (endurance road bike, very relaxed position)"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:377
+msgid "Cr: 0.00430 (32 mm tires),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:379
+msgid "Weight: 60 (rider) + 8 (carbon bike) + 1 (clothes...),"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:384
+msgid "4.2. Initializing and launching the simulator"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:388
+msgid ""
+"We can then launch the replay (``simulate_replay``) and first print the "
+"calibrated power for the ride."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:443
+msgid "5. Replay statistics"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:445
+msgid "``print_summary_statistics`` provides the following insights:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:447
+msgid ""
+"We can see a very high tailwind ratio (more than 90%). The average "
+"tailwind component along the route is above 10 km/h."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:449
+msgid "An \"A\" wind score grade."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:451
+msgid "A negative mean virtual slope (-1.2%)."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:453
+msgid "Overall, the wind was very favorable."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:668
+msgid "6. Simulate without wind"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:670
+msgid ""
+"We build a simulator using the same rider profile and cyclist parameters,"
+" but without weather data."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:672
+msgid ""
+"We then run a simulation (``simulate_future``) with the previously "
+"calibrated base power and use ``print_summary_statistics``."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:674
+msgid ""
+"In reality, with real wind conditions, we achieved an average speed of 27"
+" km/h. Without wind, with the same effort, we would have reached about "
+"22.5 km/h."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:890
+msgid "7. Smoothing the data"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:892
+msgid ""
+"Next, we will produce graphs to visualize these measurements in more "
+"detail."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:894
+msgid ""
+"To improve the readability of these graphs, we will smooth the data in "
+"the different segments."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:896
+msgid ""
+"The larger the smoothing window, the stronger the smoothing effect. The "
+"default value is 5, and the window size should always be odd."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:920
+msgid "8. Graphical representations"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:922
+msgid ""
+"The following cells show graphical representations of values obtained "
+"from replay and simulation."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:934
+msgid "8.1 Evolution of speed and slope as a function of distance"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:970
+msgid "8.2 Speed comparison with/without wind"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1008
+msgid "8.3 Real and virtual elevation profile"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1043
+msgid "8.4 Changes over time in wind speed and power"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1079
+msgid "8.5 Wind rose"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1114
+msgid "9. Experimental: Interactive map generation"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1116
+msgid "This feature generates an HTML page containing:"
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1118
+msgid "at the top, the colored route with wind levels."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1119
+msgid ""
+"at the bottom, the elevation profile (real and virtual). Movement along "
+"this profile is synchronized with the top section."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1120
+msgid "an optional animation for automatic navigation."
+msgstr ""
+
+#: ../../source/user_guide/Notebook-3.ipynb:1122
+msgid ""
+"Open the generated page in a browser (you can also launch an HTTP server "
+"with ``python -m http.server 8080``)."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:11
+msgid ""
+"Sometimes, on a bike, you feel particularly fit. The road unfolds before "
+"your eyes, effortlessly. You're proud of your physical condition and "
+"performance. But could the wind be playing a role?"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:13
+msgid ""
+"This notebook will show you how to relive one of your rides to analyze "
+"the influence of the wind on your effort."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:68
+msgid "1.Loading and pre-processing the gpx file"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:70
+msgid ""
+"We define the GPX file corresponding to the route already completed. This"
+" GPX file must include timestamps."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:72
+msgid ""
+"The GPX file used for this example is located in the example directory. "
+"Replace it with your own route!"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:74
+msgid ""
+"The GPX file is preprocessed. We filter out all stops made during the "
+"route."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:76
+msgid ""
+"Since the GPX file contains timestamps, we obtain the start date and "
+"duration of the route."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:208
+msgid "2.Building the wind model"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:211
+msgid "2.1. Selecting the Weather model"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:213
+msgid "The weather model by default is GFS."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:215
+msgid "You can change it to IFS by setting the WEATHER_MODEL variable to \"IFS\"."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:217
+msgid ""
+"Note that with the IFS model when the departure times are in the past I "
+"encounterad some problems with grib files without gust data. GFS last "
+"forecast are good,GFS downloads are very reliable, so I encourage you to "
+"use GFS for replays in the past."
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:220
+msgid "2.1. Selecting the Grib files"
+msgstr ""
+
+#: ../../source/user_guide/S-3.ipynb:222
+msgid ""
+"We use the build_grib_list function to build the list of grib files "
+"needed for the departure time and the duration including a margin ."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:1
+msgid "Simulation and Replay"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:3
+msgid ""
+"Simulation is the core feature of the library. It applies a cycling "
+"physics model using your input data (rider, route, weather, behavior)."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:6
+msgid "You first create a [Simulator object](SIM-label), then run:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:8
+msgid ""
+"[Prediction](Pred-label): estimate performance on a route using forecast "
+"wind."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:9
+msgid "[Replay](Repl-label): analyze a completed ride using GPX timestamps."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:11
+msgid "Both modes return a structured [SimulationResult](SR-label) for analysis."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:14
+msgid "Simulator Class"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:16
+msgid "`Simulator` is the main public interface for route simulation."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:18
+msgid "Constructor inputs:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:20
+msgid "`wind`: `weather.grib` object (or `None` for no-wind simulation)"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:21
+msgid "`behavior`: cyclist behavior profile"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:22
+msgid "cyclist parameters: `CdA`, `Cr`, `m`"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:49
+msgid "Useful conversion helpers:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:62
+msgid "Prediction"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:64
+msgid "Use `simulate_future()` to predict performance with weather forecast."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:66
+msgid "Required inputs:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:68
+msgid "preprocessed route segments"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:69
+msgid "ride start datetime"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:70
+msgid "reference effort (`P0` or `v0`)"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:97
+msgid "Replay"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:99
+msgid ""
+"Use `simulate_replay()` for post-ride analysis when GPX timestamps are "
+"available."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:101
+msgid "Required input:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:103
+msgid "preprocessed segments with timestamps"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:107
+msgid "`t_start` is auto-extracted from GPX by default."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:108
+msgid "`P0` is not required for replay."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:129
+msgid "Simulation Results"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:131
+msgid ""
+"`simulate_future()` and `simulate_replay()` return a `SimulationResult` "
+"object."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:133
+msgid "Main Output Structure"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:135
+msgid "Top-level fields include:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:137
+msgid "`distance`: route length and segment count"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:138
+msgid "`time`: total seconds, minutes, hours"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:139
+msgid "`speed`: average, min, max, moving average"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:140
+msgid "`power` (optional): average/min/max and calibrated `P0` when available"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:141
+msgid "`wind`: TWS and average TWD"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:142
+msgid "`gusts`: gust statistics and positions"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:143
+msgid "`slopes`: terrain, virtual (wind), and effective slopes"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:144
+msgid "`wind_along_trajectory`: headwind/tailwind split"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:145
+msgid "`crosswind`: lateral wind statistics"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:146
+msgid "`wind_score`: grade and safety/performance details"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:147
+msgid "`segments`: full segment list for advanced analysis and plotting"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:149
+msgid "Common Access Patterns"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:179
+msgid "Slope Breakdown"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:181
+msgid "`result.slopes` contains three complementary views:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:183
+msgid "`terrain`: GPX terrain slope only"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:184
+msgid "`virtual`: slope equivalent induced by wind"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:185
+msgid "`effective`: terrain + virtual"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:193
+msgid "Time of Passage at a Given Distance"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:195
+msgid "For route timing queries, use `get_time_at_km()`:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:202
+msgid "This is useful for race analysis and intermediate checkpoints."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:204
+msgid "JSON Export for API or Reporting"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:206
+msgid "Use `to_dict()` for compact structured export."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:216
+msgid "`to_dict()` excludes `segments` to keep payload size reasonable."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:217
+msgid "Use `result.get_segments()` when you need full segment-level detail."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:218
+msgid "Rule of thumb:"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:219
+msgid "use raw object fields for physics-level work (often SI units),"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:220
+msgid "use `_kmh` convenience fields or `to_dict()` for user-facing reports."
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:222
+msgid "Next Reading"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:224
+msgid "Input setup: [Input data](Input-data.md)"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:225
+msgid "Practical debugging: [Troubleshooting](Troubleshooting.md)"
+msgstr ""
+
+#: ../../source/user_guide/Simulation.md:226
+msgid "Operational recommendations: [Tips](Tips.md)"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:1
+msgid "Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:3
+msgid "This page gathers practical recommendations for day-to-day use."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:5
+msgid "Input Data Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:7
+msgid "Use realistic CdA/Crr values first, then calibrate progressively."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:8
+msgid "Prefer GPX files with timestamps for replay analysis."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:9
+msgid ""
+"For future simulations, choose a realistic ride duration when requesting "
+"GRIB files."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:11
+msgid "GPX Processing Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:13
+msgid "Enable stop filtering when timestamps are available."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:14
+msgid "Inspect route statistics after preprocessing before launching simulations."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:15
+msgid ""
+"If the route starts/ends in dense urban sections, consider cutting the "
+"first/last kilometers."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:17
+msgid "Wind and GRIB Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:19
+msgid ""
+"Use 1-hour GRIB step for short rides when you need finer temporal "
+"resolution."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:20
+msgid "Use 3-hour GRIB step for longer horizons when data volume matters."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:21
+msgid "Reuse cached GRIB files to speed up repeated runs."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:23
+msgid "Simulation Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:25
+msgid "Start with a no-wind baseline to understand route-only difficulty."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:26
+msgid ""
+"Compare replay and future simulation on the same route to quantify wind "
+"impact."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:27
+msgid "Keep cyclist behavior profile consistent across comparisons."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:29
+msgid "Analysis Tips"
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:31
+msgid "Check both average and max speed, not only one metric."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:32
+msgid "Use virtual slope and wind-along metrics together for interpretation."
+msgstr ""
+
+#: ../../source/user_guide/Tips.md:33
+msgid "Validate conclusions over multiple rides when possible."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:1
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:3
+msgid "This page lists common issues, expected log messages, and quick fixes."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:5
+msgid "Logging and Debug Levels"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:7
+msgid "Before troubleshooting, make sure log verbosity is set correctly."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:9
+msgid "Recommended levels:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:11
+msgid "WARNING: default day-to-day usage (only warnings/errors)."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:12
+msgid "INFO: high-level processing steps and key values."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:13
+msgid ""
+"DEBUG: detailed diagnostics for wind interpolation, cache behavior, "
+"limits, and internal checks."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:15
+msgid "Typical setup:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:29
+msgid "Practical workflow:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:31
+msgid "Start with INFO."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:32
+msgid "If the issue is unclear, switch to DEBUG."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:33
+msgid ""
+"Re-run once and focus on the first error block, not all downstream "
+"messages."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:35
+msgid "GPX Issues"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:37
+msgid "GPX has no timestamps"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:39
+#: ../../source/user_guide/Troubleshooting.md:57
+#: ../../source/user_guide/Troubleshooting.md:79
+#: ../../source/user_guide/Troubleshooting.md:101
+#: ../../source/user_guide/Troubleshooting.md:121
+#: ../../source/user_guide/Troubleshooting.md:140
+#: ../../source/user_guide/Troubleshooting.md:161
+#: ../../source/user_guide/Troubleshooting.md:183
+#: ../../source/user_guide/Troubleshooting.md:203
+msgid "Symptoms:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:41
+msgid "Replay mode fails or is unavailable."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:43
+#: ../../source/user_guide/Troubleshooting.md:62
+#: ../../source/user_guide/Troubleshooting.md:83
+#: ../../source/user_guide/Troubleshooting.md:105
+#: ../../source/user_guide/Troubleshooting.md:125
+#: ../../source/user_guide/Troubleshooting.md:144
+#: ../../source/user_guide/Troubleshooting.md:165
+#: ../../source/user_guide/Troubleshooting.md:187
+#: ../../source/user_guide/Troubleshooting.md:207
+msgid "Typical messages:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:50
+#: ../../source/user_guide/Troubleshooting.md:71
+#: ../../source/user_guide/Troubleshooting.md:92
+#: ../../source/user_guide/Troubleshooting.md:113
+#: ../../source/user_guide/Troubleshooting.md:133
+#: ../../source/user_guide/Troubleshooting.md:151
+#: ../../source/user_guide/Troubleshooting.md:173
+#: ../../source/user_guide/Troubleshooting.md:195
+#: ../../source/user_guide/Troubleshooting.md:215
+msgid "Checks:"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:52
+msgid "Confirm the GPX source includes timestamps."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:53
+msgid "Use `simulate_future()` when timestamps are missing."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:55
+msgid "Invalid or inconsistent timestamps"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:59
+msgid "Replay aborts early."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:60
+msgid "Time/speed metrics are inconsistent."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:73
+msgid "Verify timezone consistency in GPX data."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:74
+msgid "Ensure timestamps are monotonic."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:75
+msgid "Check for negative segment durations."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:77
+msgid "Unrealistic elevation noise"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:81
+msgid "Spikes in slope, speed, or power."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:94
+msgid "Re-run preprocessing and inspect route statistics."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:95
+msgid "Verify smoothing and short-segment merge behavior."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:97
+msgid "GRIB and Weather Issues"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:99
+msgid "Missing GRIB coverage for ride time"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:103
+msgid "Wind lookup fails at startup or mid-route."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:115
+msgid "Confirm requested date range and ride duration."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:116
+msgid "Regenerate GRIB list with sufficient duration margin."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:117
+msgid "Verify files are present under your GRIB directory."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:119
+msgid "GRIB file content is invalid"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:123
+msgid "Initialization fails despite files being present."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:135
+msgid "Redownload the problematic GRIB files."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:136
+msgid "Confirm required parameters are present: u10, v10, gust."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:138
+msgid "Slow weather initialization"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:142
+msgid "Long startup time when loading wind model."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:153
+msgid "Ensure cache is enabled."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:154
+msgid "Reuse existing GRIB files when possible."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:155
+msgid "Avoid enabling DEBUG permanently during large runs."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:157
+msgid "Roughness Provider Issues"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:159
+msgid "Roughness map unavailable"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:163
+msgid "Provider initialization fails and falls back to default z0."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:175
+msgid "Verify network access to the map source."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:176
+msgid "Check local cache directory permissions."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:177
+msgid "Confirm route bounding box values are valid."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:179
+msgid "Simulation Issues"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:181
+msgid "Unrealistic speed or power"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:185
+msgid "Speeds too high/low versus expected ride profile."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:197
+msgid "Recheck CdA, Crr, mass, and P0/v0."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:198
+msgid "Confirm behavior profile settings."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:199
+msgid "Compare with no-wind baseline."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:201
+msgid "Inconsistent replay results"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:205
+msgid "Replay outputs vary more than expected."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:217
+msgid "Ensure timestamps and timezone handling are correct."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:218
+msgid "Verify GPX quality and preprocessing output."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:219
+msgid "Confirm weather data covers the full route timeframe."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:221
+msgid "Diagnostic Checklist"
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:223
+msgid "Confirm GPX validity and timestamp availability."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:224
+msgid "Confirm GRIB coverage for full route time window."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:225
+msgid "Confirm cyclist parameters and profile consistency."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:226
+msgid "Run one no-wind baseline before wind-enabled analysis."
+msgstr ""
+
+#: ../../source/user_guide/Troubleshooting.md:227
+msgid "Increase log level from WARNING to INFO, then DEBUG only if needed."
+msgstr ""
+

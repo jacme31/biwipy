@@ -25,3 +25,4 @@ or split it into sub-pages and include them with a ``toctree``.
    user_guide/Analysis.md
    user_guide/Tips.md
    user_guide/Troubleshooting.md
+   user_guide/S-3.ipynb

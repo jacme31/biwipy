@@ -13,15 +13,14 @@ biwipy is a Python library that allows you to study the impact of wind on cyclin
 
 .. note::
 
-   Packaging transition (Phase 1): the published distribution name is
-   ``biwipy`` while the Python import namespace remains ``refwindcycle`` for
-   backward compatibility.
+   Packaging transition completed: both the published distribution name and
+   the Python import namespace are ``biwipy``.
 
    Example:
 
    .. code-block:: python
 
-      from refwindcycle.core import Simulator
+      from biwipy.core import Simulator
 
 It provides:
 
@@ -79,3 +78,10 @@ This documentation is organized for users and developers:
    examples
    api
    changelog
+
+.. toctree::
+   :hidden:
+
+   I18N_SETUP
+   en/README
+   fr/README

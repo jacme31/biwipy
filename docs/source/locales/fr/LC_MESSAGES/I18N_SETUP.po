@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Jacques
+# This file is distributed under the same license as the biwipy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biwipy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 22:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/I18N_SETUP.md:1
+msgid "Biwipy Documentation i18n Setup"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:3
+msgid ""
+"This directory supports multi-language documentation for Biwipy using "
+"Sphinx and gettext."
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:5
+msgid "Directory Structure"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:30
+msgid "Workflow"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:32
+msgid "1. Add/Update English Documentation"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:33
+msgid "Edit files in `en/` directory"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:34
+msgid "Commit changes"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:36
+msgid "2. Generate Translation Templates"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:42
+msgid "3. Create French Translation Files"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:50
+msgid "4. Build Localized HTML"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:59
+msgid "Configuration"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:61
+msgid "`conf.py`:"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:62
+msgid "`language = 'en'` (default)"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:63
+msgid "`locale_dirs = ['locale/']` (translation file location)"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:64
+msgid "Language switching via `language` parameter at build time"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:66
+msgid "Translation Status"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:68
+msgid "**English (en/)**: ✅ Complete (source)"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:69
+msgid "**French (fr/)**: 🔄 In progress"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:71
+msgid "Tools"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:73
+msgid "**Sphinx**: Documentation generator"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:74
+msgid "**sphinx-intl**: Translation management"
+msgstr ""
+
+#: ../../source/I18N_SETUP.md:75
+msgid "**gettext (.po/.mo files)**: Translation format"
+msgstr ""
+

@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Jacques
+# This file is distributed under the same license as the biwipy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biwipy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 22:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/installation.rst:2
+msgid "Installation"
+msgstr "Installation"
+
+#: ../../source/installation.rst:5
+msgid "Prerequisites"
+msgstr "Prerequis"
+
+#: ../../source/installation.rst:7
+msgid "Python 3.9+"
+msgstr "Python 3.9+"
+
+#: ../../source/installation.rst:8
+msgid "A working environment with required scientific and weather dependencies"
+msgstr "Un environnement fonctionnel avec les dependances scientifiques et meteo requises"
+
+#: ../../source/installation.rst:11
+msgid "Install from PyPI (recommended)"
+msgstr "Installer depuis PyPI (recommande)"
+
+#: ../../source/installation.rst:18
+msgid "Compatibility note"
+msgstr "Note de compatibilite"
+
+#: ../../source/installation.rst:20
+msgid ""
+"The installable distribution name and Python import namespace are both "
+"``biwipy``."
+msgstr "Le nom de la distribution installable et le namespace d'import Python sont tous les deux ``biwipy``."
+
+#: ../../source/installation.rst:28
+msgid "Install from source"
+msgstr "Installer depuis les sources"
+
+#: ../../source/installation.rst:30
+msgid "From repository root:"
+msgstr "Depuis la racine du depot :"
+
+#: ../../source/installation.rst:37
+msgid "Install documentation dependencies"
+msgstr "Installer les dependances de documentation"
+
+#: ../../source/installation.rst:44
+msgid "Build documentation"
+msgstr "Generer la documentation"
+
+#: ../../source/installation.rst:46
+msgid "From the ``docs`` directory:"
+msgstr "Depuis le repertoire ``docs`` :"
+
+#: ../../source/installation.rst:52
+msgid "On Windows:"
+msgstr "Sous Windows :"
+
+#: ../../source/installation.rst:58
+msgid "The generated HTML files are available in ``docs/build/html``."
+msgstr "Les fichiers HTML generes sont disponibles dans ``docs/build/html``."
+

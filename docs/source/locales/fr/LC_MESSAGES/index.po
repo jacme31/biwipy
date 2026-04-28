@@ -1,0 +1,173 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Jacques
+# This file is distributed under the same license as the biwipy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biwipy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 22:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/index.rst:72
+msgid "Contents"
+msgstr ""
+
+#: ../../source/index.rst:2
+msgid "Documentation"
+msgstr ""
+
+#: ../../source/index.rst:9
+msgid "|pic1|  Welcome to  **biwipy** !"
+msgstr ""
+
+#: ../../source/index.rst:4
+msgid "pic1"
+msgstr ""
+
+#: ../../source/index.rst:12
+msgid ""
+"biwipy is a Python library that allows you to study the impact of wind on"
+" cycling routes described by GPS tracks."
+msgstr ""
+
+#: ../../source/index.rst:16
+msgid ""
+"Packaging transition (Phase 1): the published distribution name is "
+"``biwipy`` while the Python import namespace remains ``refwindcycle`` for"
+" backward compatibility."
+msgstr ""
+
+#: ../../source/index.rst:20
+msgid "Example:"
+msgstr ""
+
+#: ../../source/index.rst:26
+msgid "It provides:"
+msgstr ""
+
+#: ../../source/index.rst:28
+msgid ""
+"retrospective analysis of actual routes already traveled (replay) in "
+"order to observe the impact of wind after the fact and measure the effort"
+" expended (power calculation)"
+msgstr ""
+
+#: ../../source/index.rst:30
+msgid "simulation of planned routes up to the current date plus 16 days"
+msgstr ""
+
+#: ../../source/index.rst:32
+msgid ""
+"The biwipy library is based on a model of the physical laws of cycling , "
+"incorporating continuous wind calculations using weather forecast data "
+"files (GRIB files)."
+msgstr ""
+
+#: ../../source/index.rst:34
+msgid "Among the most interesting features of this model are:"
+msgstr ""
+
+#: ../../source/index.rst:36
+msgid "the physical model of cycling performance is highly configurable"
+msgstr ""
+
+#: ../../source/index.rst:38
+msgid ""
+"the model introduces  the concept of virtual elevation gain (positive and"
+" negative)  which represents the equivalent “elevation gain” of wind "
+"effects."
+msgstr ""
+
+#: ../../source/index.rst:40
+msgid ""
+"The result of a simulation is summarized by a “windscore,” a grade "
+"between A and F that incorporates safety and performance aspects."
+msgstr ""
+
+#: ../../source/index.rst:42
+msgid ""
+"The library incorporates all the functions required for managing and "
+"downloading GRIB files, pre-processing GPX files, and analysing the "
+"simulation results."
+msgstr ""
+
+#: ../../source/index.rst:45
+msgid ""
+"The library also comes with a set of sample programs that allow you to "
+"quickly perform simulations and analyze cycling routes in a real-world "
+"context with wind."
+msgstr ""
+
+#: ../../source/index.rst:47
+msgid ""
+"This tool is designed to be as general as possible and usable by all "
+"types of cyclists exposed to wind conditions, regardless of their level "
+"or cycling practices (competition, leisure, cycle touring)."
+msgstr ""
+
+#: ../../source/index.rst:49
+msgid "Some concrete examples of questions that biwipy can help you answer:"
+msgstr ""
+
+#: ../../source/index.rst:51
+msgid ""
+"For my usual ride next week, which day is the most favorable, and which "
+"days should I avoid ?"
+msgstr ""
+
+#: ../../source/index.rst:53
+msgid ""
+"I would like to analyze the effort and wind conditions of my previous "
+"rides."
+msgstr ""
+
+#: ../../source/index.rst:55
+msgid ""
+"I want to go out tomorrow, but the wind forecast is not favorable. Among "
+"the routes I am considering, I would like to identify the most favorable "
+"and least dangerous one."
+msgstr ""
+
+#: ../../source/index.rst:57
+msgid ""
+"I have a multi-stage bike trip planned for the next few days. What is the"
+" best day to leave for the best wind conditions ?"
+msgstr ""
+
+#: ../../source/index.rst:59
+msgid ""
+"Professional runners sometimes seem to run in hellish winds. I would love"
+" to measure these conditions.  ?"
+msgstr ""
+
+#: ../../source/index.rst:65
+msgid "This documentation is organized for users and developers:"
+msgstr ""
+
+#: ../../source/index.rst:67
+msgid "Quick setup and installation"
+msgstr ""
+
+#: ../../source/index.rst:68
+msgid "User-oriented workflow guide"
+msgstr ""
+
+#: ../../source/index.rst:69
+msgid "Practical examples and sample scripts"
+msgstr ""
+
+#: ../../source/index.rst:70
+msgid "API reference generated from Python docstrings"
+msgstr ""
+

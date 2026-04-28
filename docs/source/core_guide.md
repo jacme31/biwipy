@@ -1,8 +1,8 @@
 # Core Module User Guide
 
-This guide provides detailed documentation for the RefWindCycle core simulation engine.
+This guide provides detailed documentation for the biwipy core simulation engine.
 
-```{include} ../../refwindcycle/core/README.md
+```{include} ../../biwipy/core/README.md
 ```
 
 ## Additional Resources
