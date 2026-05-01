@@ -1,18 +1,24 @@
-# RefWindCycle
+# biwipy
 
-**RefWindCycle** est un outil avancé d'analyse de performance cycliste qui intègre la modélisation physique, les données météorologiques réelles (GRIB) et les traces GPS pour simuler et analyser l'impact du vent sur les parcours vélo.
+**biwipy** is a cycling performance analysis python library that integrates physical modeling, real-world meteorological data (GRIB), and GPS tracks to simulate and analyze the impact of wind on cycling routes.
 
-Le projet permet de valider des modèles de puissance (comparaison Strava vs Simulation), d'analyser l'influence du vent sur des segments spécifiques, et de calibrer des paramètres aérodynamiques (CdA).
+The project allows users to validate power models, analyze the influence of wind on an entire route or specific segments, and calibrate aerodynamic parameters (CdA).
+
+The devlopement of Biwipy was largely assisted by AI (vibe coding) based on an initial conventionally designed wind model.
 
 ---
 
-## 🚀 Fonctionnalités Clés
+## 🚀 Main Features
 
-*   **Simulation Physique Avancée** : Modèle complet incluant gravité, résistance au roulement (Cr), aérodynamisme (CdA) et dynamique en virage.
-*   **Intégration Météo GRIB** : Téléchargement et interpolation spatio-temporelle précise des données de vent (modèle GFS/AROME via GRIB2).
-*   **Gestion "Intelligente" des Descentes** : Algorithme de sécurité (Jan 2026) limitant les vitesses en descente pour refléter le comportement réel (freinage) plutôt que la physique théorique pure.
-*   **Profils de Comportement** : Modes `Realistic` (cyclo), `Conservative` (prudent) et `Aggressive` (pro) configurables.
-*   **Détection de Surface** : identification des segments Gravel/Urbains.
+* **Advanced Physical Simulation**: Complete model including gravity, rolling resistance (Cr), aerodynamics (CdA), and cornering dynamics.
+
+* **GRIB Weather Integration**: Download and precise spatiotemporal interpolation of wind data (GFS or IFS model via GRIB2).
+
+* **Ground Wind Calculation**: Including terrain roughness analysis.
+
+* **"Intelligent" Descent and Corner Management**: Algorithm limiting speeds on descents and in corners to reflect real-world behavior (braking) rather than purely theoretical physics.
+
+* **Behavior Profiles**: Configurable 'Realistic' (cyclo), 'Conservative' (cautious), and 'Aggressive' (pro) modes.
 
 ---
 
