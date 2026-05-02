@@ -47,4 +47,4 @@ docs = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["biwipy*"]
+include = ["refwindcycle*"]

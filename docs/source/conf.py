@@ -29,8 +29,6 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 language = "en"
-locale_dirs = ["locales/"]
-gettext_compact = False
 
 
 html_theme = "pydata_sphinx_theme"
@@ -49,7 +47,6 @@ autodoc_mock_imports = [
     "scipy",
     "pandas",
     "matplotlib",
-    "folium",
     "gpxpy",
     "pygrib",
     "stravalib",

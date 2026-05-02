@@ -12,7 +12,7 @@ Simulator
 
 Primary entry point for replay and forward simulation.
 
-.. autoclass:: biwipy.core.Simulator
+.. autoclass:: refwindcycle.core.Simulator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -22,19 +22,19 @@ Cyclist behavior
 
 Behavior profiles for climbing, descending and cornering.
 
-.. autoclass:: biwipy.core.CyclistBehavior
+.. autoclass:: refwindcycle.core.CyclistBehavior
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autofunction:: biwipy.core.bike_physics.estimate_P0_from_v0
+.. autofunction:: refwindcycle.core.bike_physics.estimate_P0_from_v0
 
 Route analysis
 ^^^^^^^^^^^^^^
 
 High-level GPX preprocessing and segment generation.
 
-.. autoclass:: biwipy.analysis.RouteAnalyzer
+.. autoclass:: refwindcycle.analysis.RouteAnalyzer
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,7 +44,7 @@ Weather provider
 
 High-level weather model wrapper for GRIB-backed simulations.
 
-.. autoclass:: biwipy.weather.WeatherProvider
+.. autoclass:: refwindcycle.weather.WeatherProvider
    :members:
    :undoc-members:
    :show-inheritance:
@@ -52,17 +52,17 @@ High-level weather model wrapper for GRIB-backed simulations.
 Visualization helpers
 ---------------------
 
-.. autofunction:: biwipy.analysis.anareswind.print_summary_statistics
+.. autofunction:: refwindcycle.analysis.anareswind.print_summary_statistics
 
-.. autofunction:: biwipy.analysis.anareswind.compare_scenarios
+.. autofunction:: refwindcycle.analysis.anareswind.compare_scenarios
 
-.. autofunction:: biwipy.analysis.anareswind.plot_segments_evolution
+.. autofunction:: refwindcycle.analysis.anareswind.plot_segments_evolution
 
-.. autofunction:: biwipy.analysis.anareswind.plot_elevation_profile
+.. autofunction:: refwindcycle.analysis.anareswind.plot_elevation_profile
 
-.. autofunction:: biwipy.analysis.anareswind.plot_wind_rose
+.. autofunction:: refwindcycle.analysis.anareswind.plot_wind_rose
 
-.. autofunction:: biwipy.visualization.interactive_map.create_interactive_map
+.. autofunction:: refwindcycle.visualization.interactive_map.create_interactive_map
 
 Notes
 -----

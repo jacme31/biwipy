@@ -21,10 +21,9 @@ The devlopement of Biwipy was largely assisted by AI (vibe coding) based on an i
 * **Behavior Profiles**: Configurable 'Realistic' (cyclo), 'Conservative' (cautious), and 'Aggressive' (pro) modes.
 
 ---
-
 ## 📂 Architecture
 
-Le projet a été refondu (Février 2026) en une architecture modulaire :
+e :
 
 ```text
 refwindcycle/

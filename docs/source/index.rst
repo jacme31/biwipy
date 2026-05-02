@@ -65,7 +65,7 @@ This documentation is organized for users and developers:
 
 - Quick setup and installation
 - User-oriented workflow guide
-- Practical examples and sample scripts
+- Practical examples and sample notebooks 
 - API reference generated from Python docstrings
 
 .. toctree::
@@ -74,14 +74,8 @@ This documentation is organized for users and developers:
 
    installation
    user_guide
-   core_guide
    examples
    api
    changelog
 
-.. toctree::
-   :hidden:
 
-   I18N_SETUP
-   en/README
-   fr/README
