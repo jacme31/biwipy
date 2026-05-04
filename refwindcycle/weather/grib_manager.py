@@ -171,7 +171,8 @@ class Grib:
 
     def _normalize_lon_for_grid(self, lon):
         """Normalize longitude to the active GRIB grid convention."""
-        if self.grid_lon_min < 0.0:
+        grid_lon_min = getattr(self, 'grid_lon_min', -180.0 if str(getattr(self, 'model', 'GFS')).upper() == 'IFS' else 0.0)
+        if grid_lon_min < 0.0:
             # Grid convention [-180, 180)
             return ((lon + 180.0) % 360.0) - 180.0
         # Grid convention [0, 360)
@@ -720,8 +721,8 @@ class Grib:
         # x lon y lat - returns lambda for (u, v, gust)
         inv_res = self.inv_res
         nlon = self.nlongitude
-        lon_min = self.grid_lon_min
-        lat_max = self.grid_lat_max
+        lon_min = getattr(self, 'grid_lon_min', -180.0 if str(getattr(self, 'model', 'GFS')).upper() == 'IFS' else 0.0)
+        lat_max = getattr(self, 'grid_lat_max', 90.0)
         return lambda x, y: (
             (self.lst_u10[step])[int(round((lat_max-y)*inv_res))][int(round((self._normalize_lon_for_grid(x)-lon_min)*inv_res))%nlon].item(),
             (self.lst_v10[step])[int(round((lat_max-y)*inv_res))][int(round((self._normalize_lon_for_grid(x)-lon_min)*inv_res))%nlon].item(),
@@ -736,6 +737,83 @@ class Grib:
 # returns a tuple with true wind direction (twd) expressed in degrees and true wind speed (tws) expressed in meters per second
 # or None if running out of temporal/geographic grib scope.
 
+    def purge_before(self, dt: datetime) -> int:
+        """
+        Remove all forecast timesteps strictly before *dt*.
+
+        Intended for long-running servers: call periodically (e.g. every hour)
+        to release the numpy arrays for past forecasts and keep memory bounded.
+
+        Parameters
+        ----------
+        dt : datetime
+            Cutoff datetime (timezone-aware or naive UTC).  All internal
+            timestamps strictly earlier than *dt* are dropped.
+
+        Returns
+        -------
+        int
+            Number of timesteps removed.
+
+        Example
+        -------
+        >>> grib.purge_before(datetime.utcnow() - timedelta(hours=6))
+        """
+        dt_utc = dt.astimezone(timezone.utc).replace(tzinfo=None) if dt.tzinfo else dt
+        keep = [i for i, t in enumerate(self.lst_gribtimes) if t >= dt_utc]
+        removed = len(self.lst_gribtimes) - len(keep)
+        if removed:
+            self.lst_gribtimes = [self.lst_gribtimes[i] for i in keep]
+            self.lst_u10  = [self.lst_u10[i]  for i in keep]
+            self.lst_v10  = [self.lst_v10[i]  for i in keep]
+            self.lst_gust = [self.lst_gust[i] for i in keep]
+            logging.info(f"purge_before({dt_utc}): removed {removed} timestep(s), {len(keep)} remaining")
+        return removed
+
+    def purge_between(self, dt1: datetime, dt2: datetime) -> int:
+        """
+        Remove forecast timesteps in the closed interval [*dt1*, *dt2*].
+
+        Useful for surgically removing a corrupted or superseded run without
+        discarding the rest of the timeline.
+
+        Parameters
+        ----------
+        dt1 : datetime
+            Start of the interval to purge (inclusive).
+        dt2 : datetime
+            End of the interval to purge (inclusive).
+
+        Returns
+        -------
+        int
+            Number of timesteps removed.
+
+        Raises
+        ------
+        ValueError
+            If dt1 > dt2.
+
+        Example
+        -------
+        >>> grib.purge_between(datetime(2026, 5, 4, 0), datetime(2026, 5, 4, 6))
+        """
+        def _utc(d):
+            return d.astimezone(timezone.utc).replace(tzinfo=None) if d.tzinfo else d
+
+        dt1_utc, dt2_utc = _utc(dt1), _utc(dt2)
+        if dt1_utc > dt2_utc:
+            raise ValueError(f"dt1 ({dt1_utc}) must be <= dt2 ({dt2_utc})")
+
+        keep = [i for i, t in enumerate(self.lst_gribtimes) if not (dt1_utc <= t <= dt2_utc)]
+        removed = len(self.lst_gribtimes) - len(keep)
+        if removed:
+            self.lst_gribtimes = [self.lst_gribtimes[i] for i in keep]
+            self.lst_u10  = [self.lst_u10[i]  for i in keep]
+            self.lst_v10  = [self.lst_v10[i]  for i in keep]
+            self.lst_gust = [self.lst_gust[i] for i in keep]
+            logging.info(f"purge_between({dt1_utc}, {dt2_utc}): removed {removed} timestep(s), {len(keep)} remaining")
+        return removed
 
     def get_wind_at(self, tp, lat_point, lon_point, return_raw=False):
         #if (tp.tzinfo != None) :

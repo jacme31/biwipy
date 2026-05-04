@@ -249,15 +249,15 @@ def filter_stopped_segments(segments, speed_threshold=1.0, verbose=True):
     # Log du résumé
     if verbose:
         logging.info(f"\n{'='*70}")
-        logging.info(f"  FILTRAGE: Suppression des segments arrêtés (v < {speed_threshold*3.6:.1f} km/h)")
+        logging.info(f"  FILTERING: Removing stopped segments (v < {speed_threshold*3.6:.1f} km/h)")
         logging.info(f"{'='*70}")
-        logging.info(f"Avant: {len(segments)} segments")
-        logging.info(f"Supprimés: {stopped_count} segments arrêtés")
-        logging.info(f"Après: {len(filtered_segments)} segments")
+        logging.info(f"Before: {len(segments)} segments")
+        logging.info(f"Removed: {stopped_count} stopped segments")
+        logging.info(f"After: {len(filtered_segments)} segments")
         
         if stopped_count > 0:
-            logging.info(f"Distance arrêts: {stopped_distance:.1f} m ({stopped_distance/1000:.4f} km)")
-            logging.info(f"Temps arrêts: {stopped_time:.1f} s ({stopped_time/60:.2f} min)")
+            logging.info(f"Stopped distance: {stopped_distance:.1f} m ({stopped_distance/1000:.4f} km)")
+            logging.info(f"Stopped time: {stopped_time:.1f} s ({stopped_time/60:.2f} min)")
         logging.info(f"{'='*70}\n")
     
     return filtered_segments
@@ -333,14 +333,15 @@ def detect_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10,
     # Formatage des résultats
     msg_lines = [
         f"\n{'='*90}",
-        f"  DÉTECTION DE SEGMENTS ABERRANTS (BRUIT GPS ALTITUDE)",
+        f"  DETECTION OF ABNORMAL SEGMENTS (GPS ALTITUDE NOISE)",
         f"{'='*90}",
-        f"Critères: distance < {max_dist}m ET |pente| > {min_slope_threshold*100:.1f}% ET isolé entre pentes normales",
-        f"Total segments aberrants trouvés: {len(aberrants)}\n"
+        f"Criteria: distance < {max_dist}m AND |slope| > {min_slope_threshold*100:.1f}% AND isolated between normal slopes",
+        f"Total abnormal segments found: {len(aberrants)}\n"
     ]
     
     if aberrants:
-        msg_lines.append(f"{'Index':<6} {'Dist(m)':<10} {'Pente%':<10} {'ΔEle(m)':<10} {'Prev%':<10} {'Next%':<10} {'Localisation':<40}")
+        delta_ele_label = "ΔEle(m)"
+        msg_lines.append(f"{'Index':<6} {'Dist(m)':<10} {'Slope%':<10} {delta_ele_label:<10} {'Prev%':<10} {'Next%':<10} {'Location':<40}")
         msg_lines.append("-" * 90)
         
         for ab in aberrants:
@@ -364,9 +365,9 @@ def detect_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10,
         try:
             with open(log_file, 'w', encoding='utf-8') as f:
                 f.write(output)
-            logging.info(f"✓ Résultats sauvegardés dans: {log_file}")
+            logging.info(f"\u2713 Results saved to: {log_file}")
         except Exception as e:
-            logging.error(f"Erreur sauvegarde log: {e}")
+            logging.error(f"Error saving log: {e}")
     
     logging.info(output)
     
@@ -436,16 +437,16 @@ def remove_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10,
     if verbose:
         removed_count = len(indices_to_remove)
         logging.info(f"\n{'='*70}")
-        logging.info(f"  FILTRAGE: Suppression des segments aberrants (bruit GPS)")
+        logging.info(f"  FILTERING: Removing abnormal segments (GPS noise)")
         logging.info(f"{'='*70}")
-        logging.info(f"Avant: {len(segments)} segments")
-        logging.info(f"Supprimés: {removed_count} segments (bruit GPS)")
-        logging.info(f"Après: {len(filtered_segments)} segments")
+        logging.info(f"Before: {len(segments)} segments")
+        logging.info(f"Removed: {removed_count} segments (GPS noise)")
+        logging.info(f"After: {len(filtered_segments)} segments")
         
         if removed_count > 0:
             # Statistiques des segments supprimés
             removed_dist = sum(segments[i].get('distance', 0) for i in indices_to_remove)
-            logging.info(f"Distance perdue: {removed_dist:.1f} m ({removed_dist/1000:.4f} km)")
+            logging.info(f"Removed distance: {removed_dist:.1f} m ({removed_dist/1000:.4f} km)")
         logging.info(f"{'='*70}\n")
     
     return filtered_segments
@@ -469,7 +470,7 @@ def diag_segments(segments, n=100,slope=False):
                 strlog=f"Total time from GPX: {total_time_s/3600:.3f} h -> avg = {(total_dist/total_time_s)*3.6:.3f} km/h"
                 logging.info(strlog)    
             except Exception as e:
-                logging.info("Erreur en calculant total_time depuis gpxtimes:", e)
+                logging.info("Error computing total_time from gpxtimes:", e)
 
         # logging.info first n segments summary
         logging.info("\tindex\tdist-m\t\tslope\tgpxtime_start\t\tgpxtime_end")
@@ -484,9 +485,9 @@ def diag_segments(segments, n=100,slope=False):
                 p+=1
             if p>=n:
                 break
-        logging.info ("moving_average : %d kmh" % compute_moving_average_from_gpx_segments(segments, speed_threshold=1.0))
-        logging.info ("denivelé cumulé positif: %.1f m" % segments[-1].get('dcumplus',0))
-        logging.info ("denivelé cumulé négatif: %.1f m" % segments[-1].get('dcummoins',0))    
+        logging.info ("moving_average: %d km/h" % compute_moving_average_from_gpx_segments(segments, speed_threshold=1.0))
+        logging.info ("cumulative positive elevation: %.1f m" % segments[-1].get('dcumplus',0))
+        logging.info ("cumulative negative elevation: %.1f m" % segments[-1].get('dcummoins',0))
 
 if __name__ == "__main__":
 

@@ -202,10 +202,10 @@ def calibrate_cda_from_power(segments_in: List[Dict],
     """
     
     logging.info(f"\n{'='*70}")
-    logging.info(f"CALIBRATION CdA pour atteindre {target_power:.1f} W")
-    logging.info(f"Paramètres: Cr={Cr:.4f}, m={m:.1f}kg")
-    logging.info(f"Plage CdA: [{cda_min:.3f}, {cda_max:.3f}]")
-    logging.info(f"⚠️  P0 retourné sera calibré en fin de recherche")
+    logging.info(f"CALIBRATION CdA to reach {target_power:.1f} W")
+    logging.info(f"Parameters: Cr={Cr:.4f}, m={m:.1f}kg")
+    logging.info(f"CdA range: [{cda_min:.3f}, {cda_max:.3f}]")
+    logging.info(f"⚠️  P0 returned will be calibrated at end of search")
     logging.info(f"{'='*70}")
     
     # Valeurs initiales
@@ -235,11 +235,11 @@ def calibrate_cda_from_power(segments_in: List[Dict],
         
         error = power_mid - target_power
         
-        logging.info(f"Iter {iteration+1:2d}: CdA={cda_mid:.4f} → P_avg={power_mid:6.1f}W (écart: {error:+6.1f}W)")
+        logging.info(f"Iter {iteration+1:2d}: CdA={cda_mid:.4f} → P_avg={power_mid:6.1f}W (error: {error:+6.1f}W)")
         
         # Convergence ?
         if abs(error) < tolerance:
-            logging.info("   Recalibrage P0 final pour cohérence simulation...")
+            logging.info("   Final P0 recalibration for simulation consistency...")
             _, _, p0_return, power_return, _ = simulate_with_weather(
                 segments_in,
                 grib,
@@ -250,9 +250,9 @@ def calibrate_cda_from_power(segments_in: List[Dict],
             )
 
             logging.info(
-                f"\n✅ Convergé ! CdA={cda_mid:.4f}, P0={p0_return:.1f}W → Puissance={power_return:.1f}W"
+                f"\n✅ Converged! CdA={cda_mid:.4f}, P0={p0_return:.1f}W → Power={power_return:.1f}W"
             )
-            logging.info(f"   Écart avec cible ({target_power:.1f}W): {power_return - target_power:+.1f}W\n")
+            logging.info(f"   Gap from target ({target_power:.1f}W): {power_return - target_power:+.1f}W\n")
             return cda_mid, p0_return, power_return
         
         # Ajuster l'intervalle
@@ -271,7 +271,7 @@ def calibrate_cda_from_power(segments_in: List[Dict],
 
     p0_return = 0.0
     power_return = power_final
-    logging.info("Recalibrage P0 final pour cohérence simulation...")
+    logging.info("Final P0 recalibration for simulation consistency...")
     _, _, p0_return, power_return, _ = simulate_with_weather(
         segments_in,
         grib,
@@ -281,9 +281,9 @@ def calibrate_cda_from_power(segments_in: List[Dict],
         **sim_params,
     )
     
-    logging.warning(f"\n⚠️  Max iterations atteintes ({max_iterations})")
-    logging.info(f"   Meilleur CdA trouvé: {cda_final:.4f}, P0={p0_return:.1f}W → {power_return:.1f}W")
-    logging.info(f"   Écart restant: {power_return - target_power:+.1f}W\n")
+    logging.warning(f"\n⚠️  Max iterations reached ({max_iterations})")
+    logging.info(f"   Best CdA found: {cda_final:.4f}, P0={p0_return:.1f}W → {power_return:.1f}W")
+    logging.info(f"   Remaining error: {power_return - target_power:+.1f}W\n")
     
     return cda_final, p0_return, power_return
 
@@ -349,7 +349,7 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
                        and 'power' in seg]
     
     if not moving_segments:
-        logging.error("Aucun segment en mouvement avec puissance trouvé !")
+        logging.error("No moving segment with power found!")
         return p0_min
     
     # Calculer la puissance moyenne OBSERVÉE (depuis vitesses GPX)
@@ -358,10 +358,10 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
     target_power = total_power_time_obs / total_time
     
     logging.info(f"\n{'='*70}")
-    logging.info(f"CALIBRATION P0 pour reproduire {target_power:.1f} W observés")
-    logging.info(f"Profil: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner}")
-    logging.info(f"Segments en mouvement: {len(moving_segments)}/{len(segments)}")
-    logging.info(f"Plage P0: [{p0_min:.0f}, {p0_max:.0f}] W")
+    logging.info(f"CALIBRATION P0 to reproduce {target_power:.1f} W observed")
+    logging.info(f"Profile: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner}")
+    logging.info(f"Moving segments: {len(moving_segments)}/{len(segments)}")
+    logging.info(f"P0 range: [{p0_min:.0f}, {p0_max:.0f}] W")
     logging.info(f"{'='*70}")
    
     def compute_avg_power_model(P0_test, b_keeppower=False) -> float:
@@ -404,12 +404,12 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
         power_model = compute_avg_power_model(p0_mid)
         error = power_model - target_power
         
-        logging.info(f"Iter {iteration+1:2d}: P0={p0_mid:6.1f}W → P_modèle={power_model:6.1f}W vs P_obs={target_power:6.1f}W (écart: {error:+6.1f}W)")
+        logging.info(f"Iter {iteration+1:2d}: P0={p0_mid:6.1f}W → P_model={power_model:6.1f}W vs P_obs={target_power:6.1f}W (error: {error:+6.1f}W)")
         
         # Convergence ?
         if abs(error) < tolerance:
-            logging.info(f"\n✅ Convergé ! P0={p0_mid:.1f}W reproduit {target_power:.1f}W observés")
-            logging.info(f"   Puissance modèle: {power_model:.1f}W (écart: {error:+.1f}W)\n")
+            logging.info(f"\n✅ Converged! P0={p0_mid:.1f}W reproduces {target_power:.1f}W observed")
+            logging.info(f"   Model power: {power_model:.1f}W (error: {error:+.1f}W)\n")
             # Ajouter power_model à TOUS les segments pour analyse/debug
             for seg in segments:  # Utiliser 'segments' pas 'moving_segments'
                 if seg.get('speed_m_s', 0) >= 1.0:
@@ -430,9 +430,9 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
     p0_final = (p0_low + p0_high) / 2
     power_final = compute_avg_power_model(p0_final,b_keeppower=True)
     
-    logging.warning(f"\n⚠️  Max iterations atteintes ({max_iterations})")
-    logging.info(f"   Meilleur P0 trouvé: {p0_final:.1f}W → {power_final:.1f}W")
-    logging.info(f"   Puissance observée: {target_power:.1f}W (écart: {power_final - target_power:+.1f}W)\n")
+    logging.warning(f"\n⚠️  Max iterations reached ({max_iterations})")
+    logging.info(f"   Best P0 found: {p0_final:.1f}W → {power_final:.1f}W")
+    logging.info(f"   Observed power: {target_power:.1f}W (error: {power_final - target_power:+.1f}W)\n")
     return p0_final
 
 
@@ -1052,8 +1052,8 @@ def simulate_with_weather(segments_in: List[Dict],
         
         # En mode timestamps, P0/v0 sont optionnels (utilisés uniquement pour calcul informatif de puissance)
         if P0 is not None or v0 is not None:
-            logging.warning("⚠️  Mode use_gpx_timestamps: P0 ou v0 fournis mais INUTILISÉS pour le calcul de vitesse/temps")
-            logging.warning("   (vitesses calculées depuis timestamps GPX, P0 sert uniquement au calcul informatif de puissance)")
+            logging.warning("⚠️  Mode use_gpx_timestamps: P0 or v0 provided but UNUSED for speed/time calculation")
+            logging.warning("   (speeds calculated from GPX timestamps, P0 is used only for informational power calculation)")
         
         # Calculer ou utiliser P0 pour le calcul informatif de puissance
         if P0 is None:
@@ -1062,12 +1062,12 @@ def simulate_with_weather(segments_in: List[Dict],
             else:
                 # Valeur par défaut raisonnable (cycliste moyen)
                 P0 = 120.0  # W
-                logging.info(f"Mode timestamps: P0 non fourni, utilisation de {P0:.0f}W par défaut pour calcul informatif")
+                logging.info(f"Timestamp mode: P0 not provided, using {P0:.0f}W default for informational calculation")
         
         logging.info(f"Using CYCLIST BEHAVIOR: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner} (timestamps mode, P0={P0:.1f}W informatif)")
         
         # Validation des timestamps GPX AVANT traitement
-        logging.info("Validation des timestamps GPX...")
+        logging.info("Validating GPX timestamps...")
         max_reasonable_duration = 24 * 3600  # 24 heures max
         invalid_timestamps = []
         
@@ -1090,14 +1090,14 @@ def simulate_with_weather(segments_in: List[Dict],
                 invalid_timestamps.append(f"Segment {i}: {elapsed/3600:.1f}h après départ (suspect)")
         
         if invalid_timestamps:
-            logging.error(f"\n⚠️  {len(invalid_timestamps)} timestamps GPX aberrants détectés:")
-            for msg in invalid_timestamps[:10]:  # Afficher max 10
+            logging.error(f"\n⚠️  {len(invalid_timestamps)} abnormal GPX timestamps detected:")
+            for msg in invalid_timestamps[:10]:  # Show max 10
                 logging.error(f"   - {msg}")
             if len(invalid_timestamps) > 10:
-                logging.error(f"   ... et {len(invalid_timestamps)-10} autres")
+                logging.error(f"   ... and {len(invalid_timestamps)-10} more")
             raise ValueError(f"Timestamps GPX corrompus détectés. Vérifier le fichier GPX source.")
         
-        logging.info(f"✅ Timestamps validés : {len(segments)} segments OK")
+        logging.info(f"✅ Timestamps validated: {len(segments)} segments OK")
         
         for i, seg in enumerate(segments):
             t_mid = seg['gpxtime_start'] + (seg['gpxtime_end'] - seg['gpxtime_start'])/2
@@ -1344,7 +1344,7 @@ def simulate_with_weather(segments_in: List[Dict],
         
         # CALIBRATION OPTIONNELLE de P0 selon profil comportemental
         if calibrate_p0:
-            logging.info("\n🔧 Calibration P0 depuis puissance observée...")
+            logging.info("\n🔧 Calibrating P0 from observed power...")
             P0_calibrated  = calibrate_P0_from_observed_power(
                 segments, 
                 avg_power,
@@ -1352,7 +1352,7 @@ def simulate_with_weather(segments_in: List[Dict],
             )
             P0 = P0_calibrated
         
-            logging.warning(f"✅ P0 calibré: {P0:.1f}W (reproduit {avg_power:.1f}W observés)")
+            logging.warning(f"✅ P0 calibrated: {P0:.1f}W (reproduces {avg_power:.1f}W observed)")
         
         assert P0 is not None
         return segments, avg_kmh, P0, avg_power, t_start_extracted
@@ -1468,6 +1468,13 @@ def simulate_with_weather(segments_in: List[Dict],
             else:
                 seg['corner_limit'] = v_max
             
+            # Calculer le CdA effectif du segment courant (évite toute réutilisation
+            # involontaire de la valeur du segment précédent).
+            CdA_eff = CdA
+            if use_yaw_cdA:
+                yaw = abs((seg['twd'] - seg['bearing'] + 180) % 360 - 180)
+                CdA_eff = CdA_with_yaw(CdA, yaw, yaw_k)
+
             # Calculer la pente virtuelle due au vent (nécessite une estimation de vitesse)
             # Pour le calcul de slope_wind, utiliser soit la vitesse du segment précédent,
             # soit une vitesse typique (~8 m/s = 29 km/h) pour le premier segment
@@ -1480,7 +1487,7 @@ def simulate_with_weather(segments_in: List[Dict],
             slope_wind = calculate_wind_equivalent_slope(
                 v=v_estimate,
                 wind_along=wind_al,
-                CdA=CdA_eff if 'CdA_eff' in locals() else CdA,
+                CdA=CdA_eff,
                 m=m,
                 rho=rho_segment,
                 g=g
@@ -1500,11 +1507,6 @@ def simulate_with_weather(segments_in: List[Dict],
             
             # Ajuster la puissance selon la pente EFFECTIVE (terrain + vent)
             P_segment = calculate_adaptive_power(P0, slope_effective, behavior)
-
-            CdA_eff = CdA
-            if use_yaw_cdA:
-                yaw = abs((seg['twd'] - seg['bearing'] + 180) % 360 - 180)
-                CdA_eff = CdA_with_yaw(CdA, yaw, yaw_k)
 
             if use_dynamic:
                 # Simulation dynamique avec inertie

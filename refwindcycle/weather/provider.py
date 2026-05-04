@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from .grib_manager import Grib
@@ -5,10 +6,12 @@ from .grib_manager import Grib
 
 class WeatherProvider:
     """
-    Interface publique stable pour l'accès météo (GRIB).
+    Stable public interface for weather data access (GRIB).
 
-    - get_wind(): récupère tws/twd/gust à un point
-    - wind_impact(): projection du vent sur un segment
+    - get_wind(): retrieve tws/twd/gust at a point
+    - wind_impact(): project wind onto a segment
+    - purge_before(dt): discard all timesteps before *dt* (memory management)
+    - purge_between(dt1, dt2): discard timesteps in a closed interval
     """
 
     def __init__(
@@ -47,6 +50,22 @@ class WeatherProvider:
             ratio_wind=ratio_wind,
             rugosite=rugosite,
         )
+
+    def purge_before(self, dt: datetime) -> int:
+        """
+        Remove all forecast timesteps strictly before *dt*.
+
+        Returns the number of timesteps removed.
+        """
+        return self.grib.purge_before(dt)
+
+    def purge_between(self, dt1: datetime, dt2: datetime) -> int:
+        """
+        Remove forecast timesteps in the closed interval [*dt1*, *dt2*].
+
+        Returns the number of timesteps removed.
+        """
+        return self.grib.purge_between(dt1, dt2)
 
     @classmethod
     def from_grib(cls, grib: Grib) -> "WeatherProvider":

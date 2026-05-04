@@ -108,27 +108,27 @@ def _tp(key: str, **kwargs) -> None:
 
 class CyclistBehavior:
     """
-    Classe centralisant tous les paramètres de comportement cycliste.
+    Central class for all cyclist behaviour parameters.
     
-    Regroupe:
-    - Seuils de pente (montée/descente)
-    - Seuils de virages
-    - Facteurs de comportement en montée (3 modes: realistic, conservative, aggressive)
-    - Facteurs de comportement en descente (3 modes)
-    - Limites de vitesse en virage (3 modes)
+    Groups:
+    - Slope thresholds (uphill/downhill)
+    - Corner thresholds
+    - Uphill behaviour factors (3 modes: realistic, conservative, aggressive)
+    - Downhill behaviour factors (3 modes)
+    - Corner speed limits (3 modes)
     
     Usage:
     ------
-    # Créer un profil mixte
+    # Create a mixed profile
     >>> params = CyclistBehavior(uphill='realistic', downhill='conservative', corner='aggressive')
     
-    # Customiser un paramètre spécifique
+    # Customise a specific parameter
     >>> params.corner_speed_slight = 20.0  # m/s
     
-    # Sauvegarder
+    # Save
     >>> params.save('/path/to/configs', 'remco_profile.json')
     
-    # Restaurer
+    # Restore
     >>> params = CyclistBehavior.load('/path/to/configs', 'remco_profile.json')
     """
     
@@ -235,16 +235,16 @@ class CyclistBehavior:
                  downhill: str = 'realistic', 
                  corner: str = 'realistic'):
         """
-        Initialise un profil de comportement cycliste.
+        Initialise a cyclist behaviour profile.
         
         Parameters:
         -----------
         uphill : str
-            Mode de comportement en montée: 'realistic', 'conservative', 'aggressive'
+            Uphill behaviour mode: 'realistic', 'conservative', 'aggressive'
         downhill : str
-            Mode de comportement en descente: 'realistic', 'conservative', 'aggressive'
+            Downhill behaviour mode: 'realistic', 'conservative', 'aggressive'
         corner : str
-            Mode de comportement en virage: 'realistic', 'conservative', 'aggressive'
+            Corner behaviour mode: 'realistic', 'conservative', 'aggressive'
         """
         if uphill not in self.UPHILL_PRESETS:
             raise ValueError(f"Mode montée invalide: {uphill}. Choisir parmi {list(self.UPHILL_PRESETS.keys())}")
@@ -263,14 +263,14 @@ class CyclistBehavior:
         self._load_corner_preset(corner)
     
     def _load_uphill_preset(self, mode: str):
-        """Charge les paramètres de montée depuis un preset"""
+        """Load uphill parameters from a preset."""
         preset = self.UPHILL_PRESETS[mode]
         self.uphill_facteur_forte = preset['facteur_forte']
         self.uphill_facteur_moderee = preset['facteur_moderee']
         self.uphill_facteur_legere = preset['facteur_legere']
     
     def _load_downhill_preset(self, mode: str):
-        """Charge les paramètres de descente depuis un preset"""
+        """Load downhill parameters from a preset."""
         preset = self.DOWNHILL_PRESETS[mode]
         self.downhill_facteur_legere = preset['facteur_legere']
         self.downhill_facteur_forte = preset['facteur_forte']
@@ -281,7 +281,7 @@ class CyclistBehavior:
         self.downhill_corner_safety_factor = preset['corner_downhill_safety_factor']
     
     def _load_corner_preset(self, mode: str):
-        """Charge les paramètres de virage depuis un preset"""
+        """Load corner parameters from a preset."""
         preset = self.CORNER_PRESETS[mode]
         self.corner_speed_straight = preset['straight']
         self.corner_speed_slight = preset['slight']
@@ -291,12 +291,12 @@ class CyclistBehavior:
     
     def display(self, verbose: bool = True):
         """
-        Affiche la configuration actuelle avec explications.
+        Display the current configuration with explanations.
         
         Parameters:
         -----------
         verbose : bool
-            Si True, affiche les détails complets. Si False, affiche seulement un résumé.
+            If True, display full details. If False, display summary only.
         """
         _tp(
             "behavior_profile",
@@ -333,11 +333,11 @@ class CyclistBehavior:
     
     def to_dict(self) -> Dict[str, Any]:
         """
-        Convertit la configuration en dictionnaire pour sauvegarde.
+        Convert the configuration to a dictionary for serialization.
         
         Returns:
         --------
-        dict : Configuration complète
+        dict : Complete configuration
         """
         return {
             'metadata': {
@@ -370,14 +370,14 @@ class CyclistBehavior:
     
     def save(self, dirpath: str, filename: str):
         """
-        Sauvegarde la configuration dans un fichier JSON.
+        Save the configuration to a JSON file.
         
         Parameters:
         -----------
         dirpath : str
-            Chemin du répertoire où sauvegarder
+            Path to the directory where the file will be saved
         filename : str
-            Nom du fichier (ex: 'remco_profile.json')
+            File name (e.g., 'remco_profile.json')
         
         Example:
         --------
@@ -396,18 +396,18 @@ class CyclistBehavior:
     @classmethod
     def load(cls, dirpath: str, filename: str) -> 'CyclistBehavior':
         """
-        Charge une configuration depuis un fichier JSON.
+        Load a configuration from a JSON file.
         
         Parameters:
         -----------
         dirpath : str
-            Chemin du répertoire contenant le fichier
+            Path to the directory containing the file
         filename : str
-            Nom du fichier à charger
+            File name to load
         
         Returns:
         --------
-        CyclistBehavior : Instance avec la configuration chargée
+        CyclistBehavior : Instance with the loaded configuration
         
         Example:
         --------
@@ -459,16 +459,16 @@ class CyclistBehavior:
     
     def get_uphill_factor(self, slope: float) -> float:
         """
-        Retourne le facteur de puissance approprié pour une pente donnée.
+        Return the appropriate power factor for a given slope.
         
         Parameters:
         -----------
         slope : float
-            Pente (ratio, ex: 0.05 = 5%)
+            Slope (ratio, e.g., 0.05 = 5%)
         
         Returns:
         --------
-        float : Facteur multiplicateur de puissance
+        float : Power multiplier factor
         """
         if slope >= self.SEUIL_MONTEE_FORTE:
             return self.uphill_facteur_forte
@@ -481,16 +481,16 @@ class CyclistBehavior:
     
     def get_corner_speed_limit(self, bearing_change: float) -> float:
         """
-        Retourne la vitesse maximale pour un virage donné.
+        Return the maximum speed for a given corner.
         
         Parameters:
         -----------
         bearing_change : float
-            Changement de direction en degrés (0-180)
+            Direction change in degrees (0-180)
         
         Returns:
         --------
-        float : Vitesse maximale en m/s
+        float : Maximum speed in m/s
         """
         bearing_change = abs(bearing_change)
         
@@ -515,11 +515,11 @@ def create_amateur_profile() -> CyclistBehavior:
     return CyclistBehavior(uphill='conservative', downhill='conservative', corner='conservative')
 
 def create_competitive_profile() -> CyclistBehavior:
-    """Profil cycliste compétiteur"""
+    """Competitive cyclist profile."""
     return CyclistBehavior(uphill='realistic', downhill='realistic', corner='realistic')
 
 def create_pro_profile() -> CyclistBehavior:
-    """Profil cycliste professionnel validé pour sorties pro/entraînement rapides."""
+    """Professional cyclist profile, validated for pro/fast training rides."""
     profile = CyclistBehavior(uphill='aggressive', downhill='aggressive', corner='aggressive')
 
     # Paramètres validés sur le cas Seixas (vitesse max ~87 km/h) avec compromis réalisme/sécurité.

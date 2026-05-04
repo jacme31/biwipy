@@ -47,25 +47,30 @@ This tool is designed to be as general as possible and usable by all types of cy
 
 Some concrete examples of questions that biwipy can help you answer:
 
-* For my usual ride next week, which day is the most favorable, and which days should I avoid ?
+* For my usual ride next week, which day is the most favorable, and which days should I avoid ? (  `example 1`_ )
 
-* I would like to analyze the effort and wind conditions of my previous rides. 
+.. _example 1: user_guide/Notebook-1.html
 
-* I want to go out tomorrow, but the wind forecast is not favorable. Among the routes I am considering, I would like to identify the most favorable and least dangerous one. 
+* Professional cyclists sometimes seem to run in hellish winds. I would love to measure these conditions.  ? ( `example 2`_ ) 
 
-* I have a multi-stage bike trip planned for the next few days. What is the best day to leave for the best wind conditions ? 
+.. _example 2: user_guide/Notebook-2.html
 
-* Professional runners sometimes seem to run in hellish winds. I would love to measure these conditions.  ? 
+* I would like to analyze the effort and wind conditions of my previous rides. ( `example 3`_ )
 
+.. _example 3: user_guide/Notebook-3.html
 
+Biwipy offers also tools to calibrate your Drag Coefficient (CdA) (`example 4`_ )
 
+.. _example 4: user_guide/Notebook-4.html
+
+Biwipy is an open-source project, and we welcome contributions from the community. If you have suggestions for improvements, new features, or want to report issues, please feel free to contribute on our GitHub repository.
 
 
 This documentation is organized for users and developers:
 
 - Quick setup and installation
 - User-oriented workflow guide
-- Practical examples and sample notebooks 
+- Practical examples with sample notebooks 
 - API reference generated from Python docstrings
 
 .. toctree::

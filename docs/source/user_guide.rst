@@ -3,18 +3,14 @@ User Guide
 
 This section is intended for end users who want a practical workflow.
 
-Suggested structure for this guide:
 
-1. Input data and assumptions (GPX, GRIB, cyclist parameters)
-2. Route preprocessing and quality checks
-3. Simulation modes (replay, no-wind baseline, wind-aware forecast)
-4. Interpreting outputs (speed, power, virtual slope, wind score)
+1. Input data and assumptions (GPX, GRIB, cyclist parameters, routes)
+2. Simulation modes (replay, prediction)
+3. Interpreting outputs (speed, power, virtual slope, wind score)
+4. Tips and best practices
 5. Typical troubleshooting
+6. An appendix expliciting mathematics and physics used
 
-Integrating your existing user guide
-
-You can progressively migrate your current draft into this page,
-or split it into sub-pages and include them with a ``toctree``.
 
 .. toctree::
    :maxdepth: 2

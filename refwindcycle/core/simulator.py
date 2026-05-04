@@ -39,13 +39,13 @@ except ImportError:
 
 class Simulator:
     """
-    Interface publique stable pour les simulations.
+    Stable public interface for cycling simulations.
 
-    - simulate_future(): simulation prospective (prévision) → SimulationResult
-    - simulate_replay(): rejeu d'un parcours (post-ride) → SimulationResult
-    - P0_from_v0(): convertit une vitesse cible sur plat en puissance de référence
-    - v0_from_P0(): convertit une puissance de référence en vitesse d'équilibre sur plat
-    - print_power_model(): affiche le tableau des puissances adaptées par pente
+    - simulate_future(): forward simulation (forecast) → SimulationResult
+    - simulate_replay(): replay of a completed ride (post-ride) → SimulationResult
+    - P0_from_v0(): convert a target flat speed to a reference power
+    - v0_from_P0(): convert a reference power to an equilibrium flat speed
+    - print_power_model(): display the adaptive power table by slope
     """
 
     def __init__(
@@ -82,10 +82,10 @@ class Simulator:
 
     def P0_from_v0(self, v0: float) -> float:
         """
-        Calcule P0 (W) à partir d'une vitesse de référence v0 (m/s) sur plat et sans vent.
+        Calculate P0 (W) from a reference flat speed v0 (m/s) with no wind.
 
-        Wrapper de ``estimate_P0_from_v0`` en utilisant les paramètres du Simulator
-        (`CdA`, `Cr`, `m`, `g`, `rho_forced`).
+        Wrapper around ``estimate_P0_from_v0`` using the Simulator parameters
+        (``CdA``, ``Cr``, ``m``, ``g``, ``rho_forced``).
         """
         if v0 < 0:
             raise ValueError("v0 must be >= 0 m/s")
@@ -95,9 +95,9 @@ class Simulator:
 
     def v0_from_P0(self, P0: float) -> float:
         """
-        Calcule la vitesse d'équilibre v0 (m/s) à partir d'une puissance P0 (W) sur plat et sans vent.
+        Calculate the equilibrium flat speed v0 (m/s) from a reference power P0 (W) with no wind.
 
-        Utilise ``solve_speed_for_power`` avec pente nulle et vent nul.
+        Uses ``solve_speed_for_power`` with zero slope and zero wind.
         """
         if P0 < 0:
             raise ValueError("P0 must be >= 0 W")
@@ -118,10 +118,10 @@ class Simulator:
 
     def print_power_model(self, P0: float) -> None:
         """
-        Affiche le tableau du modèle de puissance adaptative selon la pente.
+        Display the adaptive power model table by slope.
 
-        Wrapper de ``print_power_model_info`` avec le comportement configuré
-        dans le Simulator.
+        Wrapper around ``print_power_model_info`` using the behaviour configured
+        in the Simulator.
         """
         print_power_model_info(P0=P0, behavior=self.behavior)
 

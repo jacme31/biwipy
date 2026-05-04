@@ -4,7 +4,7 @@
 
 The project allows users to validate power models, analyze the influence of wind on an entire route or specific segments, and calibrate aerodynamic parameters (CdA).
 
-The devlopement of Biwipy was largely assisted by AI (vibe coding) based on an initial conventionally designed wind model.
+The devlopement of biwipy was largely assisted by AI (vibe coding) based on an initial conventionally designed wind model.
 
 ---
 

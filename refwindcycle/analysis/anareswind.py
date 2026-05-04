@@ -577,29 +577,28 @@ def plot_elevation_profile(segments: List[Dict],
                            show_virtual: bool = True,
                            distance_from_finish: bool = False):
     """
-    Trace le profil d'altitude réel et virtuel (incluant l'effet du vent).
+    Plot the real and virtual elevation profile (including wind effect).
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats de simulate_with_weather
+        List of segments from simulate_with_weather
     figsize : tuple, optional
-        Taille de la figure (largeur, hauteur)
+        Figure size (width, height)
     title : str, optional
-        Titre principal du graphique
+        Main chart title
     show_virtual : bool, optional
-        Si True, affiche aussi le profil d'altitude virtuel (défaut: True)
+        If True, also show the virtual elevation profile (default: True)
     distance_from_finish : bool, optional
-        Si True, l'axe des abscisses représente la distance restante jusqu'à
-        l'arrivée. Le départ apparaît alors à la distance totale du parcours,
-        et l'arrivée à 0 km.
+        If True, the x-axis represents the remaining distance to the finish.
+        The start appears at the total route distance, the finish at 0 km.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
 
     if not segments:
@@ -710,46 +709,46 @@ def plot_segments_evolution(segments: List[Dict],
                             title: Optional[str] = None,
                             distance_from_finish: bool = False):
     """
-    Trace l'évolution des attributs des segments en fonction de la distance ou du temps.
+    Plot the evolution of segment attributes against distance or time.
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats de simulate_with_weather
+        List of segments from simulate_with_weather
     attributes : List[str]
-        Liste des attributs à tracer (ex: ['tws', 'twd', 'wind_along', 'speed_m_s'])
-        Attributs disponibles:
-        - 'tws': vitesse du vent (m/s)
-        - 'twd': direction du vent (degrés)
-        - 'wind_along': vent le long de la trajectoire (m/s)
-        - 'gust': rafales (m/s)
-        - 'headwind': vent de face (m/s)
-        - 'gust_along': rafales le long de la trajectoire (m/s)
-        - 'crosswind': vent de travers (m/s)
-        - 'is_headwind': indicateur de vent de face (booléen)
-        - 'speed_m_s': vitesse du cycliste (m/s)
-        - 'slope': pente (ratio)
-        - 'slope_terrain': pente du terrain (ratio)
-        - 'slope_wind': pente virtuelle due au vent (ratio)
-        - 'slope_effective': pente effective (terrain + vent) (ratio)
-        - 'elevation_virtual_m': dénivelé virtuel en mètres
+        List of attributes to plot (e.g., ['tws', 'twd', 'wind_along', 'speed_m_s'])
+        Available attributes:
+        - 'tws': wind speed (m/s)
+        - 'twd': wind direction (degrees)
+        - 'wind_along': wind along the trajectory (m/s)
+        - 'gust': gusts (m/s)
+        - 'headwind': headwind (m/s)
+        - 'gust_along': gusts along the trajectory (m/s)
+        - 'crosswind': crosswind (m/s)
+        - 'is_headwind': headwind indicator (boolean)
+        - 'speed_m_s': cyclist speed (m/s)
+        - 'slope': slope (ratio)
+        - 'slope_terrain': terrain slope (ratio)
+        - 'slope_wind': virtual slope due to wind (ratio)
+        - 'slope_effective': effective slope (terrain + wind) (ratio)
+        - 'elevation_virtual_m': virtual elevation gain in metres
     x_axis : str, optional
-        'distance' pour tracer en fonction des kilomètres (défaut)
-        'time' pour tracer en fonction du temps (minutes)
+        'distance' to plot against kilometres (default)
+        'time' to plot against time (minutes)
     figsize : tuple, optional
-        Taille de la figure (largeur, hauteur)
+        Figure size (width, height)
     title : str, optional
-        Titre principal du graphique
+        Main chart title
     distance_from_finish : bool, optional
-        Si True et si x_axis='distance', l'axe des abscisses représente la
-        distance restante jusqu'à l'arrivée.
+        If True and x_axis='distance', the x-axis represents the remaining
+        distance to the finish.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     axes : list
-        Liste des axes créés
+        List of created axes
     """
     
     # Dictionnaire des labels et unités pour chaque attribut
@@ -872,23 +871,23 @@ def plot_wind_rose(segments: List[Dict],
                    figsize: tuple = (10, 10),
                    title: Optional[str] = None):
     """
-    Trace une rose des vents basée sur les segments.
+    Plot a wind rose based on the segments.
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats
+        List of result segments
     figsize : tuple, optional
-        Taille de la figure
+        Figure size
     title : str, optional
-        Titre du graphique
+        Chart title
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
     
     # Extraire les directions et vitesses du vent
@@ -942,32 +941,32 @@ def compare_scenarios(segments_list: List[List[Dict]],
                      title: Optional[str] = None,
                      distance_from_finish: bool = False):
     """
-    Compare plusieurs scénarios (ex: avec/sans vent) pour un attribut donné.
+    Compare multiple scenarios (e.g., with/without wind) for a given attribute.
     
     Parameters:
     -----------
     segments_list : List[List[Dict]]
-        Liste de listes de segments (un par scénario)
+        List of segment lists (one per scenario)
     labels : List[str]
-        Labels pour chaque scénario
+        Labels for each scenario
     attribute : str
-        Attribut à comparer
+        Attribute to compare
     x_axis : str, optional
-        'distance' ou 'time'
+        'distance' or 'time'
     figsize : tuple, optional
-        Taille de la figure
+        Figure size
     title : str, optional
-        Titre du graphique
+        Chart title
     distance_from_finish : bool, optional
-        Si True et si x_axis='distance', l'axe des abscisses représente la
-        distance restante jusqu'à l'arrivée.
+        If True and x_axis='distance', the x-axis represents the remaining
+        distance to the finish.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
     
     # Dictionnaire des labels et unités
@@ -1043,18 +1042,17 @@ def print_summary_statistics(
     terrain_smoothing_window_m: float = 100.0,
 ):
     """
-    Affiche les statistiques résumées des résultats de simulation.
+    Display summary statistics for simulation results.
     
     Parameters:
     -----------
     data : SimulationResult | List[Dict]
-        Résultat structuré (recommandé) ou liste de segments (legacy)
+        Structured result (recommended) or list of segments (legacy)
     label : str, optional
-        Label pour identifier la simulation
+        Label to identify the simulation
     terrain_smoothing_window_m : float, optional
-        Fenêtre de lissage (en mètres) pour les extrêmes de pente terrain,
-        virtuelle et effective. Nom conservé pour compatibilité.
-        Doit être comprise entre 50m et 2000m.
+        Smoothing window (in metres) for terrain, virtual, and effective slope
+        extremes. Name kept for compatibility. Must be between 50 m and 2000 m.
     """
 
     if not (50.0 <= float(terrain_smoothing_window_m) <= 2000.0):

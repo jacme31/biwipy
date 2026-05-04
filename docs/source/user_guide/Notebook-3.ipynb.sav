@@ -15,7 +15,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 61,
    "id": "87d475f0",
    "metadata": {},
    "outputs": [
@@ -38,7 +38,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 62,
    "id": "22186e17",
    "metadata": {},
    "outputs": [],
@@ -94,7 +94,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 63,
    "id": "9eb59696",
    "metadata": {},
    "outputs": [
@@ -167,7 +167,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 64,
    "id": "8ffaab13",
    "metadata": {},
    "outputs": [
@@ -220,7 +220,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 65,
    "id": "fb3600ff",
    "metadata": {},
    "outputs": [
@@ -274,7 +274,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 66,
    "id": "f62ce8a8",
    "metadata": {},
    "outputs": [
@@ -282,7 +282,7 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "WARNING:root:✅ P0 calibrated: 112.9W (reproduces 108.1W observed)\n"
+      "WARNING:root:✅ P0 calibré: 112.9W (reproduit 108.1W observés)\n"
      ]
     }
    ],
@@ -319,7 +319,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 67,
    "id": "e8d65da1",
    "metadata": {},
    "outputs": [
@@ -413,7 +413,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 68,
    "id": "e4ede58a",
    "metadata": {},
    "outputs": [
@@ -505,7 +505,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 69,
    "id": "930b27e6",
    "metadata": {},
    "outputs": [],
@@ -535,7 +535,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 70,
    "id": "159db2a4",
    "metadata": {},
    "outputs": [
@@ -570,7 +570,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 55,
    "id": "a9a92238",
    "metadata": {},
    "outputs": [
@@ -607,7 +607,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 71,
    "id": "821ee8ff",
    "metadata": {},
    "outputs": [
@@ -641,7 +641,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 72,
    "id": "30e76cfa",
    "metadata": {},
    "outputs": [
@@ -676,7 +676,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 73,
    "id": "bbb0f65b",
    "metadata": {},
    "outputs": [
@@ -721,43 +721,43 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "id": "9172e908",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 74,
    "id": "a25593d0",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Interactive map saved to home/data/html/interactive_map_S3_Mar-29.html\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "interactive_html = create_interactive_map(\n",
     "    results_timestamps_smooth,\n",
     "    output_file= home+\"./data/html/\"+f'interactive_map_{pathbase}_{ct_start}.html',\n",
     "    title=f'Interactive Map - {pathbase}_{ct_start}',\n",
-    ")\n",
-    "print(f\"Interactive map saved to home/data/html/interactive_map_{pathbase}_{ct_start}.html\")"
+    ")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "5c3cbdec",
+   "id": "fd8476fe",
    "metadata": {},
    "source": [
-    "### Screenshot of the interactive map \n",
     "\n",
-    "![Carte interactive](/_static/generated_map.png)"
+    "\n",
+    "![](/_static/Yaw.png)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "98d1a144",
+   "metadata": {},
+   "source": [
+    "![alt text](/_static/generaded_map.png \"Generated map\")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "10f630fa",
+   "metadata": {},
+   "source": [
+    "![](/_static/generated_map.png)"
    ]
   }
  ],

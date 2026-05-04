@@ -389,17 +389,17 @@ class GPXProcessingResult:
 
 class RouteAnalyzer:
     """
-    Interface publique stable pour le pré-traitement GPX et l'analyse de parcours.
+    Stable public interface for GPX pre-processing and route analysis.
 
-    Méthodes individuelles (pour flexibilité):
-    - load_gpx(): charge les points
-    - segments_from_gpx(): crée des segments (avec lissage)
-    - merge_segments(): fusionne les segments courts
-    - moving_average_kmh(): vitesse moyenne en mouvement
-    - filter_stops(): supprime les arrêts (v < seuil)
+    Individual methods (for flexibility):
+    - load_gpx(): load GPS points
+    - segments_from_gpx(): create segments (with smoothing)
+    - merge_segments(): merge short segments
+    - moving_average_kmh(): moving average speed in km/h
+    - filter_stops(): remove stops (v < threshold)
 
-    Workflow complet (convenances):
-    - process_gpx(): encapsule tout le pipeline de nettoyage GPX
+    Full workflow (convenience):
+    - process_gpx(): wraps the entire GPX cleaning pipeline
     """
 
     def __init__(
