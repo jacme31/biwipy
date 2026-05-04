@@ -10,21 +10,25 @@ authors = [
   { name="Jacques", email="your.email@example.com" },
 ]
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.9"
 classifiers = [
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
 ]
 dependencies = [
     "numpy",
     "scipy",
     "matplotlib",
-    "pygrib",
     "folium",
-    "herbie-data",  # for GRIB finding
-    "stravalib",
-    "requests",
+    "herbie-data",
     "rasterio",
 ]
 
@@ -40,11 +44,15 @@ viz = [
 docs = [
     "sphinx>=7.0",
 ]
+weather = [
+    "pygrib",
+]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/biwipy"
-"Bug Tracker" = "https://github.com/yourusername/biwipy/issues"
+"Homepage" = "https://github.com/jacme31/biwipy"
+"Bug Tracker" = "https://github.com/jacme31/biwipy/issues"
+"Documentation" = "https://biwipy.readthedocs.io"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["refwindcycle*"]
+include = ["biwipy*"]

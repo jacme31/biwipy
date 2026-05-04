@@ -16,4 +16,4 @@ def __getattr__(name: str) -> Any:
 		from .weather import WeatherProvider
 
 		return WeatherProvider
-	raise AttributeError(f"module 'refwindcycle' has no attribute {name!r}")
+	raise AttributeError(f"module 'biwipy' has no attribute {name!r}")

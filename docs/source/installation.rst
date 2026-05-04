@@ -14,6 +14,15 @@ Install from PyPI (recommended)
 
    pip install biwipy
 
+Install weather/GRIB extra (optional)
+-------------------------------------
+
+Use this extra if you need GRIB reading features that rely on ``pygrib``:
+
+.. code-block:: bash
+
+   pip install "biwipy[weather]"
+
 Compatibility note
 ------------------
 
@@ -32,6 +41,12 @@ From repository root:
 .. code-block:: bash
 
    pip install .
+
+With weather/GRIB extra:
+
+.. code-block:: bash
+
+   pip install ".[weather]"
 
 Install documentation dependencies
 
