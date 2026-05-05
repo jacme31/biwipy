@@ -26,6 +26,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install pandoc
+        run: sudo apt-get install -y pandoc
+
       - name: Install docs deps
         run: |
           python -m pip install --upgrade pip
