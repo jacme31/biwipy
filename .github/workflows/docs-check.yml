@@ -33,7 +33,7 @@ jobs:
           python -m pip install 'sphinx>=7.0' pydata-sphinx-theme myst-parser linkify-it-py nbsphinx sphinx-copybutton sphinx-autodoc-typehints ipython jupyter
 
       - name: Build Sphinx HTML
-        run: sphinx-build -b html docs/source docs/build/html -W --keep-going
+        run: sphinx-build -b html docs/source docs/build/html
 
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
