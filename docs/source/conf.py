@@ -51,6 +51,11 @@ autodoc_mock_imports = [
     "pygrib",
     "stravalib",
     "geopy",
+    "folium",
+    "herbie",
+    "rasterio",
+    "rasterio.transform",
+    "rasterio.features",
 ]
 
 napoleon_google_docstring = True
