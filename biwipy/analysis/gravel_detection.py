@@ -76,7 +76,7 @@ def detect_gravel_segments(segments: List[Dict], window_s=8, speed_drop_threshol
 
 
 def compute_gravel_score(classifications: List[str]) -> float:
-    """Retourne le pourcentage de segments gravel (par nombre de segments)"""
+    """Return percentage of gravel segments (by segment count)"""
     n = len(classifications)
     if n == 0:
         return 0.0
@@ -84,7 +84,7 @@ def compute_gravel_score(classifications: List[str]) -> float:
     return 100.0 * n_gravel / n
 
 def compute_gravel_score_by_time(classifications: List[str], segments: List[Dict]) -> float:
-    """Retourne le pourcentage de gravel par temps passé (plus pertinent pour la physique)"""
+    """Return percentage of gravel time (more relevant for physics)"""
     if len(segments) != len(classifications):
         raise ValueError("segments et classifications doivent avoir la même longueur")
     

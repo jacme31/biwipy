@@ -1,6 +1,6 @@
 # ==========================================
 # cyclist_params.py
-# Paramètres de comportement cycliste
+# Cyclist behavior parameters
 # ==========================================
 
 import json
@@ -10,104 +10,104 @@ from typing import Optional, Dict, Any
 
 class CyclistBehavior:
     """
-    Classe centralisant tous les paramètres de comportement cycliste.
+    Centralized cyclist behavior parameters.
     
-    Regroupe:
-    - Seuils de pente (montée/descente)
-    - Seuils de virages
-    - Facteurs de comportement en montée (3 modes: realistic, conservative, aggressive)
-    - Facteurs de comportement en descente (3 modes)
-    - Limites de vitesse en virage (3 modes)
+    Groups:
+    - Slope thresholds (uphill/downhill)
+    - Turn thresholds
+    - Uphill behavior factors (3 modes: realistic, conservative, aggressive)
+    - Downhill behavior factors (3 modes)
+    - Turn speed limits (3 modes)
     
     Usage:
     ------
-    # Créer un profil mixte
+    # Create mixed profile
     >>> params = CyclistBehavior(uphill='realistic', downhill='conservative', corner='aggressive')
     
-    # Customiser un paramètre spécifique
+    # Customize specific parameter
     >>> params.corner_speed_slight = 20.0  # m/s
     
-    # Sauvegarder
+    # Save
     >>> params.save('/path/to/configs', 'remco_profile.json')
     
-    # Restaurer
+    # Load
     >>> params = CyclistBehavior.load('/path/to/configs', 'remco_profile.json')
     """
     
     # ========================================================================
-    # SEUILS DE PENTE (valeurs uniques, pas de variation par mode)
+    # SLOPE THRESHOLDS (unique values, no variation by mode)
     # ========================================================================
-    SEUIL_MONTEE_FORTE = 0.08       # ≥ 8% : montée forte
-    SEUIL_MONTEE_MODEREE = 0.03     # ≥ 3% : montée modérée
-    SEUIL_MONTEE_LEGERE = 0.01      # ≥ 1% : montée légère
-    SEUIL_PLAT = -0.02              # > -2% : considéré comme plat
-    SEUIL_DESCENTE_LEGERE = -0.05   # > -5% : descente légère
+    SEUIL_MONTEE_FORTE = 0.08       # ≥ 8% : steep uphill
+    SEUIL_MONTEE_MODEREE = 0.03     # ≥ 3% : moderate uphill
+    SEUIL_MONTEE_LEGERE = 0.01      # ≥ 1% : slight uphill
+    SEUIL_PLAT = -0.02              # > -2% : considered flat
+    SEUIL_DESCENTE_LEGERE = -0.05   # > -5% : slight downhill
     
     # ========================================================================
-    # SEUILS DE VIRAGES (en degrés, valeurs uniques)
+    # TURN THRESHOLDS (in degrees, unique values)
     # ========================================================================
-    SEUIL_CORNER_STRAIGHT = 5       # < 5° : ligne droite
-    SEUIL_CORNER_SLIGHT = 20        # < 20° : virage léger
-    SEUIL_CORNER_MODERATE = 45      # < 45° : virage modéré
-    SEUIL_CORNER_SHARP = 90         # < 90° : virage serré
-    # > 90° : épingle (hairpin)
+    SEUIL_CORNER_STRAIGHT = 5       # < 5° : straight
+    SEUIL_CORNER_SLIGHT = 20        # < 20° : slight turn
+    SEUIL_CORNER_MODERATE = 45      # < 45° : moderate turn
+    SEUIL_CORNER_SHARP = 90         # < 90° : sharp turn
+    # > 90° : hairpin
     
     # ========================================================================
-    # PRESETS DE COMPORTEMENT MONTÉE
+    # UPHILL BEHAVIOR PRESETS
     # ========================================================================
     UPHILL_PRESETS = {
         'realistic': {
-            'facteur_forte': 3.5,      # +35% de puissance par 10% de pente
-            'facteur_moderee': 2.5,    # +25% par 10% de pente
-            'facteur_legere': 1.5,     # +15% par 10% de pente
+            'facteur_forte': 3.5,      # +35% power per 10% slope
+            'facteur_moderee': 2.5,    # +25% power per 10% slope
+            'facteur_legere': 1.5,     # +15% power per 10% slope
         },
         'conservative': {
-            'facteur_forte': 2.0,      # +20% par 10% de pente
+            'facteur_forte': 2.0,      # +20% power per 10% slope
             'facteur_moderee': 2.0,
             'facteur_legere': 2.0,
         },
         'aggressive': {
-            'facteur_forte': 4.0,      # +40% par 10% de pente
+            'facteur_forte': 4.0,      # +40% power per 10% slope
             'facteur_moderee': 4.0,
             'facteur_legere': 4.0,
         },
     }
     
     # ========================================================================
-    # PRESETS DE COMPORTEMENT DESCENTE
+    # DOWNHILL BEHAVIOR PRESETS
     # ========================================================================
     DOWNHILL_PRESETS = {
         'realistic': {
-            'facteur_legere': 6.0,              # Réduction modérée en descente légère
-            'facteur_forte': 20.0,              # Réduction importante en descente forte
-            'puissance_min': 10,                # Watts minimum
-            'vitesse_reduction_factor': 2.5,    # Freinage progressif selon pente (Jan 2026 fix)
-            'vitesse_reduction_cap': 0.40,      # Cap de réduction: 40% max
+            'facteur_legere': 6.0,              # Moderate reduction on slight descent
+            'facteur_forte': 20.0,              # Strong reduction on steep descent
+            'puissance_min': 10,                # Minimum watts
+            'vitesse_reduction_factor': 2.5,    # Progressive braking by slope (Jan 2026 fix)
+            'vitesse_reduction_cap': 0.40,      # Reduction cap: 40% max
             'vitesse_max_absolue': 22.0,        # m/s = 79.2 km/h
-            'corner_downhill_safety_factor': 0.90,  # Multiplicateur en virage+descente
+            'corner_downhill_safety_factor': 0.90,  # Multiplier for turn+downhill
         },
         'conservative': {
-            'facteur_legere': 3.0,              # Moins de réduction
+            'facteur_legere': 3.0,              # Less reduction
             'facteur_forte': 3.0,
             'puissance_min': 10,
-            'vitesse_reduction_factor': 10.0,   # Freinage plus fort
+            'vitesse_reduction_factor': 10.0,   # Stronger braking
             'vitesse_reduction_cap': 0.70,
             'vitesse_max_absolue': 18.0,        # m/s = 64.8 km/h
-            'corner_downhill_safety_factor': 0.85,  # Multiplicateur en virage+descente
+            'corner_downhill_safety_factor': 0.85,  # Multiplier for turn+downhill
         },
         'aggressive': {
-            'facteur_legere': 5.0,              # Plus de réduction (on roule en descente)
+            'facteur_legere': 5.0,              # More reduction (racing descent)
             'facteur_forte': 5.0,
             'puissance_min': 10,
-            'vitesse_reduction_factor': 1.0,    # Peu de freinage
-            'vitesse_reduction_cap': 0.10,      # Presque pas de limite
+            'vitesse_reduction_factor': 1.0,    # Light braking
+            'vitesse_reduction_cap': 0.10,      # Almost no limit
             'vitesse_max_absolue': 22.0,        # m/s = 79.2 km/h (pro level)
-            'corner_downhill_safety_factor': 0.97,  # Multiplicateur en virage+descente
+            'corner_downhill_safety_factor': 0.97,  # Multiplier for turn+downhill
         },
     }
     
     # ========================================================================
-    # PRESETS DE COMPORTEMENT VIRAGES (vitesses max en m/s)
+    # TURN BEHAVIOR PRESETS (max speeds in m/s)
     # ========================================================================
     CORNER_PRESETS = {
         'realistic': {
@@ -126,7 +126,7 @@ class CyclistBehavior:
         },
         'aggressive': {
             'straight': 22.0,      # 79 km/h
-            'slight': 22.0,        # 79 km/h (pro: pas de freinage virage léger)
+            'slight': 22.0,        # 79 km/h (pro: no braking on slight turn)
             'moderate': 22.0,      # 79 km/h
             'sharp': 22.0,         # 79 km/h
             'hairpin': 22.0,       # 79 km/h (limite pour pro expérimenté)
@@ -137,42 +137,42 @@ class CyclistBehavior:
                  downhill: str = 'realistic', 
                  corner: str = 'realistic'):
         """
-        Initialise un profil de comportement cycliste.
+        Initialize a cyclist behavior profile.
         
         Parameters:
         -----------
         uphill : str
-            Mode de comportement en montée: 'realistic', 'conservative', 'aggressive'
+            Uphill behavior mode: 'realistic', 'conservative', 'aggressive'
         downhill : str
-            Mode de comportement en descente: 'realistic', 'conservative', 'aggressive'
+            Downhill behavior mode: 'realistic', 'conservative', 'aggressive'
         corner : str
-            Mode de comportement en virage: 'realistic', 'conservative', 'aggressive'
+            Turn behavior mode: 'realistic', 'conservative', 'aggressive'
         """
         if uphill not in self.UPHILL_PRESETS:
-            raise ValueError(f"Mode montée invalide: {uphill}. Choisir parmi {list(self.UPHILL_PRESETS.keys())}")
+            raise ValueError(f"Invalid uphill mode: {uphill}. Choose from {list(self.UPHILL_PRESETS.keys())}")
         if downhill not in self.DOWNHILL_PRESETS:
-            raise ValueError(f"Mode descente invalide: {downhill}. Choisir parmi {list(self.DOWNHILL_PRESETS.keys())}")
+            raise ValueError(f"Invalid downhill mode: {downhill}. Choose from {list(self.DOWNHILL_PRESETS.keys())}")
         if corner not in self.CORNER_PRESETS:
-            raise ValueError(f"Mode virage invalide: {corner}. Choisir parmi {list(self.CORNER_PRESETS.keys())}")
+            raise ValueError(f"Invalid corner mode: {corner}. Choose from {list(self.CORNER_PRESETS.keys())}")
         
         self.mode_uphill = uphill
         self.mode_downhill = downhill
         self.mode_corner = corner
         
-        # Charger les presets
+        # Load presets
         self._load_uphill_preset(uphill)
         self._load_downhill_preset(downhill)
         self._load_corner_preset(corner)
     
     def _load_uphill_preset(self, mode: str):
-        """Charge les paramètres de montée depuis un preset"""
+        """Load uphill parameters from preset"""
         preset = self.UPHILL_PRESETS[mode]
         self.uphill_facteur_forte = preset['facteur_forte']
         self.uphill_facteur_moderee = preset['facteur_moderee']
         self.uphill_facteur_legere = preset['facteur_legere']
     
     def _load_downhill_preset(self, mode: str):
-        """Charge les paramètres de descente depuis un preset"""
+        """Load downhill parameters from preset"""
         preset = self.DOWNHILL_PRESETS[mode]
         self.downhill_facteur_legere = preset['facteur_legere']
         self.downhill_facteur_forte = preset['facteur_forte']
@@ -183,7 +183,7 @@ class CyclistBehavior:
         self.downhill_corner_safety_factor = preset['corner_downhill_safety_factor']
     
     def _load_corner_preset(self, mode: str):
-        """Charge les paramètres de virage depuis un preset"""
+        """Load turn parameters from preset"""
         preset = self.CORNER_PRESETS[mode]
         self.corner_speed_straight = preset['straight']
         self.corner_speed_slight = preset['slight']
@@ -193,12 +193,12 @@ class CyclistBehavior:
     
     def display(self, verbose: bool = True):
         """
-        Affiche la configuration actuelle avec explications.
+        Display current configuration with explanations.
         
         Parameters:
         -----------
         verbose : bool
-            Si True, affiche les détails complets. Si False, affiche seulement un résumé.
+            If True, display full details. If False, display summary only.
         """
     
         print("Behaviour profile:",end=" ")
@@ -208,40 +208,40 @@ class CyclistBehavior:
 
         
         if verbose:
-            print("\n📈 COMPORTEMENT EN MONTÉE")
+            print("\n📈 UPHILL BEHAVIOR")
             print("-" * 80)
-            print(f"  Montée forte (≥{self.SEUIL_MONTEE_FORTE*100:.0f}%)    : facteur {self.uphill_facteur_forte:.1f}  "
-                  f"→ +{self.uphill_facteur_forte*10:.0f}% puissance par 10% pente")
-            print(f"  Montée modérée (≥{self.SEUIL_MONTEE_MODEREE*100:.0f}%)  : facteur {self.uphill_facteur_moderee:.1f}  "
-                  f"→ +{self.uphill_facteur_moderee*10:.0f}% puissance par 10% pente")
-            print(f"  Montée légère (≥{self.SEUIL_MONTEE_LEGERE*100:.0f}%)   : facteur {self.uphill_facteur_legere:.1f}  "
-                  f"→ +{self.uphill_facteur_legere*10:.0f}% puissance par 10% pente")
+            print(f"  Steep uphill (≥{self.SEUIL_MONTEE_FORTE*100:.0f}%)    : factor {self.uphill_facteur_forte:.1f}  "
+                  f"→ +{self.uphill_facteur_forte*10:.0f}% power per 10% slope")
+            print(f"  Moderate uphill (≥{self.SEUIL_MONTEE_MODEREE*100:.0f}%)  : factor {self.uphill_facteur_moderee:.1f}  "
+                  f"→ +{self.uphill_facteur_moderee*10:.0f}% power per 10% slope")
+            print(f"  Slight uphill (≥{self.SEUIL_MONTEE_LEGERE*100:.0f}%)   : factor {self.uphill_facteur_legere:.1f}  "
+                  f"→ +{self.uphill_facteur_legere*10:.0f}% power per 10% slope")
             
-            print("\n📉 COMPORTEMENT EN DESCENTE")
+            print("\n📉 DOWNHILL BEHAVIOR")
             print("-" * 80)
-            print(f"  Descente légère (>{self.SEUIL_DESCENTE_LEGERE*100:.0f}%) : facteur {self.downhill_facteur_legere:.1f}")
-            print(f"  Descente forte (<{self.SEUIL_DESCENTE_LEGERE*100:.0f}%)  : facteur {self.downhill_facteur_forte:.1f}")
-            print(f"  Puissance minimale          : {self.downhill_puissance_min} W")
-            print(f"  Vitesse max absolue         : {self.downhill_vitesse_max_absolue:.1f} m/s ({self.downhill_vitesse_max_absolue*3.6:.1f} km/h)")
-            print(f"  Freinage progressif         : facteur {self.downhill_vitesse_reduction_factor:.1f}, cap {self.downhill_vitesse_reduction_cap*100:.0f}%")
-            print(f"  Sécurité virage+descente    : x{self.downhill_corner_safety_factor:.2f}")
+            print(f"  Slight downhill (>{self.SEUIL_DESCENTE_LEGERE*100:.0f}%) : factor {self.downhill_facteur_legere:.1f}")
+            print(f"  Steep downhill (<{self.SEUIL_DESCENTE_LEGERE*100:.0f}%)  : factor {self.downhill_facteur_forte:.1f}")
+            print(f"  Minimum power               : {self.downhill_puissance_min} W")
+            print(f"  Absolute max speed          : {self.downhill_vitesse_max_absolue:.1f} m/s ({self.downhill_vitesse_max_absolue*3.6:.1f} km/h)")
+            print(f"  Progressive braking         : factor {self.downhill_vitesse_reduction_factor:.1f}, cap {self.downhill_vitesse_reduction_cap*100:.0f}%")
+            print(f"  Turn+downhill safety        : x{self.downhill_corner_safety_factor:.2f}")
             
-            print("\n🔄 COMPORTEMENT EN VIRAGES")
+            print("\n🔄 TURN BEHAVIOR")
             print("-" * 80)
-            print(f"  Ligne droite (<{self.SEUIL_CORNER_STRAIGHT}°)    : {self.corner_speed_straight:.1f} m/s ({self.corner_speed_straight*3.6:.0f} km/h)")
-            print(f"  Virage léger (<{self.SEUIL_CORNER_SLIGHT}°)   : {self.corner_speed_slight:.1f} m/s ({self.corner_speed_slight*3.6:.0f} km/h)")
-            print(f"  Virage modéré (<{self.SEUIL_CORNER_MODERATE}°)  : {self.corner_speed_moderate:.1f} m/s ({self.corner_speed_moderate*3.6:.0f} km/h)")
-            print(f"  Virage serré (<{self.SEUIL_CORNER_SHARP}°)   : {self.corner_speed_sharp:.1f} m/s ({self.corner_speed_sharp*3.6:.0f} km/h)")
-            print(f"  Épingle (>{self.SEUIL_CORNER_SHARP}°)       : {self.corner_speed_hairpin:.1f} m/s ({self.corner_speed_hairpin*3.6:.0f} km/h)")
+            print(f"  Straight line (<{self.SEUIL_CORNER_STRAIGHT}°)    : {self.corner_speed_straight:.1f} m/s ({self.corner_speed_straight*3.6:.0f} km/h)")
+            print(f"  Slight turn (<{self.SEUIL_CORNER_SLIGHT}°)   : {self.corner_speed_slight:.1f} m/s ({self.corner_speed_slight*3.6:.0f} km/h)")
+            print(f"  Moderate turn (<{self.SEUIL_CORNER_MODERATE}°)  : {self.corner_speed_moderate:.1f} m/s ({self.corner_speed_moderate*3.6:.0f} km/h)")
+            print(f"  Sharp turn (<{self.SEUIL_CORNER_SHARP}°)   : {self.corner_speed_sharp:.1f} m/s ({self.corner_speed_sharp*3.6:.0f} km/h)")
+            print(f"  Hairpin (>{self.SEUIL_CORNER_SHARP}°)       : {self.corner_speed_hairpin:.1f} m/s ({self.corner_speed_hairpin*3.6:.0f} km/h)")
         
     
     def to_dict(self) -> Dict[str, Any]:
         """
-        Convertit la configuration en dictionnaire pour sauvegarde.
+        Convert configuration to dictionary for save.
         
         Returns:
         --------
-        dict : Configuration complète
+        dict : Complete configuration
         """
         return {
             'metadata': {
@@ -363,16 +363,16 @@ class CyclistBehavior:
     
     def get_uphill_factor(self, slope: float) -> float:
         """
-        Retourne le facteur de puissance approprié pour une pente donnée.
+        Return appropriate power factor for given slope.
         
         Parameters:
         -----------
         slope : float
-            Pente (ratio, ex: 0.05 = 5%)
+            Slope (ratio, e.g., 0.05 = 5%)
         
         Returns:
         --------
-        float : Facteur multiplicateur de puissance
+        float : Power multiplier factor
         """
         if slope >= self.SEUIL_MONTEE_FORTE:
             return self.uphill_facteur_forte
@@ -381,20 +381,20 @@ class CyclistBehavior:
         elif slope >= self.SEUIL_MONTEE_LEGERE:
             return self.uphill_facteur_legere
         else:
-            return 0.0  # Pas de montée
+            return 0.0  # No uphill
     
     def get_corner_speed_limit(self, bearing_change: float) -> float:
         """
-        Retourne la vitesse maximale pour un virage donné.
+        Return maximum speed for given turn.
         
         Parameters:
         -----------
         bearing_change : float
-            Changement de direction en degrés (0-180)
+            Direction change in degrees (0-180)
         
         Returns:
         --------
-        float : Vitesse maximale en m/s
+        float : Maximum speed in m/s
         """
         bearing_change = abs(bearing_change)
         
@@ -415,15 +415,15 @@ class CyclistBehavior:
 # ========================================================================
 
 def create_amateur_profile() -> CyclistBehavior:
-    """Profil cycliste amateur prudent"""
+    """Conservative amateur cyclist profile"""
     return CyclistBehavior(uphill='conservative', downhill='conservative', corner='conservative')
 
 def create_competitive_profile() -> CyclistBehavior:
-    """Profil cycliste compétiteur"""
+    """Competitive cyclist profile"""
     return CyclistBehavior(uphill='realistic', downhill='realistic', corner='realistic')
 
 def create_pro_profile() -> CyclistBehavior:
-    """Profil cycliste professionnel validé pour sorties pro/entraînement rapides."""
+    """Professional cyclist profile validated for pro races/high-speed training."""
     profile = CyclistBehavior(uphill='aggressive', downhill='aggressive', corner='aggressive')
 
     # Paramètres validés sur le cas Seixas (vitesse max ~87 km/h) avec compromis réalisme/sécurité.

@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # Build artifacts
-build/
 dist/
 *.egg-info/
 .eggs/

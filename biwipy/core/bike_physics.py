@@ -1,5 +1,5 @@
 # ==========================================
-# bike_physics_v2.py (version complète)
+# bike_physics.py (complete version)
 # ==========================================
 
 from datetime import datetime, timedelta
@@ -9,10 +9,10 @@ import logging
 from .cyclist_params import CyclistBehavior
 
 # -------------------------------------------------
-# Constantes physiques
+# Physical constants
 # -------------------------------------------------
 G = 9.80665
-RHO_STD = 1.225  # kg/m³ au niveau de la mer (15°C, 101325 Pa)
+RHO_STD = 1.225  # kg/m³ at sea level (15°C, 101325 Pa)
 
 # Constants for downhill safety/realism (Jan 2026 fix)
 DESCENTE_VITESSE_MAX_REDUCTION_FACTOR = 2.5
@@ -64,13 +64,13 @@ def calculate_air_density(altitude_m: float, temperature_c: float = 15.0) -> flo
     return rho
 
 # -------------------------------------------------
-# Comportement cycliste par défaut
+# Default cyclist behavior
 # -------------------------------------------------
-# Utilisé si aucun CyclistBehavior n'est fourni
+# Used if no CyclistBehavior is provided
 _DEFAULT_BEHAVIOR = None
 
 def get_default_behavior() -> CyclistBehavior:
-    """Retourne le comportement cycliste par défaut (realistic)"""
+    """Get default cyclist behavior (realistic)"""
     global _DEFAULT_BEHAVIOR
     if _DEFAULT_BEHAVIOR is None:
         _DEFAULT_BEHAVIOR = CyclistBehavior(uphill='realistic', downhill='realistic', corner='realistic')
@@ -78,7 +78,7 @@ def get_default_behavior() -> CyclistBehavior:
 
 
 # -------------------------------------------------
-# Calibration : trouve CdA optimal pour matcher puissance cible
+# Calibration: find optimal CdA to match target power
 # -------------------------------------------------
 def calibrate_cda_from_power(segments_in: List[Dict],
                              grib,
@@ -93,44 +93,44 @@ def calibrate_cda_from_power(segments_in: List[Dict],
                              behavior: Optional[CyclistBehavior] = None,
                              **sim_kwargs) -> Tuple[float, float, float]:
     """
-    Trouve la valeur de CdA qui produit une puissance moyenne proche de target_power.
+    Find the CdA value that produces average power close to target_power.
     
-    IMPORTANT: En mode use_gpx_timestamps, V0/P0 n'influencent pas vitesse/temps.
-    Le P0 retourné est donc obtenu via calibrage final (calibrate_p0=True)
-    pour rester cohérent avec les simulations ultérieures.
+    IMPORTANT: In use_gpx_timestamps mode, V0/P0 do not influence speed/time.
+    The returned P0 is therefore obtained via final calibration (calibrate_p0=True)
+    to remain consistent with subsequent simulations.
     
-    Utilise une recherche dichotomique (bisection) pour converger rapidement.
+    Uses binary search (bisection) for rapid convergence.
     
     Parameters:
     -----------
     segments_in : List[Dict]
-        Segments du parcours
+        Route segments
     grib : Grib
-        Objet GRIB pour données météo
+        GRIB object for weather data
     t_start : datetime
-        Heure de départ
+        Start time
     target_power : float
-        Puissance moyenne cible (ex: 175 W de Strava)
+        Target average power (e.g., 175 W from Strava)
     Cr : float
-        Coefficient de roulement
+        Rolling resistance coefficient
     m : float
-        Masse totale (kg)
+        Total mass (kg)
     cda_min, cda_max : float
-        Bornes de recherche pour CdA
+        Search bounds for CdA
     tolerance : float
-        Tolérance acceptable (W)
+        Acceptable tolerance (W)
     max_iterations : int
-        Nombre max d'itérations
+        Max iterations
     behavior : CyclistBehavior, optional
-        Profil comportemental cycliste utilisé pour calibrer le P0 final.
-        Si fourni, le P0 retourné est recalibré via ``calibrate_p0=True``
-        pour rester cohérent avec les simulations ultérieures.
+        Cyclist behavior profile used to calibrate final P0.
+        If provided, the returned P0 is recalibrated via ``calibrate_p0=True``
+        to remain consistent with subsequent simulations.
     **sim_kwargs : dict
-        Paramètres additionnels pour simulate_with_weather
+        Additional parameters for simulate_with_weather
     
     Returns:
     --------
-    Tuple[float, float, float] : (CdA optimal, P0 optimal, puissance moyenne obtenue)
+    Tuple[float, float, float] : (optimal CdA, optimal P0, average power obtained)
     
     Example:
     --------
@@ -138,21 +138,21 @@ def calibrate_cda_from_power(segments_in: List[Dict],
     ...     segments, grib, t_start, 
     ...     target_power=175.0, Cr=0.0065, m=100
     ... )
-    >>> print(f"CdA optimal: {cda_opt:.3f}, P0: {p0_opt:.1f}W → {power_opt:.1f} W")
+    >>> print(f"Optimal CdA: {cda_opt:.3f}, P0: {p0_opt:.1f}W → {power_opt:.1f} W")
     """
     
     logging.info(f"\n{'='*70}")
-    logging.info(f"CALIBRATION CdA pour atteindre {target_power:.1f} W")
-    logging.info(f"Paramètres: Cr={Cr:.4f}, m={m:.1f}kg")
-    logging.info(f"Plage CdA: [{cda_min:.3f}, {cda_max:.3f}]")
-    logging.info(f"⚠️  P0 retourné sera calibré en fin de recherche")
+    logging.info(f"CdA CALIBRATION to reach {target_power:.1f} W")
+    logging.info(f"Parameters: Cr={Cr:.4f}, m={m:.1f}kg")
+    logging.info(f"CdA range: [{cda_min:.3f}, {cda_max:.3f}]")
+    logging.info(f"⚠️  Returned P0 will be calibrated at the end of the search")
     logging.info(f"{'='*70}")
     
-    # Valeurs initiales
+    # Initial values
     cda_low = cda_min
     cda_high = cda_max
     
-    # Préparer les kwargs pour simulate_with_weather
+    # Prepare kwargs for simulate_with_weather
     sim_params = {
         'passes': 2,
         'use_gpx_timestamps': True,
@@ -165,21 +165,21 @@ def calibrate_cda_from_power(segments_in: List[Dict],
     sim_params.update(sim_kwargs)
     
     for iteration in range(max_iterations):
-        # Test du milieu de l'intervalle
+        # Test midpoint of interval
         cda_mid = (cda_low + cda_high) / 2
 
-        # Simulation avec ce CdA et son P0 correspondant
+        # Simulate with this CdA and corresponding P0
         _, _, _, power_mid, _ = simulate_with_weather(
             segments_in, grib, t_start, CdA=cda_mid, **sim_params
         )
         
         error = power_mid - target_power
         
-        logging.info(f"Iter {iteration+1:2d}: CdA={cda_mid:.4f} → P_avg={power_mid:6.1f}W (écart: {error:+6.1f}W)")
+        logging.info(f"Iter {iteration+1:2d}: CdA={cda_mid:.4f} -> P_avg={power_mid:6.1f}W (error: {error:+6.1f}W)")
         
-        # Convergence ?
+        # Converged?
         if abs(error) < tolerance:
-            logging.info("   Recalibrage P0 final pour cohérence simulation...")
+            logging.info("   Final P0 recalibration for simulation consistency...")
             _, _, p0_return, power_return, _ = simulate_with_weather(
                 segments_in,
                 grib,
@@ -190,9 +190,9 @@ def calibrate_cda_from_power(segments_in: List[Dict],
             )
 
             logging.info(
-                f"\n✅ Convergé ! CdA={cda_mid:.4f}, P0={p0_return:.1f}W → Puissance={power_return:.1f}W"
+                f"\n✅ Converged! CdA={cda_mid:.4f}, P0={p0_return:.1f}W -> Power={power_return:.1f}W"
             )
-            logging.info(f"   Écart avec cible ({target_power:.1f}W): {power_return - target_power:+.1f}W\n")
+            logging.info(f"   Difference vs target ({target_power:.1f}W): {power_return - target_power:+.1f}W\n")
             return cda_mid, p0_return, power_return
         
         # Ajuster l'intervalle
@@ -211,7 +211,7 @@ def calibrate_cda_from_power(segments_in: List[Dict],
 
     p0_return = 0.0
     power_return = power_final
-    logging.info("Recalibrage P0 final pour cohérence simulation...")
+    logging.info("Final P0 recalibration for simulation consistency...")
     _, _, p0_return, power_return, _ = simulate_with_weather(
         segments_in,
         grib,
@@ -221,9 +221,9 @@ def calibrate_cda_from_power(segments_in: List[Dict],
         **sim_params,
     )
     
-    logging.warning(f"\n⚠️  Max iterations atteintes ({max_iterations})")
-    logging.info(f"   Meilleur CdA trouvé: {cda_final:.4f}, P0={p0_return:.1f}W → {power_return:.1f}W")
-    logging.info(f"   Écart restant: {power_return - target_power:+.1f}W\n")
+    logging.warning(f"\n⚠️  Max iterations reached ({max_iterations})")
+    logging.info(f"   Best CdA found: {cda_final:.4f}, P0={p0_return:.1f}W -> {power_return:.1f}W")
+    logging.info(f"   Remaining difference: {power_return - target_power:+.1f}W\n")
     
     return cda_final, p0_return, power_return
 
@@ -289,7 +289,7 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
                        and 'power' in seg]
     
     if not moving_segments:
-        logging.error("Aucun segment en mouvement avec puissance trouvé !")
+        logging.error("No moving segment with power found.")
         return p0_min
     
     # Calculer la puissance moyenne OBSERVÉE (depuis vitesses GPX)
@@ -298,36 +298,35 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
     target_power = total_power_time_obs / total_time
     
     logging.info(f"\n{'='*70}")
-    logging.info(f"CALIBRATION P0 pour reproduire {target_power:.1f} W observés")
-    logging.info(f"Profil: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner}")
-    logging.info(f"Segments en mouvement: {len(moving_segments)}/{len(segments)}")
-    logging.info(f"Plage P0: [{p0_min:.0f}, {p0_max:.0f}] W")
+    logging.info(f"P0 CALIBRATION to reproduce {target_power:.1f} W observed")
+    logging.info(f"Profile: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner}")
+    logging.info(f"Moving segments: {len(moving_segments)}/{len(segments)}")
+    logging.info(f"P0 range: [{p0_min:.0f}, {p0_max:.0f}] W")
     logging.info(f"{'='*70}")
    
     def compute_avg_power_model(P0_test, b_keeppower=False) -> float:
-
+        """Calculate average model power for given P0"""
         if (b_keeppower):
-            # P0_test est le P0 convergé 
-            # On est en fin d'itération on stocke les champs power_model pour analyse/debug
+            # P0_test is the converged P0 
+            # At end of iteration store power_model fields for analysis/debug
             for seg in segments:
                 if seg.get('speed_m_s', 0) >= 1.0:
                     seg['power_model'] = calculate_adaptive_power(P0_test, seg.get('slope_effective', seg.get('slope', 0.0)), behavior)
                 else:
-                    seg['power_model'] = 0.0  # Segments à l'arrêt
-            """Calcule la puissance moyenne MODÈLE pour un P0 donné"""
+                    seg['power_model'] = 0.0  # Stopped segments
             return (P0_test)  
         else    :   
-            # iteration normale     
+            # normal iteration     
             total_power_time = 0.0
             
             for seg in moving_segments:
-                # IMPORTANT: Utiliser slope_terrain (pente physique) pour déterminer le comportement,
-                # pas slope_effective (qui inclut l'effet du vent)
-                # Le cycliste adapte sa puissance selon la PENTE RÉELLE, pas la pente "ressentie"
+                # IMPORTANT: Use slope_terrain (physical slope) to determine behavior,
+                # not slope_effective (which includes wind effect)
+                # Cyclist adapts power based on ACTUAL SLOPE, not "felt" slope
                 slope_terrain = seg.get('slope_terrain', seg.get('slope', 0.0))
                 time_s = seg['time_s']
                 slope_effective = seg.get('slope_effective', slope_terrain)
-                # Correctif : Pas d'accord avec le commentaire précédent
+                # Note: Discrepancy with previous comment addressed
                 # la puissance adaptée selon profil comportemental qui prend compte pente terrain +virtuel 
                 # pente effective plutot qure terrain 
                 P_seg = calculate_adaptive_power(P0_test, slope_effective, behavior)
@@ -344,12 +343,12 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
         power_model = compute_avg_power_model(p0_mid)
         error = power_model - target_power
         
-        logging.info(f"Iter {iteration+1:2d}: P0={p0_mid:6.1f}W → P_modèle={power_model:6.1f}W vs P_obs={target_power:6.1f}W (écart: {error:+6.1f}W)")
+        logging.info(f"Iter {iteration+1:2d}: P0={p0_mid:6.1f}W -> P_model={power_model:6.1f}W vs P_obs={target_power:6.1f}W (error: {error:+6.1f}W)")
         
         # Convergence ?
         if abs(error) < tolerance:
-            logging.info(f"\n✅ Convergé ! P0={p0_mid:.1f}W reproduit {target_power:.1f}W observés")
-            logging.info(f"   Puissance modèle: {power_model:.1f}W (écart: {error:+.1f}W)\n")
+            logging.info(f"\n✅ Converged! P0={p0_mid:.1f}W reproduces {target_power:.1f}W observed")
+            logging.info(f"   Model power: {power_model:.1f}W (error: {error:+.1f}W)\n")
             # Ajouter power_model à TOUS les segments pour analyse/debug
             for seg in segments:  # Utiliser 'segments' pas 'moving_segments'
                 if seg.get('speed_m_s', 0) >= 1.0:
@@ -370,9 +369,9 @@ def calibrate_P0_from_observed_power(segments: List[Dict],
     p0_final = (p0_low + p0_high) / 2
     power_final = compute_avg_power_model(p0_final,b_keeppower=True)
     
-    logging.warning(f"\n⚠️  Max iterations atteintes ({max_iterations})")
-    logging.info(f"   Meilleur P0 trouvé: {p0_final:.1f}W → {power_final:.1f}W")
-    logging.info(f"   Puissance observée: {target_power:.1f}W (écart: {power_final - target_power:+.1f}W)\n")
+    logging.warning(f"\n⚠️  Max iterations reached ({max_iterations})")
+    logging.info(f"   Best P0 found: {p0_final:.1f}W -> {power_final:.1f}W")
+    logging.info(f"   Observed power: {target_power:.1f}W (error: {power_final - target_power:+.1f}W)\n")
     return p0_final
 
 
@@ -503,24 +502,24 @@ def calculate_wind_equivalent_slope(v: float,
     return slope_equivalent
 
 # -------------------------------------------------
-# Solveur : calcule la vitesse pour une puissance P donnée
+# Solver: calculate speed for given power P
 # -------------------------------------------------
 def solve_speed_for_power(P, CdA, Cr, m, slope, wind_along, rho=RHO_STD, g=G, v_max=22.0, behavior: Optional[CyclistBehavior] = None):
     """
-    Calcule la vitesse pour une puissance donnée.
+    Calculate speed for given power.
     
     Parameters:
     -----------
     v_max : float
-        Vitesse maximale réaliste en m/s (défaut 22 m/s = 79 km/h)
-        Cette limite évite les vitesses aberrantes en descente avec vent favorable
+        Realistic maximum speed in m/s (default 22 m/s = 79 km/h)
+        This limit prevents unrealistic speeds on downhill with favorable wind
     behavior : CyclistBehavior, optional
-        Profil de comportement cycliste. Si None, utilise le profil par défaut.
+        Cyclist behavior profile. If None, uses default profile.
     
     Notes:
     ------
-    En descente forte, applique une limite de sécurité basée sur la pente réelle.
-    Cela modélise le freinage comportemental (sécurité, virage, confort).
+    On steep downhill, applies safety limit based on real slope.
+    This models behavioral braking (safety, turns, comfort).
     """
     if behavior is None:
         behavior = get_default_behavior()
@@ -528,13 +527,13 @@ def solve_speed_for_power(P, CdA, Cr, m, slope, wind_along, rho=RHO_STD, g=G, v_
     F_roll = Cr * m * g
     F_grav = m * g * slope
     
-    # LIMITE DE SÉCURITÉ EN DESCENTE: Réduire v_max selon la pente pour modéliser le freinage
-    # En descente, un cycliste ne va jamais aussi vite que la physique pure le permettrait
-    # Il freine pour des raisons de sécurité, de contrôle, de courbes
+    # DOWNHILL SAFETY LIMIT: Reduce v_max by slope to model braking
+    # On downhill, cyclist never goes as fast as pure physics would allow
+    # Brakes for safety, control, and turns
     v_max_effective = v_max
     logging.debug(f"Initial v_max: {v_max_effective:.1f}m/s")
-    if slope < behavior.SEUIL_DESCENTE_LEGERE:  # descente seuil    
-        # Appliquer une réduction progressive de v_max avec la pente
+    if slope < behavior.SEUIL_DESCENTE_LEGERE:  # downhill threshold    
+        # Apply progressive reduction of v_max with slope
         downhill_reduction = min(behavior.downhill_vitesse_reduction_cap, abs(slope) * behavior.downhill_vitesse_reduction_factor)
         v_max_effective = v_max * (1.0 - downhill_reduction)
         logging.debug(f"Downhill speed limit: slope={slope*100:.1f}% → reduction={downhill_reduction*100:.1f}% → v_max={v_max_effective:.1f}m/s")
@@ -574,31 +573,31 @@ def compute_speed_on_slope(power_w: float,
                            g: float = G,
                            v_max: float = 22.0) -> float:
     """
-    Calcule la vitesse stabilisée sur une pente donnée (sans vent) pour une puissance fournie.
+    Calculate stabilized speed on given slope (no wind) for given power.
 
     Parameters
     ----------
     power_w : float
-        Puissance constante fournie (W).
+        Constant power provided (W).
     slope : float, optional
-        Pente (ratio, ex: 0.05 pour 5%).
+        Slope (ratio, e.g., 0.05 for 5%).
     CdA : float, optional
-        Surface frontale * coefficient de traînée (m²).
+        Frontal area * drag coefficient (m²).
     Cr : float, optional
-        Coefficient de roulement.
+        Rolling resistance coefficient.
     m : float, optional
-        Masse totale (cycliste + vélo) en kg.
+        Total mass (cyclist + bike) in kg.
     rho : float, optional
-        Densité de l'air (kg/m³).
+        Air density (kg/m³).
     g : float, optional
-        Accélération gravitationnelle (m/s²).
+        Gravitational acceleration (m/s²).
     v_max : float, optional
-        Vitesse maximale à considérer (m/s).
+        Maximum speed to consider (m/s).
 
     Returns
     -------
     float
-        Vitesse d'équilibre en m/s.
+        Equilibrium speed in m/s.
     """
 
     return solve_speed_for_power(
@@ -614,21 +613,21 @@ def compute_speed_on_slope(power_w: float,
     )
 
 # -------------------------------------------------
-# Solveur dynamique : calcule la vitesse finale en tenant compte de v_initial
+# Dynamic solver: calculate final speed considering v_initial
 # -------------------------------------------------
 def solve_speed_dynamic(P, CdA, Cr, m, slope, wind_along, v_initial, distance,
                         rho=RHO_STD, g=G, v_max=22.0, dt=0.5, behavior: Optional[CyclistBehavior] = None):
     """
-    Calcule la vitesse finale après avoir parcouru 'distance' mètres
-    en partant de v_initial avec puissance P constante.
+    Calculate final speed after traveling 'distance' meters
+    from v_initial with constant power P.
     
-    Utilise l'équation dynamique : m*a = P/v - F_aero - F_roll - F_grav
-    avec intégration numérique par pas de temps dt.
+    Uses dynamic equation: m*a = P/v - F_aero - F_roll - F_grav
+    with numerical integration using dt time step.
     
     Parameters:
     -----------
     P : float
-        Puissance en Watts
+        Power in Watts
     v_initial : float
         Vitesse initiale en m/s
     distance : float
@@ -991,8 +990,8 @@ def simulate_with_weather(segments_in: List[Dict],
         
         # En mode timestamps, P0/v0 sont optionnels (utilisés uniquement pour calcul informatif de puissance)
         if P0 is not None or v0 is not None:
-            logging.warning("⚠️  Mode use_gpx_timestamps: P0 ou v0 fournis mais INUTILISÉS pour le calcul de vitesse/temps")
-            logging.warning("   (vitesses calculées depuis timestamps GPX, P0 sert uniquement au calcul informatif de puissance)")
+            logging.warning("⚠️  Mode use_gpx_timestamps: P0 or v0 provided but UNUSED for speed/time calculation")
+            logging.warning("   (speeds calculated from GPX timestamps, P0 is used only for informational power calculation)")
         
         # Calculer ou utiliser P0 pour le calcul informatif de puissance
         if P0 is None:
@@ -1001,12 +1000,12 @@ def simulate_with_weather(segments_in: List[Dict],
             else:
                 # Valeur par défaut raisonnable (cycliste moyen)
                 P0 = 120.0  # W
-                logging.info(f"Mode timestamps: P0 non fourni, utilisation de {P0:.0f}W par défaut pour calcul informatif")
+                logging.info(f"Timestamp mode: P0 not provided, using {P0:.0f}W default for informational calculation")
         
-        logging.info(f"Using CYCLIST BEHAVIOR: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner} (timestamps mode, P0={P0:.1f}W informatif)")
+        logging.info(f"Using CYCLIST BEHAVIOR: {behavior.mode_uphill}/{behavior.mode_downhill}/{behavior.mode_corner} (timestamps mode, P0={P0:.1f}W informational)")
         
         # Validation des timestamps GPX AVANT traitement
-        logging.info("Validation des timestamps GPX...")
+        logging.info("Validating GPX timestamps...")
         max_reasonable_duration = 24 * 3600  # 24 heures max
         invalid_timestamps = []
         
@@ -1036,7 +1035,7 @@ def simulate_with_weather(segments_in: List[Dict],
                 logging.error(f"   ... et {len(invalid_timestamps)-10} autres")
             raise ValueError(f"Timestamps GPX corrompus détectés. Vérifier le fichier GPX source.")
         
-        logging.info(f"✅ Timestamps validés : {len(segments)} segments OK")
+        logging.info(f"✅ Timestamps validated: {len(segments)} segments OK")
         
         for i, seg in enumerate(segments):
             t_mid = seg['gpxtime_start'] + (seg['gpxtime_end'] - seg['gpxtime_start'])/2
@@ -1283,7 +1282,7 @@ def simulate_with_weather(segments_in: List[Dict],
         
         # CALIBRATION OPTIONNELLE de P0 selon profil comportemental
         if calibrate_p0:
-            logging.info("\n🔧 Calibration P0 depuis puissance observée...")
+            logging.info("\n🔧 Calibrating P0 from observed power...")
             P0_calibrated  = calibrate_P0_from_observed_power(
                 segments, 
                 avg_power,
@@ -1291,7 +1290,7 @@ def simulate_with_weather(segments_in: List[Dict],
             )
             P0 = P0_calibrated
         
-            logging.warning(f"✅ P0 calibré: {P0:.1f}W (reproduit {avg_power:.1f}W observés)")
+            logging.warning(f"✅ P0 calibrated: {P0:.1f}W (reproduces {avg_power:.1f}W observed)")
         
         assert P0 is not None
         return segments, avg_kmh, P0, avg_power, t_start_extracted

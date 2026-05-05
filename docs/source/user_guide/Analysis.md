@@ -13,6 +13,18 @@ Use this page to understand:
 
 For simulation execution, see [Simulation and Replay](Simulation.md).
 
+## Field Lookup (Complete Reference)
+
+This page focuses on interpretation. For the exhaustive field list and exact names, use:
+
+- [Simulation and Replay](Simulation.md), section `Complete Field Reference (Python object)`
+- [Simulation and Replay](Simulation.md), section `Complete to_dict() key map`
+
+Quick reminder for frequent lookups:
+
+- object fields: `result.speed.avg`, `result.wind.tws.avg`, `result.wind_score.grade`
+- JSON keys: `speed.avg_kmh`, `wind.tws.avg_kmh`, `wind_score.grade`
+
 ## Quick Summary First: print_summary_statistics
 
 `print_summary_statistics(result, label)` is the fastest way to inspect a run.

@@ -4,7 +4,8 @@ Installation
 Prerequisites
 -------------
 
-- Python 3.9+
+- Python 3.9 to 3.13
+- **Windows**: Conda (Miniconda or Anaconda) for reliable `pygrib` installation
 - A working environment with required scientific and weather dependencies
 
 Install from PyPI (recommended)
@@ -14,24 +15,44 @@ Install from PyPI (recommended)
 
    pip install biwipy
 
-Install weather/GRIB extra (optional)
--------------------------------------
+``pygrib`` is a required dependency for ``biwipy``.
 
-Use this extra if you need GRIB reading features that rely on ``pygrib``:
+Windows Installation (Required: conda-forge)
+---------------------------------------------
 
-.. code-block:: bash
+On Windows, ``pygrib`` **must** be installed via conda-forge before using pip,
+because it requires the ECCODES C library which conda provides automatically.
 
-   pip install "biwipy[weather]"
+**Step-by-step installation:**
 
-Compatibility note
-------------------
+.. code-block:: powershell
 
-The installable distribution name and Python import namespace are both
-``biwipy``.
+   # Create environment
+   conda create -n biwipy-env python=3.13
+   conda activate biwipy-env
 
-.. code-block:: python
+   # Install pygrib from conda-forge FIRST
+   conda install -c conda-forge pygrib
 
-   from biwipy.core import Simulator
+   # Then install biwipy
+   pip install biwipy
+
+**For development mode (with dev and doc extras):**
+
+.. code-block:: powershell
+
+   pip install -e ".[dev]"
+
+   # To also build the documentation locally:
+   pip install -e ".[dev,docs]"
+
+**If you encounter ``boot.def`` errors**, define the environment variable:
+
+.. code-block:: powershell
+
+   conda env config vars set ECCODES_DEFINITION_PATH=$env:CONDA_PREFIX\Library\share\eccodes\definitions
+   conda deactivate
+   conda activate biwipy-env
 
 Install from source
 -------------------
@@ -42,17 +63,11 @@ From repository root:
 
    pip install .
 
-With weather/GRIB extra:
+Install documentation dependencies:
 
 .. code-block:: bash
 
-   pip install ".[weather]"
-
-Install documentation dependencies
-
-.. code-block:: bash
-
-   pip install .[docs]
+   pip install ".[docs]"
 
 Build documentation
 -------------------
@@ -63,10 +78,13 @@ From the ``docs`` directory:
 
    make html
 
-On Windows:
+On Windows (PowerShell):
 
-.. code-block:: bat
+.. code-block:: powershell
 
-   make.bat html
+   ./build_docs.ps1              # Build
+   ./build_docs.ps1 -Clean       # Clean and rebuild
+   ./build_docs.ps1 -Open        # Build and open in browser
+   ./build_docs.ps1 -Clean -Open # Clean, rebuild, and open
 
 The generated HTML files are available in ``docs/build/html``.

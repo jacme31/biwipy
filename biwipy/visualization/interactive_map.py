@@ -151,26 +151,26 @@ def get_wind_color(wind_along_ms: float) -> str:
     """
     wind_kmh = wind_along_ms * 3.6
     
-    # Vent de face (positif)
+    # Headwind (positive)
     if wind_kmh > 15:
-        return '#8B0000'  # Rouge foncé
+        return '#8B0000'  # Dark red
     elif wind_kmh > 10:
-        return '#DC143C'  # Rouge
+        return '#DC143C'  # Red
     elif wind_kmh > 5:
-        return '#FF6347'  # Tomate
+        return '#FF6347'  # Tomato
     elif wind_kmh > 2:
         return '#FFA500'  # Orange
     elif wind_kmh > -2:
-        return '#FFD700'  # Jaune/or (vent faible)
-    # Vent de dos (négatif)
+        return '#FFD700'  # Yellow/gold (light wind)
+    # Tailwind (negative)
     elif wind_kmh > -5:
-        return '#90EE90'  # Vert clair
+        return '#90EE90'  # Light green
     elif wind_kmh > -10:
-        return '#32CD32'  # Vert citron
+        return '#32CD32'  # Lime green
     elif wind_kmh > -15:
-        return '#228B22'  # Vert forêt
+        return '#228B22'  # Forest green
     else:
-        return '#006400'  # Vert foncé
+        return '#006400'  # Dark green
 
 
 def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float) -> str:
@@ -1493,5 +1493,5 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
 
 
 if __name__ == "__main__":
-    print("Module interactive_map.py - Visualisation interactive des parcours cyclistes")
-    print("Utilisation: from interactive_map import create_interactive_map")
+    print("Module interactive_map.py - Interactive cycling route visualization")
+    print("Usage: from interactive_map import create_interactive_map")

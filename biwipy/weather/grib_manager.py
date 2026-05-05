@@ -73,6 +73,7 @@ class Grib:
         self.nlongitude = 0
         self.grid_lon_min = 0.0
         self.grid_lon_max = 359.75
+        self.grid_lat_min = -90.0
         self.grid_lat_max = 90.0
         self.run = None  # Will store the most recent run (e.g., "2026/03/09-12z")
         self.roughness_provider: Optional[Any] = None  # Optional RoughnessProvider for z0 lookup
@@ -880,6 +881,59 @@ class Grib:
         # +180 because TWD is the wind's ORIGIN direction; we want direction TOWARD the vehicle
         along = tws * np.cos(angle)
         return along
+
+    def purge_before(self, dt):
+        """
+        Remove all timesteps strictly before the given datetime.
+        
+        :param dt: datetime to use as cutoff (timesteps where t < dt are removed)
+        :return: int, number of removed timesteps
+        """
+        count_removed = 0
+        indices_to_keep = []
+        
+        for i, t in enumerate(self.lst_gribtimes):
+            if t >= dt:
+                indices_to_keep.append(i)
+            else:
+                count_removed += 1
+        
+        # Filter all arrays to keep only the selected indices
+        self.lst_gribtimes = [self.lst_gribtimes[i] for i in indices_to_keep]
+        self.lst_u10  = [self.lst_u10[i] for i in indices_to_keep]
+        self.lst_v10  = [self.lst_v10[i] for i in indices_to_keep]
+        self.lst_gust = [self.lst_gust[i] for i in indices_to_keep]
+        
+        return count_removed
+
+    def purge_between(self, dt1, dt2):
+        """
+        Remove all timesteps within the closed interval [dt1, dt2] inclusive.
+        
+        :param dt1: datetime for start of interval
+        :param dt2: datetime for end of interval
+        :return: int, number of removed timesteps
+        :raises ValueError: if dt1 > dt2
+        """
+        if dt1 > dt2:
+            raise ValueError(f"dt1 ({dt1}) must be <= dt2 ({dt2})")
+        
+        count_removed = 0
+        indices_to_keep = []
+        
+        for i, t in enumerate(self.lst_gribtimes):
+            if dt1 <= t <= dt2:
+                count_removed += 1
+            else:
+                indices_to_keep.append(i)
+        
+        # Filter all arrays to keep only the selected indices
+        self.lst_gribtimes = [self.lst_gribtimes[i] for i in indices_to_keep]
+        self.lst_u10  = [self.lst_u10[i] for i in indices_to_keep]
+        self.lst_v10  = [self.lst_v10[i] for i in indices_to_keep]
+        self.lst_gust = [self.lst_gust[i] for i in indices_to_keep]
+        
+        return count_removed
     
 # Calculate wind impact for cycling segments    
 # input parameters : datetime item, float latitude , float longitude , float bearing (degrees)

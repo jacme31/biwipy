@@ -7,7 +7,7 @@ name = "biwipy"
 version = "0.1.0"
 description = "Biwipy: cycling performance simulation with GRIB wind data"
 authors = [
-  { name="Jacques", email="your.email@example.com" },
+  { name="jacme", email="your.email@example.com" },
 ]
 readme = "README.md"
 license = "MIT"
@@ -20,7 +20,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -30,6 +29,7 @@ dependencies = [
     "folium",
     "herbie-data",
     "rasterio",
+    "pygrib",
 ]
 
 [project.optional-dependencies]
@@ -43,9 +43,14 @@ viz = [
 ]
 docs = [
     "sphinx>=7.0",
-]
-weather = [
-    "pygrib",
+    "pydata-sphinx-theme",
+    "myst-parser",
+    "linkify-it-py",
+    "nbsphinx",
+    "sphinx-copybutton",
+    "sphinx-autodoc-typehints",
+    "ipython",
+    "jupyter",
 ]
 
 [project.urls]

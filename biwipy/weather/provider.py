@@ -48,6 +48,14 @@ class WeatherProvider:
             rugosite=rugosite,
         )
 
+    def purge_before(self, dt):
+        """Remove all timesteps strictly before the given datetime."""
+        return self.grib.purge_before(dt)
+
+    def purge_between(self, dt1, dt2):
+        """Remove all timesteps within the closed interval [dt1, dt2] inclusive."""
+        return self.grib.purge_between(dt1, dt2)
+
     @classmethod
     def from_grib(cls, grib: Grib) -> "WeatherProvider":
         """Wrap an existing Grib instance without reloading files."""
