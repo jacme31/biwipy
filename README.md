@@ -1,5 +1,7 @@
 # biwipy
 
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreen)](https://jacme31.github.io/biwipy/)
+
 biwipy is a Python library for cycling performance simulation and route analysis with wind-aware physics.
 
 It combines GPX processing, GRIB weather interpolation, and cyclist physics to replay rides or simulate future scenarios.
@@ -118,6 +120,8 @@ print(f"Windscore: {result.wind_score.grade}")
 ```
 
 ## Documentation
+
+Online documentation: https://jacme31.github.io/biwipy/
 
 Build docs from repository root:
 
