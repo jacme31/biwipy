@@ -82,11 +82,9 @@ pip install .
 ## Quick start
 
 ```python
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, timezone
 from zoneinfo import ZoneInfo
 import os
-
-os.environ["OUTPUT_LANG"] = "en"
 
 from biwipy.core import Simulator
 from biwipy.core.cyclist_params import CyclistBehavior
@@ -98,12 +96,12 @@ from biwipy.analysis import RouteAnalyzer
 analyzer = RouteAnalyzer()
 gpx_result = analyzer.process_gpx("my_ride.gpx")
 
-# Set ride start time (UTC)
-start_ride = datetime(2026, 5, 6, 4, 0, 0, tzinfo=ZoneInfo("UTC"))
+# Set ride start time and max duration example : (now + 24h)  4h  
+start_ride = datetime.now(timezone.utc) + timedelta(hours=24)
 duration_hours = 4
 
 # Load weather data (GRIB files from current directory or will auto-download)
-gribs_list = build_grib_list(".", start_ride, pas=1, duration_h=duration_hours)
+gribs_list = build_grib_list(".", start_ride, 1, duration_hours)
 weather = WeatherProvider(gribs_list)
 
 # Create cyclist profile and simulator
@@ -117,6 +115,7 @@ result = sim.simulate_future(gpx_result.segments, start_ride, v0=30/3.6)
 print(f"Average speed: {result.speed.avg:.2f} km/h")
 print(f"Average power: {result.power.avg:.2f} W")
 print(f"Windscore: {result.wind_score.grade}")
+
 ```
 
 ## Documentation

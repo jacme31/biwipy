@@ -49,6 +49,13 @@ High-level weather model wrapper for GRIB-backed simulations.
    :undoc-members:
    :show-inheritance:
 
+GRIB file planning helper
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Plan and retrieve the GRIB files required for interpolation over a ride window.
+
+.. autofunction:: biwipy.weather.grib_finder.build_grib_list
+
 Visualization helpers
 ---------------------
 

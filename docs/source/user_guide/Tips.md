@@ -31,3 +31,18 @@ This page gathers practical recommendations for day-to-day use.
 - Check both average and max speed, not only one metric.
 - Use virtual slope and wind-along metrics together for interpretation.
 - Validate conclusions over multiple rides when possible.
+
+## Output Language
+
+Some examples and notebooks set an environment variable to control user-facing text output.
+
+- Supported values are `en` and `fr` only.
+- Recommended variable name: `OUTPUT_LANG`.
+- If you still see `LANG_OUTPUT` in legacy snippets, treat it as an alias/legacy naming and prefer `OUTPUT_LANG`.
+
+Example:
+
+```python
+import os
+os.environ["OUTPUT_LANG"] = "en"  # or "fr"
+```

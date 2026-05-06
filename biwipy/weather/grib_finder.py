@@ -488,19 +488,31 @@ def getifsgrib(savedir, run, tm, product):
 def build_grib_list(hdir, date_cible: datetime, pas: Literal[1, 3] = 1, intervalle_h: int = 6, 
                     model: str = "GFS", resolution: float = 0.25, grib_limit: tuple = (0.0, 359.75, -90.0, 90.0)) -> List[str]:
     """
-    Build a list of GRIB files required for temporal interpolation covering a ride/route.
-    
-    :param hdir: Base directory containing GRIB files (e.g., "/path/to/grib/data/")
-    :param date_cible: Target datetime (departure time) - will be converted to UTC if needed
-    :param pas: Time step granularity (1 = hourly, 3 = 3-hourly). Default: 1
-    :param intervalle_h: Estimated duration of the ride/route in hours. Default: 6
-                        Note: An automatic margin is added to ensure interpolation works
-                        throughout the entire period (no need to manually add extra time).
-    :param model: Weather model (default: "GFS")
-    :param resolution: Grid resolution in degrees (default: 0.25)
-    :param grib_limit: Tuple (lon_min, lon_max, lat_min, lat_max) for regional subsetting (not fully implemented)
-    :return: List of absolute paths to GRIB files needed for the period
-    
+    Build the GRIB file list required for interpolation over a ride time window.
+
+    Parameters
+    ----------
+    hdir : str
+        Base directory containing GRIB files (for example ``/path/to/grib/data/``).
+    date_cible : datetime
+        Target departure datetime. If not UTC, it will be converted to UTC internally.
+    pas : Literal[1, 3], default=1
+        Time-step granularity for file selection (1 = hourly, 3 = every 3 hours).
+    intervalle_h : int, default=6
+        Estimated ride duration in hours.
+        An automatic margin is added so interpolation remains valid for the full window.
+    model : str, default="GFS"
+        Weather model name (currently ``GFS`` or ``IFS``).
+    resolution : float, default=0.25
+        Target grid resolution in degrees.
+    grib_limit : tuple, default=(0.0, 359.75, -90.0, 90.0)
+        Optional geographic bounds ``(lon_min, lon_max, lat_min, lat_max)``.
+
+    Returns
+    -------
+    List[str]
+        Absolute file paths to GRIB files covering the interpolation period.
+
     Example:
         # For a 2-hour bike ride starting at 10:00 local time
         departure = datetime(2026, 2, 18, 10, 0, tzinfo=ZoneInfo("Europe/Paris"))
@@ -583,7 +595,7 @@ def build_grib_list(hdir, date_cible: datetime, pas: Literal[1, 3] = 1, interval
 
     if model_upper == "IFS":
         if pas not in (1, 3):
-            raise ValueError("Le paramètre 'pas' doit valoir 1 ou 3")
+            raise ValueError("Parameter 'pas' must be 1 or 3")
         if pas == 1:
             logging.info("IFS data cadence is >=3h; pas=1 accepted but effective availability remains 3h/6h.")
 
