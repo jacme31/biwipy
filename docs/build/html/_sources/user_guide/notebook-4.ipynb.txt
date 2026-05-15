@@ -1,0 +1,418 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "d33348da",
+   "metadata": {},
+   "source": [
+    "# CDA Calibration Notebook\n",
+    " \n",
+    "This notebook is designed to calibrate the parameters of the CDA model using a dataset of GPS tracks from cycling activities. \n",
+    "\n",
+    "The goal is to find the optimal values for the parameters that minimize the difference between the predicted and actual speeds of the cyclist.\n",
+    "\n",
+    "What this Notebook does:\n",
+    "- uses the biwipy package interfaces ,\n",
+    "- calibrates CdA per GPX case against a target average power,\n",
+    "- uses hourly GRIB selection (pas=1) for better temporal precision,\n",
+    "- supports an explicit list of GPX files with their corresponding start datetimes,\n",
+    "- reports per-case results + mean CdA.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "76ebb8bf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "OUTPUT_LANG forced to en\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "os.environ[\"OUTPUT_LANG\"] = \"en\"\n",
+    "print(\"OUTPUT_LANG forced to en\")\n",
+    "home = os.path.expanduser(\"~\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "9b3b7c5f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "# required imports for the notebook, including core simulation components, weather data handling, analysis tools, and visualization functions.\n",
+    "from dataclasses import dataclass\n",
+    "from datetime import datetime\n",
+    "from statistics import mean\n",
+    "import sys\n",
+    "from typing import List, Optional\n",
+    "import os\n",
+    "from zoneinfo import ZoneInfo\n",
+    "\n",
+    "from biwipy.analysis import RouteAnalyzer\n",
+    "from biwipy.core import CyclistBehavior, Simulator\n",
+    "from biwipy.core.bike_physics import calibrate_cda_from_power\n",
+    "from biwipy.weather import WeatherProvider\n",
+    "from biwipy.weather.grib_finder import build_grib_list\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "577d009e",
+   "metadata": {},
+   "source": [
+    "## Parameters and settings (optional customization)\n",
+    "\n",
+    "Customize the paths if necessary and other parmeters if you want "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "a0676429",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "HDIR = home+\"/data\"   # GRIB files stored in /home/data \n",
+    "GPX_DIR= home+\"/data/gpx/\"  # GPX files stored in /home/data/gpx\n",
+    "ORIGIN_TZ = ZoneInfo(\"Europe/Paris\")\n",
+    "\n",
+    "# Physics parameters\n",
+    "MASS_KG = 98\n",
+    "CR = 0.0055\n",
+    "\n",
+    "# CdA search settings\n",
+    "CDA_MIN = 0.30\n",
+    "CDA_MAX = 0.80\n",
+    "TOLERANCE_W = 1.0\n",
+    "MAX_ITER = 15\n",
+    "\n",
+    "# Weather interpolation settings\n",
+    "GRIB_STEP_H = 1       # hourly precision\n",
+    "GRIB_INTERVAL_H = 9   # estimated ride duration for interpolation coverage\n",
+    "\n",
+    "# Behavior used for calibration and replay consistency\n",
+    "BEHAVIOR = CyclistBehavior(uphill=\"realistic\", downhill=\"realistic\", corner=\"realistic\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f6b9742a",
+   "metadata": {},
+   "source": [
+    "## Useful routines (no customization needed)\n",
+    "\n",
+    "- Full preprocessing \n",
+    "\n",
+    "- Calibrate for one file \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "c000ceba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@dataclass\n",
+    "class CalibrationCase:\n",
+    "    gpx_file: str\n",
+    "    target_power_w: float\n",
+    "\n",
+    "    \n",
+    "def _build_segments(filegpx: str):\n",
+    "    \"\"\"Build cleaned/merged segments using RouteAnalyzer workflow.\"\"\"\n",
+    "    analyzer = RouteAnalyzer(\n",
+    "        smoothing_window=11,\n",
+    "        smoothing_method=\"mediane\",\n",
+    "        merge_min_distance=50.0,\n",
+    "        merge_max_bearing_diff=20.0,\n",
+    "        merge_max_slope_diff=0.10,\n",
+    "        merge_max_slope=0.15,\n",
+    "    )\n",
+    "\n",
+    "    gpx_result = analyzer.process_gpx(\n",
+    "        filegpx,\n",
+    "        smooth=True,\n",
+    "        detect_noise=True,\n",
+    "        remove_noise=True,\n",
+    "        merge_segments_flag=True,\n",
+    "        filter_stops_flag=False,\n",
+    "        max_dist_noise=5.0,\n",
+    "        min_slope_threshold_noise=0.10,\n",
+    "        normal_slope_threshold_noise=0.05,\n",
+    "        verbose=False,\n",
+    "    )\n",
+    "\n",
+    "    return gpx_result\n",
+    "\n",
+    "\n",
+    "def _run_single_case(case: CalibrationCase) -> dict:\n",
+    "    filegpx = os.path.join(GPX_DIR, case.gpx_file)\n",
+    "    #t_start = datetime.fromisoformat(case.start_datetime).replace(tzinfo=ORIGIN_TZ)\n",
+    "\n",
+    "    print(\"\\n\" + \"=\" * 72)\n",
+    "    print(f\"  CALIBRATION CdA - {case.gpx_file}\")\n",
+    "    print(f\"  Target power: {case.target_power_w:.1f} W\")\n",
+    "    print(\"=\" * 72)\n",
+    "\n",
+    "    \n",
+    "\n",
+    "    print(\"📍 Preprocessing GPX via RouteAnalyzer...\")\n",
+    "    \n",
+    "    gpx_result = _build_segments(filegpx)\n",
+    "    segments=gpx_result.segments\n",
+    "    stats=gpx_result.stats\n",
+    "    if gpx_result.has_timestamps:\n",
+    "        t_start=gpx_result.t_start.astimezone(ORIGIN_TZ)\n",
+    "        print(f\"Starting date (locale) : {t_start} {t_start.tzname()}\")\n",
+    "    else:\n",
+    "        print(\"⚠️  Gpx file does not contain timestamps!\")\n",
+    "        raise ValueError(\"Gpx file must contain timestamps for replay.\")\n",
+    "        sys.exit(1)\n",
+    "    if \"distance_km\" in gpx_result.stats:\n",
+    "        print(f\"   Route distance: {gpx_result.stats['distance_km']:.3f} km\")\n",
+    "\n",
+    "    print(\"📡 Loading GRIB files (hourly interpolation)...\")\n",
+    "\n",
+    "    gribs_list = build_grib_list(HDIR, t_start, GRIB_STEP_H, GRIB_INTERVAL_H)\n",
+    "    weather = WeatherProvider(gribs_list, bcache=True)\n",
+    "    mygrib = weather.grib\n",
+    "    print(\"🎯 Running CdA calibration...\\n\")\n",
+    "    print(\n",
+    "        f\"   behavior: {BEHAVIOR.mode_uphill}/{BEHAVIOR.mode_downhill}/{BEHAVIOR.mode_corner}\"\n",
+    "    )\n",
+    "  \n",
+    "    cda_opt, p0_opt, power_opt = calibrate_cda_from_power(\n",
+    "        segments_in=gpx_result.segments,\n",
+    "        grib=mygrib,\n",
+    "        t_start=t_start,\n",
+    "        target_power=case.target_power_w,\n",
+    "        Cr=CR,\n",
+    "        m=MASS_KG,\n",
+    "        cda_min=CDA_MIN,\n",
+    "        cda_max=CDA_MAX,\n",
+    "        tolerance=TOLERANCE_W,\n",
+    "        max_iterations=MAX_ITER,\n",
+    "        behavior=BEHAVIOR,\n",
+    "        v_max=22.0,\n",
+    "        ratio_wind=0.25,\n",
+    "    )\n",
+    "\n",
+    "    # Optional consistency replay check\n",
+    "    sim_replay = Simulator(mygrib, behavior=BEHAVIOR, CdA=cda_opt, Cr=CR, m=MASS_KG)\n",
+    "    replay_result = sim_replay.simulate_replay(segments, t_start, passes=2)\n",
+    "    p0_replay = replay_result.power.P0_calibrated if replay_result.power else None\n",
+    "\n",
+    "    print(\"\\n\" + \"-\" * 72)\n",
+    "    print(f\"CdA optimal          : {cda_opt:.4f} m²\")\n",
+    "    print(f\"P0 optimal           : {p0_opt:.1f} W\")\n",
+    "    print(f\"Power obtained       : {power_opt:.1f} W\")\n",
+    "    print(f\"Power target         : {case.target_power_w:.1f} W\")\n",
+    "    print(f\"Delta                : {power_opt - case.target_power_w:+.1f} W\")\n",
+    "    if p0_replay is not None:\n",
+    "        print(f\"Replay P0 check      : {p0_replay:.1f} W\")\n",
+    "    print(\"-\" * 72)\n",
+    "\n",
+    "    return {\n",
+    "        \"gpx_file\": case.gpx_file,\n",
+    "        \"start_datetime\": t_start,\n",
+    "        \"target_power_w\": case.target_power_w,\n",
+    "        \"cda_opt\": cda_opt,\n",
+    "        \"p0_opt\": p0_opt,\n",
+    "        \"power_opt\": power_opt,\n",
+    "        \"delta_w\": power_opt - case.target_power_w,\n",
+    "        \"p0_replay\": p0_replay,\n",
+    "    }\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5e27cc5c",
+   "metadata": {},
+   "source": [
+    "## Definition of the calibration case (mandatory customization)\n",
+    "\n",
+    "Customize this part with your gpx files (with timestamps) and their associated power (power meters measure, strava measurement , ... )\n",
+    "\n",
+    "NB: the 0.95 factor used is to into account power is lost in drivetrain transmission.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "e20e5e5e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Explicit cases: GPX + corresponding start datetime + target power\n",
+    "CALIBRATION_CASES: List[CalibrationCase] = [\n",
+    "    CalibrationCase(\n",
+    "        gpx_file=\"S20260218-049K-0958.gpx\",\n",
+    "        target_power_w=156.0 *0.95,\n",
+    "    ),\n",
+    "    CalibrationCase(\n",
+    "        gpx_file=\"S20251213-045K-1506.gpx\",\n",
+    "        target_power_w=177.0*0.95,\n",
+    "    ),\n",
+    "\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d060e2c8",
+   "metadata": {},
+   "source": [
+    "## Calibration (no customization needed)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "7b8c8901",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "========================================================================\n",
+      "  CALIBRATION CdA - S20260218-049K-0958.gpx\n",
+      "  Target power: 148.2 W\n",
+      "========================================================================\n",
+      "📍 Preprocessing GPX via RouteAnalyzer...\n",
+      "Starting date (locale) : 2026-02-18 09:58:14+01:00 CET\n",
+      "   Route distance: 49.743 km\n",
+      "📡 Loading GRIB files (hourly interpolation)...\n",
+      "🎯 Running CdA calibration...\n",
+      "\n",
+      "   behavior: realistic/realistic/realistic\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING:root:✅ P0 calibrated: 148.4W (reproduces 148.5W observed)\n",
+      "WARNING:root:✅ P0 calibrated: 148.4W (reproduces 148.5W observed)\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "------------------------------------------------------------------------\n",
+      "CdA optimal          : 0.5266 m²\n",
+      "P0 optimal           : 148.4 W\n",
+      "Power obtained       : 148.5 W\n",
+      "Power target         : 148.2 W\n",
+      "Delta                : +0.3 W\n",
+      "Replay P0 check      : 148.4 W\n",
+      "------------------------------------------------------------------------\n",
+      "\n",
+      "========================================================================\n",
+      "  CALIBRATION CdA - S20251213-045K-1506.gpx\n",
+      "  Target power: 168.2 W\n",
+      "========================================================================\n",
+      "📍 Preprocessing GPX via RouteAnalyzer...\n",
+      "Starting date (locale) : 2025-12-13 15:06:06+01:00 CET\n",
+      "   Route distance: 45.075 km\n",
+      "📡 Loading GRIB files (hourly interpolation)...\n",
+      "🎯 Running CdA calibration...\n",
+      "\n",
+      "   behavior: realistic/realistic/realistic\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING:root:✅ P0 calibrated: 167.6W (reproduces 167.8W observed)\n",
+      "WARNING:root:✅ P0 calibrated: 167.6W (reproduces 167.8W observed)\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "------------------------------------------------------------------------\n",
+      "CdA optimal          : 0.5188 m²\n",
+      "P0 optimal           : 167.6 W\n",
+      "Power obtained       : 167.8 W\n",
+      "Power target         : 168.2 W\n",
+      "Delta                : -0.4 W\n",
+      "Replay P0 check      : 167.6 W\n",
+      "------------------------------------------------------------------------\n",
+      "\n",
+      "========================================================================\n",
+      "  GLOBAL SUMMARY\n",
+      "========================================================================\n",
+      "Cases                : 2\n",
+      "CdA mean             : 0.5227 m²\n",
+      "CdA min / max        : 0.5188 / 0.5266\n",
+      "P0 mean              : 158.0 W\n",
+      "Delta power mean     : -0.07 W\n",
+      "========================================================================\n"
+     ]
+    }
+   ],
+   "source": [
+    "# list the files in the GPX_DIR directory \n",
+    "\n",
+    "\n",
+    "\n",
+    "cases = CALIBRATION_CASES\n",
+    "\n",
+    "results = [_run_single_case(case) for case in cases]\n",
+    "\n",
+    "cda_values = [r[\"cda_opt\"] for r in results]\n",
+    "p0_values = [r[\"p0_opt\"] for r in results]\n",
+    "delta_values = [r[\"delta_w\"] for r in results]\n",
+    "\n",
+    "print(\"\\n\" + \"=\" * 72)\n",
+    "print(\"  GLOBAL SUMMARY\")\n",
+    "print(\"=\" * 72)\n",
+    "print(f\"Cases                : {len(results)}\")\n",
+    "print(f\"CdA mean             : {mean(cda_values):.4f} m²\")\n",
+    "print(f\"CdA min / max        : {min(cda_values):.4f} / {max(cda_values):.4f}\")\n",
+    "print(f\"P0 mean              : {mean(p0_values):.1f} W\")\n",
+    "print(f\"Delta power mean     : {mean(delta_values):+.2f} W\")\n",
+    "print(\"=\" * 72)\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "test13",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

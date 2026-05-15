@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Should I stay or should I go? &#8212; biwipy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/Notebook-1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hellish Conditions for Seixas?" href="Notebook-2.html" />
+    <link rel="prev" title="Examples" href="../examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">biwipy 0.1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Should I stay or should I go?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook-2.html">Hellish Conditions for Seixas?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook-3.html">I’m feeling great… or is it the wind?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook-4.html">CDA Calibration Notebook</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Should I stay or should I go?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Should-I-stay-or-should-I-go?">
+<h1>Should I stay or should I go?<a class="headerlink" href="#Should-I-stay-or-should-I-go?" title="Link to this heading">#</a></h1>
+<p>When you plan a bike ride, you probably check the weather forecast.</p>
+<p>While it is fairly easy to assess temperature and rain risk, interpreting the wind is often more difficult.</p>
+<p>This notebook aims to determine the best wind conditions over the coming days for a favorite bike ride (and, above all, to avoid the worst conditions).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Language is forced to English for consistent output in notebooks and tests, regardless of the user&#39;s locale.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OUTPUT_LANG&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OUTPUT_LANG forced to en&quot;</span><span class="p">)</span>
+<span class="c1"># home is expanded to the user&#39;s home directory for consistent file path handling across different environments.</span>
+<span class="n">home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OUTPUT_LANG forced to en
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">CyclistBehavior</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather.grib_finder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_grib_list</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis.anareswind</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">print_summary_statistics</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="1.-Building-the-wind-model">
+<h2>1. Building the wind model<a class="headerlink" href="#1.-Building-the-wind-model" title="Link to this heading">#</a></h2>
+<section id="1.1.-Selecting-the-GRIB-files-for-the-wind">
+<h3>1.1. Selecting the GRIB files for the wind<a class="headerlink" href="#1.1.-Selecting-the-GRIB-files-for-the-wind" title="Link to this heading">#</a></h3>
+<p>First, we focus on wind data.</p>
+<p>The idea is to select the best days from all possible departure times.</p>
+<p>Weather forecasts are available for 384 hours (at 0h, 6h, 12h, and 18h), but forecasts are generally reliable only for the first 5 days.</p>
+<p>So we consider departure times for the next 5 days at 10h and 15h. The estimated duration of our ride is ~2h (conservative estimate with headwind).</p>
+<p>We build the list of all GRIB files required to simulate the different rides. The function <code class="docutils literal notranslate"><span class="pre">build_grib_list</span></code>:</p>
+<ul class="simple">
+<li><p>automatically adds margins to include all files required by temporal interpolation for each departure time,</p></li>
+<li><p>downloads the required GRIB files if needed (about 30 files; this may take a few minutes),</p></li>
+<li><p>returns the list of files after download.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use local timezone for departure times (will be converted to UTC by GRIB functions)</span>
+<span class="n">local_tz</span> <span class="o">=</span> <span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;Europe/Paris&quot;</span><span class="p">)</span>  <span class="c1"># Change to your local timezone if needed</span>
+<span class="n">current_dateTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">local_tz</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Lists for departure times and GRIB files</span>
+<span class="n">list_gribs_all</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">list_departure_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Very conservative estimate (headwind scenario)</span>
+<span class="n">estimated_ride_duration_h</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Define the directory used to store GRIB files</span>
+<span class="n">hdir</span> <span class="o">=</span> <span class="n">home</span><span class="o">+</span><span class="s2">&quot;/data&quot;</span>  <span class="c1"># GRIB files stored in home/data by default</span>
+
+<span class="c1"># Fetch GRIB files (can take a few minutes depending on internet connection)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Collecting GRIB files&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>  <span class="c1"># Next 3 days</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">departure_time</span> <span class="o">=</span> <span class="n">current_dateTime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># departure: 10h</span>
+    <span class="n">list_departure_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">departure_time</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">eachgrib</span> <span class="ow">in</span> <span class="n">build_grib_list</span><span class="p">(</span><span class="n">hdir</span><span class="p">,</span> <span class="n">departure_time</span><span class="p">,</span> <span class="n">pas</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">intervalle_h</span><span class="o">=</span><span class="n">estimated_ride_duration_h</span><span class="p">):</span>
+        <span class="n">list_gribs_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eachgrib</span><span class="p">)</span>
+    <span class="n">departure_time</span> <span class="o">=</span> <span class="n">current_dateTime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>  <span class="c1"># departure: 15h</span>
+    <span class="n">list_departure_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">departure_time</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">eachgrib</span> <span class="ow">in</span> <span class="n">build_grib_list</span><span class="p">(</span><span class="n">hdir</span><span class="p">,</span> <span class="n">departure_time</span><span class="p">,</span> <span class="n">pas</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">intervalle_h</span><span class="o">=</span><span class="n">estimated_ride_duration_h</span><span class="p">):</span>
+        <span class="n">list_gribs_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eachgrib</span><span class="p">)</span>
+
+<span class="c1"># Note: grib_manager automatically removes duplicates, so no deduplication is needed here</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total GRIB files collected: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">list_gribs_all</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">list_gribs_all</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">list_gribs_all</span><span class="p">))</span><span class="si">}</span><span class="s2"> duplicate files will be handled by grib_manager)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Collecting GRIB files.....Total GRIB files collected: 30 (5 duplicate files will be handled by grib_manager)
+</pre></div></div>
+</div>
+</section>
+<section id="1.2.-Initializing-the-weather-provider">
+<h3>1.2. Initializing the weather provider<a class="headerlink" href="#1.2.-Initializing-the-weather-provider" title="Link to this heading">#</a></h3>
+<p>With all required GRIB files for the different departure times, we can initialize the weather provider (the GRIB content is loaded into memory).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing weather model&quot;</span><span class="p">)</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">list_gribs_all</span><span class="p">)</span>
+<span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--&gt; Weather model initialization completed.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Initializing weather model
+--&gt; Weather model initialization completed.
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="2.-Building-the-simulator">
+<h2>2. Building the simulator<a class="headerlink" href="#2.-Building-the-simulator" title="Link to this heading">#</a></h2>
+<section id="2.1.-Defining-parameters">
+<h3>2.1. Defining parameters<a class="headerlink" href="#2.1.-Defining-parameters" title="Link to this heading">#</a></h3>
+<p>We define the required parameters:</p>
+<ul class="simple">
+<li><p>CdA: 0.53 for a gravel bike with a relaxed position (hands on top of the bars),</p></li>
+<li><p>Cr: 0.0055 (Tufo Thundero 38 mm tires),</p></li>
+<li><p>Weight: 87 (rider) + 10 (steel gravel bike) + 1 (clothes…),</p></li>
+<li><p>Intermediate behavior profile (<code class="docutils literal notranslate"><span class="pre">realistic</span></code>).</p></li>
+</ul>
+</section>
+<section id="2.2.-Initializing-the-Simulator-and-baseline-power">
+<h3>2.2. Initializing the Simulator and baseline power<a class="headerlink" href="#2.2.-Initializing-the-Simulator-and-baseline-power" title="Link to this heading">#</a></h3>
+<p>We build the simulator using the previously defined parameters: weather component, rider profile, and cyclist parameters.</p>
+<p>To define the power used by the simulation, we choose a baseline flat speed <code class="docutils literal notranslate"><span class="pre">v0</span></code> in m/s (convert from km/h by dividing by 3.6). The chosen speed is 25 km/h.</p>
+<p>We can then compute the equivalent baseline power <code class="docutils literal notranslate"><span class="pre">P0</span></code> in watts. With these parameters, the corresponding power at 25 km/h is about 154.4 W.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==================================</span>
+<span class="c1"># Define simulation parameters</span>
+<span class="n">CdA</span> <span class="o">=</span> <span class="mf">0.530</span>
+<span class="n">Cr</span> <span class="o">=</span> <span class="mf">0.0055</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mf">98.0</span>
+
+<span class="n">mon_profil</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="p">(</span><span class="n">uphill</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span> <span class="n">downhill</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span> <span class="n">corner</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">)</span>
+
+<span class="c1"># Build the simulator</span>
+<span class="n">sim_wind</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">mygrib</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">mon_profil</span><span class="p">,</span> <span class="n">CdA</span><span class="o">=</span><span class="n">CdA</span><span class="p">,</span> <span class="n">Cr</span><span class="o">=</span><span class="n">Cr</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>
+
+<span class="c1"># To define power, use a baseline flat speed v0 (reference speed)</span>
+<span class="c1"># Speed is in m/s (convert from km/h by dividing by 3.6). Chosen speed: 25 km/h</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">25</span> <span class="o">/</span> <span class="mf">3.6</span>  <span class="c1"># m/s</span>
+
+<span class="c1"># Compute the power output corresponding to reference speed v0 on flat terrain</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">sim_wind</span><span class="o">.</span><span class="n">P0_from_v0</span><span class="p">(</span><span class="n">v0</span><span class="p">)</span>
+
+<span class="c1"># Show all parameters used for the simulations</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input parameters for the simulation: v0=</span><span class="si">{</span><span class="n">v0</span><span class="o">*</span><span class="mf">3.6</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h, P0=</span><span class="si">{</span><span class="n">P0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> W, CdA=</span><span class="si">{</span><span class="n">CdA</span><span class="si">}</span><span class="s2">, Cr=</span><span class="si">{</span><span class="n">Cr</span><span class="si">}</span><span class="s2">, m=</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">mon_profil</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># ==================================</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Input parameters for the simulation: v0=25.00 km/h, P0=145.4 W, CdA=0.53, Cr=0.0055, m=98.0
+Behaviour profile: Uphill=REALISTIC - Downhill=REALISTIC - Corner=REALISTIC
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="3.-Defining-the-ride-with-the-GPX-file">
+<h2>3. Defining the ride with the GPX file<a class="headerlink" href="#3.-Defining-the-ride-with-the-GPX-file" title="Link to this heading">#</a></h2>
+<p>Then we define the GPX file corresponding to the planned ride.</p>
+<p>The GPX file used for this sample is provided in the sample directory.</p>
+<p>Replace it with your favorite ride!</p>
+<p>The GPX file must be preprocessed before simulation. At the end, we can inspect the distance and elevation gain.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gpxdir points to the directory where GPX files are stored, and filegpx is the GPX file to analyze.</span>
+<span class="n">gpxdir</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span>
+<span class="n">pathbase</span> <span class="o">=</span> <span class="n">gpxdir</span> <span class="o">+</span> <span class="s2">&quot;Favorite&quot;</span>
+<span class="n">filegpx</span> <span class="o">=</span> <span class="n">pathbase</span> <span class="o">+</span> <span class="s2">&quot;.gpx&quot;</span>
+<span class="n">filegpx_base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filegpx</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filegpx</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠ GPX file missing for </span><span class="si">{</span><span class="n">filegpx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Load and preprocess GPX</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading and processing GPX file&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
+<span class="n">gpx_result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="n">filegpx</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">segments</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">segments</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">stats</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--&gt; GPX processing completed - ride distance: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;distance_km&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km - elevation gain: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;deniv_pos_final&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> m -&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading and processing GPX file
+--&gt; GPX processing completed - ride distance: 36.45 km - elevation gain: 475 m -
+</pre></div></div>
+</div>
+</section>
+<section id="4.-Running-the-simulation">
+<h2>4. Running the simulation<a class="headerlink" href="#4.-Running-the-simulation" title="Link to this heading">#</a></h2>
+<p>Now we simulate the ride for each departure time and store results in a list.</p>
+<p>We call <code class="docutils literal notranslate"><span class="pre">simulate_future</span></code> for every departure time.</p>
+<p>We pass preprocessed segments, the departure time, and the previously computed baseline power <code class="docutils literal notranslate"><span class="pre">P0</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_wind</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Simulate for each departure time</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start of simulations.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">departure_time</span> <span class="ow">in</span> <span class="n">list_departure_times</span><span class="p">:</span>
+    <span class="n">results_wind</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim_wind</span><span class="o">.</span><span class="n">simulate_future</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">departure_time</span><span class="p">,</span> <span class="n">P0</span><span class="o">=</span><span class="n">P0</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results_wind</span><span class="p">)</span><span class="si">}</span><span class="s2"> simulations completed.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Start of simulations...........
+--&gt; 10 simulations completed.
+</pre></div></div>
+</div>
+</section>
+<section id="5.-Analyzing-results">
+<h2>5. Analyzing results<a class="headerlink" href="#5.-Analyzing-results" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">results_wind</span></code> list now stores all simulation results.</p>
+<p>We first focus on:</p>
+<ul class="simple">
+<li><p>the wind score (grade from A to F),</p></li>
+<li><p>the safety and performance components of the wind score,</p></li>
+<li><p>wind direction,</p></li>
+<li><p>estimated travel times.</p></li>
+</ul>
+<p>Both lists are sorted by wind score grade (primary key) and estimated time (secondary key).</p>
+<p>The results are compiled into a readable table.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort both lists by grade (primary key) and estimated time (secondary key)</span>
+<span class="n">results_wind</span><span class="p">,</span> <span class="n">list_departure_times</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">,</span>
+    <span class="nb">zip</span><span class="p">(</span>
+        <span class="o">*</span><span class="nb">sorted</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">results_wind</span><span class="p">,</span> <span class="n">list_departure_times</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">wind_score</span><span class="o">.</span><span class="n">grade</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Sorted departure list by windscore and estimated time &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;distance_km&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km, base power </span><span class="si">{</span><span class="n">P0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> W):&quot;</span>
+<span class="p">)</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;Departure&quot;</span><span class="p">,</span> <span class="s2">&quot;Wind&quot;</span><span class="p">,</span> <span class="s2">&quot;Safety&quot;</span><span class="p">,</span> <span class="s2">&quot;Perf&quot;</span><span class="p">,</span> <span class="s2">&quot;TWD&quot;</span><span class="p">,</span> <span class="s2">&quot;Estimated time&quot;</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results_wind</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">list_departure_times</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A </span><span class="si">%d</span><span class="s2"> %B %Y - %H:%M&quot;</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">wind_score</span><span class="o">.</span><span class="n">grade</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">wind_score</span><span class="o">.</span><span class="n">safety_grade</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">wind_score</span><span class="o">.</span><span class="n">performance_grade</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">wind</span><span class="o">.</span><span class="n">twd_compass</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">))),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">))</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headers</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fmt_line</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">v</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">widths</span><span class="p">))</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">fmt_line</span><span class="p">(</span><span class="n">headers</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-+-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">widths</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt_line</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Sorted departure list by windscore and estimated time (36.45 km, base power 145.4 W):
+ # | Departure                     | Wind | Safety | Perf | TWD | Estimated time
+---+-------------------------------+------+--------+------+-----+---------------
+01 | Monday 04 May 2026 - 10:00    | B    | A      | B    | WNW | 1:49:43
+02 | Thursday 07 May 2026 - 10:00  | B    | A      | B    | ENE | 1:50:37
+03 | Tuesday 05 May 2026 - 10:00   | B    | A      | B    | NNW | 1:51:14
+04 | Monday 04 May 2026 - 15:00    | C    | A      | C    | E   | 1:51:57
+05 | Thursday 07 May 2026 - 15:00  | C    | A      | C    | ENE | 1:52:05
+06 | Tuesday 05 May 2026 - 15:00   | D    | A      | D    | WNW | 1:51:50
+07 | Wednesday 06 May 2026 - 10:00 | D    | A      | D    | WNW | 1:52:01
+08 | Wednesday 06 May 2026 - 15:00 | E    | A      | E    | WNW | 1:52:33
+09 | Friday 08 May 2026 - 15:00    | E    | A      | E    | ESE | 1:55:06
+10 | Friday 08 May 2026 - 10:00    | E    | C      | E    | ESE | 1:57:21
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we could print summary statistics for the best scenario if needed</span>
+
+<span class="n">print_summary_statistics</span><span class="p">(</span><span class="n">results_wind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Best scenario summary statistics:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+============================================================
+  STATISTICS - Best scenario summary statistics:
+============================================================
+
+
+📏 Total distance: 36.45 km
+⏱️  Total time: 01:50:44
+🚴  Average speed: 19.75 km/h (max=45.77 km/h)
+⚡  Average power: 146.2 W
+
+💨 Wind (TWS and TWD):
+   Mean: 5.70 km/h - Direction: 268° (W)
+   Min: 4.50 km/h
+   Max: 7.06 km/h
+
+💨 Gusts:
+   Mean: 9.55 km/h
+   Min: 7.13 km/h (at km 20.82)
+   Max: 14.00 km/h (at km 19.04)
+
+⛰️ Terrain slope:
+   Mean: 0.08 %
+   Min (smoothed 100m): -10.11% (at km 29.76)
+   Max (smoothed 100m): 10.54% (at km 27.23)
+   Elevation gain: 475 m
+   Elevation loss: -476 m
+
+🌬️ Virtual slope (wind):
+   Mean: -0.01%
+   Min (smoothed 100m): -2.26% (at km 16.64)
+   Max (smoothed 100m): 1.53% (at km 32.84)
+   Positive virtual elevation: 126 m
+   Negative virtual elevation: -113 m
+
+📊 Effective slope (terrain + wind):
+   Mean: 0.07%
+   Min (smoothed 100m): -10.23% (at km 16.49)
+   Max (smoothed 100m): 10.86% (at km 27.23)
+   Positive effective elevation: 602 m
+   Negative effective elevation: -589 m
+
+🎯 Wind along trajectory:
+   Headwind: 52.2% (19.01 km) - Mean: 4.44 km/h
+   Tailwind: 47.8% (17.44 km) - Mean: -5.21 km/h
+   Headwind min: 0.07 km/h (at km 24.77)
+   Headwind max: 7.09 km/h (at km 34.42)
+   Tailwind min: -0.07 km/h (at km 7.12)
+   Tailwind max: -8.53 km/h (at km 18.99)
+
+🏁 WindScore:
+   Final grade: D
+   Reason: performance
+   Performance: D (score=-2.445)
+   Safety: A (danger=0)
+
+============================================================
+============================================================
+
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Notebook-2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Hellish Conditions for Seixas?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#1.-Building-the-wind-model">1. Building the wind model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1.1.-Selecting-the-GRIB-files-for-the-wind">1.1. Selecting the GRIB files for the wind</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1.2.-Initializing-the-weather-provider">1.2. Initializing the weather provider</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-Building-the-simulator">2. Building the simulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2.1.-Defining-parameters">2.1. Defining parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2.2.-Initializing-the-Simulator-and-baseline-power">2.2. Initializing the Simulator and baseline power</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#3.-Defining-the-ride-with-the-GPX-file">3. Defining the ride with the GPX file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Running-the-simulation">4. Running the simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#5.-Analyzing-results">5. Analyzing results</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/Notebook-1.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Jacques.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

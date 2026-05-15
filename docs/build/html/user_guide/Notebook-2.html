@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hellish Conditions for Seixas? &#8212; biwipy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/Notebook-2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="I’m feeling great… or is it the wind?" href="Notebook-3.html" />
+    <link rel="prev" title="Should I stay or should I go?" href="Notebook-1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">biwipy 0.1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Notebook-1.html">Should I stay or should I go?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hellish Conditions for Seixas?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebook-3.html">I’m feeling great… or is it the wind?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook-4.html">CDA Calibration Notebook</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Hellish Conditions for Seixas?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Hellish-Conditions-for-Seixas?">
+<h1>Hellish Conditions for Seixas?<a class="headerlink" href="#Hellish-Conditions-for-Seixas?" title="Link to this heading">#</a></h1>
+<p>In February 2026, the Decathlon CMA CGM cycling team was at a training camp in southern Spain.</p>
+<p>On February 14, after returning from a training session, rising French cycling star Paul Seixas posted the ride on his public Strava account with the comment: “A bit dangerous this wind 😬”</p>
+<p><img alt="Strava Paul Seixas" src="../_images/Stravaseixas.png" /></p>
+<p>I immediately downloaded the GPX and measured the wind conditions along his ride…</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Language is forced to English for consistent output in notebooks and tests, regardless of the user&#39;s locale.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OUTPUT_LANG&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OUTPUT_LANG forced to en&quot;</span><span class="p">)</span>
+<span class="c1"># home is expanded to the user&#39;s home directory for consistent file path handling across different environments.</span>
+<span class="n">home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OUTPUT_LANG forced to en
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># required imports for the notebook, including core simulation components, weather data handling, analysis tools, and visualization functions.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_pro_profile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather.grib_finder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_grib_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis.anareswind</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_summary_statistics</span>
+</pre></div>
+</div>
+</div>
+<section id="1.-Building-the-wind-model">
+<h2>1. Building the wind model<a class="headerlink" href="#1.-Building-the-wind-model" title="Link to this heading">#</a></h2>
+<p>We cannot use the time provided by the GPX file because it does not contain any timestamp. GPX files downloaded from Strava do not include timestamps unless it is a file associated with your account.</p>
+<p>Since the GPX file does not contain timestamps, a replay simulation is not possible.</p>
+<p>However, it is still possible to run a simulation in “future mode” by choosing the actual date and time of the ride.</p>
+<p>This will allow us to assess the actual wind conditions encountered by Paul Seixas.</p>
+<p>Therefore, we will use the date displayed on the Strava webpage.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the Strava start time</span>
+<span class="n">local_tz</span> <span class="o">=</span> <span class="n">ZoneInfo</span><span class="p">(</span><span class="s2">&quot;Europe/Madrid&quot;</span><span class="p">)</span>
+<span class="n">departure_time</span> <span class="o">=</span> <span class="s1">&#39;2026-02-14 10:25:00&#39;</span>
+<span class="n">t_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">departure_time</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">local_tz</span><span class="p">)</span>
+
+<span class="c1"># Ride duration</span>
+<span class="n">estimated_ride_duration_h</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1"># Define the directory used to store GRIB files</span>
+<span class="n">hdir</span> <span class="o">=</span> <span class="n">home</span><span class="o">+</span><span class="s2">&quot;/data&quot;</span>  <span class="c1"># GRIB files stored in ~/data by default</span>
+
+<span class="n">gribs_list</span> <span class="o">=</span> <span class="n">build_grib_list</span><span class="p">(</span><span class="n">hdir</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">estimated_ride_duration_h</span><span class="p">)</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">)</span>
+<span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Grib loaded&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Grib loaded
+</pre></div></div>
+</div>
+</section>
+<section id="2.-Parameters-and-simulator-initialization">
+<h2>2. Parameters and simulator initialization<a class="headerlink" href="#2.-Parameters-and-simulator-initialization" title="Link to this heading">#</a></h2>
+<p>We use typical pro-level parameters for this simulation. Paul Seixas’s weight is easy to find online.</p>
+<p>We previously ran several simulations to tune a base power that gives realistic results (time and average speed). For this tuning, we selected <code class="docutils literal notranslate"><span class="pre">v0</span></code> values consistent with the average speed reported by Strava and the elevation profile.</p>
+<p>Remember that <code class="docutils literal notranslate"><span class="pre">v0</span></code> is the speed corresponding to power <code class="docutils literal notranslate"><span class="pre">P0</span></code> on flat terrain and without wind. Here, the route has significant elevation gain (&gt; 2000 m) and strong wind. A <code class="docutils literal notranslate"><span class="pre">v0</span></code> of 39 km/h is a realistic choice to obtain an average speed close to 32 km/h.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pro</span> <span class="o">=</span> <span class="n">create_pro_profile</span><span class="p">()</span>
+<span class="n">procda</span> <span class="o">=</span> <span class="mf">0.28</span>
+<span class="n">procr</span> <span class="o">=</span> <span class="mf">0.0035</span>
+<span class="n">promass</span> <span class="o">=</span> <span class="mi">71</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">mygrib</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">pro</span><span class="p">,</span> <span class="n">CdA</span><span class="o">=</span><span class="n">procda</span><span class="p">,</span> <span class="n">Cr</span><span class="o">=</span><span class="n">procr</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">promass</span><span class="p">)</span>
+
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">39</span> <span class="o">/</span> <span class="mf">3.6</span>  <span class="c1"># m/s</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">P0_from_v0</span><span class="p">(</span><span class="n">v0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input parameters for the simulation: v0=</span><span class="si">{</span><span class="n">v0</span><span class="o">*</span><span class="mf">3.6</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h, P0=</span><span class="si">{</span><span class="n">P0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> W, CdA=</span><span class="si">{</span><span class="n">procda</span><span class="si">}</span><span class="s2">, Cr=</span><span class="si">{</span><span class="n">procr</span><span class="si">}</span><span class="s2">, m=</span><span class="si">{</span><span class="n">promass</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Input parameters for the simulation: v0=39.00 km/h, P0=244.4 W, CdA=0.28, Cr=0.0035, m=71
+</pre></div></div>
+</div>
+</section>
+<section id="3.-Loading-the-GPX">
+<h2>3. Loading the GPX<a class="headerlink" href="#3.-Loading-the-GPX" title="Link to this heading">#</a></h2>
+<p>GPX preprocessing. Stop filtering is not relevant here because this GPX has no timestamps.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">filegpx</span><span class="o">=</span><span class="n">home</span><span class="o">+</span><span class="s2">&quot;/data/gpx/P20260214-103K-1025_Seixas.gpx&quot;</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
+<span class="n">segments</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="n">filegpx</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:biwipy.analysis.route_analyzer:      6 abnormal segments detected
+</pre></div></div>
+</div>
+</section>
+<section id="4.-Simulation-launch">
+<h2>4. Simulation launch<a class="headerlink" href="#4.-Simulation-launch" title="Link to this heading">#</a></h2>
+<p>Before running the simulation, we recall the Strava ride summary:</p>
+<p><strong>Distance</strong>: 103.20 km <strong>Time</strong>: 3:13:54 <strong>Elevation gain</strong>: 2416 m</p>
+<p><strong>Average</strong>: 31.9 km/h <strong>Max</strong>: 87.3 km/h</p>
+<p>The simulation results are very close.</p>
+<p>I cannot guarantee that the estimated power exactly matches the value measured by Paul Seixas’s power meter, but it seems realistic for a training ride.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate_future</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">P0</span><span class="o">=</span><span class="n">P0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Simulation du parcours avec le vent le &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Average speed: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">avg</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h - Moving Average speed: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">moving_avg</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h - Max speed: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">max</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average power: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">avg</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> W&quot;</span> <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">power</span> <span class="k">else</span> <span class="s2">&quot;Average power: n/a&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;temps= </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">)))</span><span class="si">}</span><span class="s2"> , longueur= </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">total_km</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--- Simulation du parcours avec le vent le 2026-02-14 10:25:00+01:00 ---
+
+Average speed: 31.81 km/h - Moving Average speed: 31.81 km/h - Max speed: 88.05 km/h
+Average power: 270.0 W
+temps= 3:14:15 , longueur= 102.97 km
+</pre></div></div>
+</div>
+</section>
+<section id="4.-Wind-analysis">
+<h2>4. Wind analysis<a class="headerlink" href="#4.-Wind-analysis" title="Link to this heading">#</a></h2>
+<p>The ride summary gives a WindScore grade of <code class="docutils literal notranslate"><span class="pre">F</span></code>.</p>
+<p>This grade is driven by both safety and performance criteria.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_summary_statistics</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s2">&quot;Parcours de Seixas du 14 février 2026 avec vent&quot;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+============================================================
+  STATISTICS - Parcours de Seixas du 14 février 2026 avec vent
+============================================================
+
+
+📏 Total distance: 102.97 km
+⏱️  Total time: 03:14:15
+🚴  Average speed: 31.81 km/h (max=88.05 km/h)
+⚡  Average power: 270.0 W
+
+💨 Wind (TWS and TWD):
+   Mean: 21.79 km/h - Direction: 327° (NNW)
+   Min: 15.12 km/h
+   Max: 25.81 km/h
+
+💨 Gusts:
+   Mean: 32.19 km/h
+   Min: 26.86 km/h (at km 83.00)
+   Max: 38.20 km/h (at km 0.23)
+
+⛰️ Terrain slope:
+   Mean: 2.24 %
+   Min (smoothed 100m): -16.28% (at km 71.97)
+   Max (smoothed 100m): 14.98% (at km 65.41)
+   Elevation gain: 2306 m
+   Elevation loss: -2346 m
+
+🌬️ Virtual slope (wind):
+   Mean: 0.26%
+   Min (smoothed 100m): -8.69% (at km 100.77)
+   Max (smoothed 100m): 6.86% (at km 15.60)
+   Positive virtual elevation: 1222 m
+   Negative virtual elevation: -1550 m
+
+📊 Effective slope (terrain + wind):
+   Mean: 2.49%
+   Min (smoothed 100m): -20.19% (at km 95.03)
+   Max (smoothed 100m): 15.77% (at km 65.42)
+   Positive effective elevation: 3528 m
+   Negative effective elevation: -3896 m
+
+🎯 Wind along trajectory:
+   Headwind: 49.8% (51.24 km) - Mean: 15.63 km/h
+   Tailwind: 50.2% (51.71 km) - Mean: -14.75 km/h
+   Headwind min: 0.04 km/h (at km 92.82)
+   Headwind max: 28.58 km/h (at km 0.54)
+   Tailwind min: -0.04 km/h (at km 31.71)
+   Tailwind max: -27.79 km/h (at km 2.43)
+
+🏁 WindScore:
+   Final grade: F
+   Reason: safety+performance
+   Performance: F (score=-7.762)
+   Safety: F (danger=7)
+
+============================================================
+============================================================
+
+</pre></div></div>
+</div>
+</section>
+<section id="5.-Conclusion">
+<h2>5. Conclusion<a class="headerlink" href="#5.-Conclusion" title="Link to this heading">#</a></h2>
+<p>The main reasons for this poor safety rating are:</p>
+<ul class="simple">
+<li><p>strong gusts,</p></li>
+<li><p>high average wind speed (TWS),</p></li>
+<li><p>high lateral instability (crosswind).</p></li>
+</ul>
+<p>Paul Seixas was right to highlight how dangerous the wind was. Beyond his impressive performance for his age, this also shows strong maturity and risk awareness.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Safety danger score of </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">wind_score</span><span class="o">.</span><span class="n">safety_danger_score</span><span class="si">}</span><span class="s2"> out of a maximum of 7</span><span class="se">\n</span><span class="s2">Reasons:&quot;</span><span class="p">)</span>
+
+<span class="n">gust_max_kmh</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">gusts</span><span class="o">.</span><span class="n">max_kmh</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Gust max: </span><span class="si">{</span><span class="n">gust_max_kmh</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h&quot;</span><span class="p">)</span>
+
+<span class="n">crosswind_avg_kmh</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">crosswind</span><span class="o">.</span><span class="n">avg_kmh</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Crosswind average: </span><span class="si">{</span><span class="n">crosswind_avg_kmh</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h&quot;</span><span class="p">)</span>
+
+<span class="n">wind_avg_kmh</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">wind</span><span class="o">.</span><span class="n">tws</span><span class="o">.</span><span class="n">avg_kmh</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; TWS average: </span><span class="si">{</span><span class="n">wind_avg_kmh</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km/h&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Safety danger score of 7 out of a maximum of 7
+Reasons:
+ Gust max: 38.20 km/h
+ Crosswind average: 14.07 km/h
+ TWS average: 21.79 km/h
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Notebook-1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Should I stay or should I go?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Notebook-3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">I’m feeling great… or is it the wind?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#1.-Building-the-wind-model">1. Building the wind model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-Parameters-and-simulator-initialization">2. Parameters and simulator initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#3.-Loading-the-GPX">3. Loading the GPX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Simulation-launch">4. Simulation launch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Wind-analysis">4. Wind analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#5.-Conclusion">5. Conclusion</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/Notebook-2.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Jacques.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

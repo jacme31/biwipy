@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analysis of Simulation Results &#8212; biwipy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/Analysis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tips" href="Tips.html" />
+    <link rel="prev" title="Simulation and Replay" href="Simulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">biwipy 0.1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Input-data.html">Input Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulation.html">Simulation and Replay</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analysis of Simulation Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips.html">Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_used.html">Appendix: Mathematics and Physics Used</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../user_guide.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Analysis of Simulation Results</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="analysis-of-simulation-results">
+<h1>Analysis of Simulation Results<a class="headerlink" href="#analysis-of-simulation-results" title="Link to this heading">#</a></h1>
+<p>This page explains how to interpret simulation outputs in practice.</p>
+<section id="scope-of-this-page">
+<h2>Scope of This Page<a class="headerlink" href="#scope-of-this-page" title="Link to this heading">#</a></h2>
+<p>Use this page to understand:</p>
+<ul class="simple">
+<li><p>summary metrics (<code class="docutils literal notranslate"><span class="pre">print_summary_statistics</span></code>),</p></li>
+<li><p>virtual elevation and effective slope,</p></li>
+<li><p>WindScore interpretation,</p></li>
+<li><p>recommended plots and what to look for.</p></li>
+</ul>
+<p>For simulation execution, see <a class="reference internal" href="Simulation.html"><span class="std std-doc">Simulation and Replay</span></a>.</p>
+</section>
+<section id="field-lookup-complete-reference">
+<h2>Field Lookup (Complete Reference)<a class="headerlink" href="#field-lookup-complete-reference" title="Link to this heading">#</a></h2>
+<p>This page focuses on interpretation. For the exhaustive field list and exact names, use:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Simulation.html"><span class="std std-doc">Simulation and Replay</span></a>, section <code class="docutils literal notranslate"><span class="pre">Complete</span> <span class="pre">Field</span> <span class="pre">Reference</span> <span class="pre">(Python</span> <span class="pre">object)</span></code></p></li>
+<li><p><a class="reference internal" href="Simulation.html"><span class="std std-doc">Simulation and Replay</span></a>, section <code class="docutils literal notranslate"><span class="pre">Complete</span> <span class="pre">to_dict()</span> <span class="pre">key</span> <span class="pre">map</span></code></p></li>
+</ul>
+<p>Quick reminder for frequent lookups:</p>
+<ul class="simple">
+<li><p>object fields: <code class="docutils literal notranslate"><span class="pre">result.speed.avg</span></code>, <code class="docutils literal notranslate"><span class="pre">result.wind.tws.avg</span></code>, <code class="docutils literal notranslate"><span class="pre">result.wind_score.grade</span></code></p></li>
+<li><p>JSON keys: <code class="docutils literal notranslate"><span class="pre">speed.avg_kmh</span></code>, <code class="docutils literal notranslate"><span class="pre">wind.tws.avg_kmh</span></code>, <code class="docutils literal notranslate"><span class="pre">wind_score.grade</span></code></p></li>
+</ul>
+</section>
+<section id="quick-summary-first-print-summary-statistics">
+<h2>Quick Summary First: print_summary_statistics<a class="headerlink" href="#quick-summary-first-print-summary-statistics" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">print_summary_statistics(result,</span> <span class="pre">label)</span></code> is the fastest way to inspect a run.</p>
+<p>Typical usage:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.analysis.anareswind</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_summary_statistics</span>
+
+<span class="n">print_summary_statistics</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;Ride with wind&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What it gives at a glance:</p>
+<ul class="simple">
+<li><p>distance, total time, speed and power,</p></li>
+<li><p>mean/min/max wind and gusts,</p></li>
+<li><p>terrain slope, virtual slope, effective slope,</p></li>
+<li><p>wind-along split (headwind vs tailwind),</p></li>
+<li><p>final WindScore and sub-scores.</p></li>
+</ul>
+<p>Recommended workflow:</p>
+<ol class="arabic simple">
+<li><p>Run one no-wind baseline.</p></li>
+<li><p>Run wind-enabled simulation.</p></li>
+<li><p>Compare both summaries before opening plots.</p></li>
+</ol>
+</section>
+<section id="virtual-elevation-and-effective-slope">
+<h2>Virtual Elevation and Effective Slope<a class="headerlink" href="#virtual-elevation-and-effective-slope" title="Link to this heading">#</a></h2>
+<section id="definitions">
+<h3>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Terrain slope: slope from GPX elevation profile only.</p></li>
+<li><p>Virtual slope: slope-equivalent effect of wind.</p></li>
+<li><p>Effective slope: terrain slope + virtual slope.</p></li>
+</ul>
+<p>Interpretation rule:</p>
+<ul class="simple">
+<li><p>positive virtual slope means wind behaves like extra climbing,</p></li>
+<li><p>negative virtual slope means wind behaves like downhill assistance.</p></li>
+</ul>
+<p>Practical reading:</p>
+<ul class="simple">
+<li><p>If terrain slope is moderate but effective slope is high, wind is a major load driver.</p></li>
+<li><p>If terrain is hard but effective slope drops, tailwind is compensating part of the effort.</p></li>
+</ul>
+</section>
+</section>
+<section id="windscore-how-to-read-it">
+<h2>WindScore: How to Read It<a class="headerlink" href="#windscore-how-to-read-it" title="Link to this heading">#</a></h2>
+<p>WindScore combines two dimensions:</p>
+<ul class="simple">
+<li><p>Performance component: impact on speed/effort.</p></li>
+<li><p>Safety component: absolute wind hazard (gusts, crosswind, etc.).</p></li>
+</ul>
+<p>Main fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">result.wind_score.grade</span></code>: final grade,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result.wind_score.reason</span></code>: why this grade dominates (<code class="docutils literal notranslate"><span class="pre">safety</span></code>, <code class="docutils literal notranslate"><span class="pre">performance</span></code>, or both),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result.wind_score.performance_grade</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result.wind_score.safety_grade</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result.wind_score.safety_danger_score</span></code>.</p></li>
+</ul>
+<p>Interpretation rule:</p>
+<ul class="simple">
+<li><p>The final grade is the most restrictive one between safety and performance dimensions.</p></li>
+</ul>
+</section>
+<section id="plot-guide">
+<h2>Plot Guide<a class="headerlink" href="#plot-guide" title="Link to this heading">#</a></h2>
+<p>The analysis module provides several useful plotting functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_segments_evolution(...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_elevation_profile(...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_wind_rose(...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compare_scenarios(...)</span></code></p></li>
+</ul>
+<section id="segments-evolution-plot">
+<h3>1. Segments Evolution Plot<a class="headerlink" href="#segments-evolution-plot" title="Link to this heading">#</a></h3>
+<p>Use it for time/distance evolution of key signals:</p>
+<ul class="simple">
+<li><p>speed,</p></li>
+<li><p>power,</p></li>
+<li><p>wind-along,</p></li>
+<li><p>slopes.</p></li>
+</ul>
+<p>Look for:</p>
+<ul class="simple">
+<li><p>speed drops aligned with strong headwind or high effective slope,</p></li>
+<li><p>sustained high power in sections that are not steep terrain-wise (wind penalty),</p></li>
+<li><p>descents with limited speed due to safety constraints.</p></li>
+</ul>
+</section>
+<section id="elevation-profile-plot">
+<h3>2. Elevation Profile Plot<a class="headerlink" href="#elevation-profile-plot" title="Link to this heading">#</a></h3>
+<p>Use it to compare:</p>
+<ul class="simple">
+<li><p>real terrain elevation,</p></li>
+<li><p>virtual elevation from wind,</p></li>
+<li><p>combined profile intuition.</p></li>
+</ul>
+<p>Look for:</p>
+<ul class="simple">
+<li><p>long sections where virtual elevation accumulates,</p></li>
+<li><p>mismatch between terrain shape and perceived effort.</p></li>
+</ul>
+</section>
+<section id="wind-rose-plot">
+<h3>3. Wind Rose Plot<a class="headerlink" href="#wind-rose-plot" title="Link to this heading">#</a></h3>
+<p>Use it to understand directional wind structure:</p>
+<ul class="simple">
+<li><p>dominant wind directions,</p></li>
+<li><p>spread and consistency,</p></li>
+<li><p>whether the route repeatedly exposes the same bearings.</p></li>
+</ul>
+</section>
+<section id="scenario-comparison">
+<h3>4. Scenario Comparison<a class="headerlink" href="#scenario-comparison" title="Link to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">compare_scenarios</span></code> for side-by-side analysis:</p>
+<ul class="simple">
+<li><p>no wind vs wind,</p></li>
+<li><p>different days,</p></li>
+<li><p>different behavior profiles.</p></li>
+</ul>
+</section>
+</section>
+<section id="practical-comparison-recipe">
+<h2>Practical Comparison Recipe<a class="headerlink" href="#practical-comparison-recipe" title="Link to this heading">#</a></h2>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1) Baseline without wind</span>
+<span class="n">result_nowind</span> <span class="o">=</span> <span class="n">sim_nowind</span><span class="o">.</span><span class="n">simulate_future</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">P0</span><span class="o">=</span><span class="n">P0</span><span class="p">)</span>
+
+<span class="c1"># 2) With wind</span>
+<span class="n">result_wind</span> <span class="o">=</span> <span class="n">sim_wind</span><span class="o">.</span><span class="n">simulate_future</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">P0</span><span class="o">=</span><span class="n">P0</span><span class="p">)</span>
+
+<span class="c1"># 3) Summaries</span>
+<span class="n">print_summary_statistics</span><span class="p">(</span><span class="n">result_nowind</span><span class="p">,</span> <span class="s2">&quot;No wind&quot;</span><span class="p">)</span>
+<span class="n">print_summary_statistics</span><span class="p">(</span><span class="n">result_wind</span><span class="p">,</span> <span class="s2">&quot;With wind&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then inspect evolution plots to localize where differences are produced.</p>
+</section>
+<section id="common-interpretation-pitfalls">
+<h2>Common Interpretation Pitfalls<a class="headerlink" href="#common-interpretation-pitfalls" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Looking only at average speed and ignoring safety indicators.</p></li>
+<li><p>Reading terrain slope alone and ignoring effective slope.</p></li>
+<li><p>Comparing scenarios with different rider parameters/profile settings.</p></li>
+<li><p>Over-interpreting a single run without a no-wind baseline.</p></li>
+</ul>
+</section>
+<section id="suggested-reading-order">
+<h2>Suggested Reading Order<a class="headerlink" href="#suggested-reading-order" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="Input-data.html"><span class="std std-doc">Input data</span></a></p></li>
+<li><p><a class="reference internal" href="Simulation.html"><span class="std std-doc">Simulation and Replay</span></a></p></li>
+<li><p>This page (Analysis)</p></li>
+<li><p><a class="reference internal" href="Tips.html"><span class="std std-doc">Tips</span></a></p></li>
+<li><p><a class="reference internal" href="Troubleshooting.html"><span class="std std-doc">Troubleshooting</span></a></p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Simulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulation and Replay</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Tips.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tips</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-this-page">Scope of This Page</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-lookup-complete-reference">Field Lookup (Complete Reference)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-summary-first-print-summary-statistics">Quick Summary First: print_summary_statistics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-elevation-and-effective-slope">Virtual Elevation and Effective Slope</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windscore-how-to-read-it">WindScore: How to Read It</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-guide">Plot Guide</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segments-evolution-plot">1. Segments Evolution Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elevation-profile-plot">2. Elevation Profile Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wind-rose-plot">3. Wind Rose Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-comparison">4. Scenario Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-comparison-recipe">Practical Comparison Recipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-interpretation-pitfalls">Common Interpretation Pitfalls</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-reading-order">Suggested Reading Order</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/Analysis.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Jacques.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
