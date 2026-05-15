@@ -1,27 +1,241 @@
 # -*- coding: utf-8 -*-
 """
-Analyse et visualisation des résultats de simulation avec vent
+Analysis and visualization of simulation results with wind
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
 import logging
+import os
+import locale
 from typing import List, Dict, Optional, Any, Tuple, cast
 from copy import deepcopy
 from matplotlib.projections.polar import PolarAxes
 
 
+logger = logging.getLogger(__name__)
+
+
+def _detect_output_lang() -> str:
+    """Resolve output language from env var first, then OS locale, else English."""
+    lang_env = os.environ.get("OUTPUT_LANG", "").strip().lower()
+    if lang_env in ("fr", "en"):
+        return lang_env
+
+    locale_name = None
+    try:
+        current_locale = locale.getlocale()[0]
+        default_locale = locale.getdefaultlocale()[0]
+        locale_name = current_locale or default_locale
+    except Exception:
+        locale_name = None
+
+    if locale_name and locale_name.lower().startswith("fr"):
+        return "fr"
+
+    return "en"
+
+
+I18N = {
+    "stats_title": {
+        "fr": "  STATISTIQUES - {label}",
+        "en": "  STATISTICS - {label}",
+    },
+    "distance_total": {
+        "fr": "\n📏 Distance totale: {value:.2f} km",
+        "en": "\n📏 Total distance: {value:.2f} km",
+    },
+    "time_total": {
+        "fr": "⏱️  Temps total: {value}",
+        "en": "⏱️  Total time: {value}",
+    },
+    "speed_avg_with_max": {
+        "fr": "🚴  Vitesse moyenne: {avg:.2f} km/h (max={vmax:.2f} km/h)",
+        "en": "🚴  Average speed: {avg:.2f} km/h (max={vmax:.2f} km/h)",
+    },
+    "speed_avg": {
+        "fr": "🚴 Vitesse moyenne: {value:.2f} km/h",
+        "en": "🚴 Average speed: {value:.2f} km/h",
+    },
+    "power_avg": {
+        "fr": "⚡  Puissance moyenne: {value:.1f} W",
+        "en": "⚡  Average power: {value:.1f} W",
+    },
+    "wind_section": {
+        "fr": "\n💨 Vent (TWS et TWD):",
+        "en": "\n💨 Wind (TWS and TWD):",
+    },
+    "gust_section": {
+        "fr": "\n💨 Rafales (Gust):",
+        "en": "\n💨 Gusts:",
+    },
+    "line_mean_direction": {
+        "fr": "   Moyen: {value:.2f} km/h - Direction: {deg:.0f}° ({text})",
+        "en": "   Mean: {value:.2f} km/h - Direction: {deg:.0f}° ({text})",
+    },
+    "line_mean": {
+        "fr": "   Moyenne: {value:.2f} km/h",
+        "en": "   Mean: {value:.2f} km/h",
+    },
+    "line_min": {
+        "fr": "   Min: {value:.2f} km/h",
+        "en": "   Min: {value:.2f} km/h",
+    },
+    "line_max": {
+        "fr": "   Max: {value:.2f} km/h",
+        "en": "   Max: {value:.2f} km/h",
+    },
+    "line_min_at_km": {
+        "fr": "   Min: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Min: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "line_max_at_km": {
+        "fr": "   Max: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Max: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "terrain_section": {
+        "fr": "\n⛰️ Pente terrain:",
+        "en": "\n⛰️ Terrain slope:",
+    },
+    "virtual_section": {
+        "fr": "\n🌬️ Pente virtuelle (vent):",
+        "en": "\n🌬️ Virtual slope (wind):",
+    },
+    "effective_section": {
+        "fr": "\n📊 Pente effective (terrain + vent):",
+        "en": "\n📊 Effective slope (terrain + wind):",
+    },
+    "line_mean_pct": {
+        "fr": "   Moyenne: {value:.2f}%",
+        "en": "   Mean: {value:.2f}%",
+    },
+    "line_mean_pct_spaced": {
+        "fr": "   Moyenne: {value:.2f} %",
+        "en": "   Mean: {value:.2f} %",
+    },
+    "line_slope_min_smoothed": {
+        "fr": "   Min (lissé {window:d}m): {value:.2f}% (au km {km:.2f})",
+        "en": "   Min (smoothed {window:d}m): {value:.2f}% (at km {km:.2f})",
+    },
+    "line_slope_max_smoothed": {
+        "fr": "   Max (lissé {window:d}m): {value:.2f}% (au km {km:.2f})",
+        "en": "   Max (smoothed {window:d}m): {value:.2f}% (at km {km:.2f})",
+    },
+    "line_slope_min": {
+        "fr": "   Min: {value:.2f}%",
+        "en": "   Min: {value:.2f}%",
+    },
+    "line_slope_max": {
+        "fr": "   Max: {value:.2f}%",
+        "en": "   Max: {value:.2f}%",
+    },
+    "deniv_pos": {
+        "fr": "   Dénivelé positif: {value:.0f} m",
+        "en": "   Elevation gain: {value:.0f} m",
+    },
+    "deniv_neg": {
+        "fr": "   Dénivelé négatif: {value:.0f} m",
+        "en": "   Elevation loss: {value:.0f} m",
+    },
+    "deniv_virtual_pos": {
+        "fr": "   Dénivelé virtuel positif: {value:.0f} m",
+        "en": "   Positive virtual elevation: {value:.0f} m",
+    },
+    "deniv_virtual_neg": {
+        "fr": "   Dénivelé virtuel négatif: {value:.0f} m",
+        "en": "   Negative virtual elevation: {value:.0f} m",
+    },
+    "deniv_effective_pos": {
+        "fr": "   Dénivelé effectif positif: {value:.0f} m",
+        "en": "   Positive effective elevation: {value:.0f} m",
+    },
+    "deniv_effective_neg": {
+        "fr": "   Dénivelé effectif négatif: {value:.0f} m",
+        "en": "   Negative effective elevation: {value:.0f} m",
+    },
+    "along_wind_section": {
+        "fr": "\n🎯 Vent le long de la trajectoire:",
+        "en": "\n🎯 Wind along trajectory:",
+    },
+    "headwind_line": {
+        "fr": "   Vent de face: {pct:.1f}% ({dist:.2f} km) - Moyenne: {avg:.2f} km/h",
+        "en": "   Headwind: {pct:.1f}% ({dist:.2f} km) - Mean: {avg:.2f} km/h",
+    },
+    "tailwind_line": {
+        "fr": "   Vent de dos: {pct:.1f}% ({dist:.2f} km) - Moyenne: {avg:.2f} km/h",
+        "en": "   Tailwind: {pct:.1f}% ({dist:.2f} km) - Mean: {avg:.2f} km/h",
+    },
+    "headwind_min": {
+        "fr": "   Vent de face Min: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Headwind min: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "headwind_max": {
+        "fr": "   Vent de face Max: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Headwind max: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "tailwind_min": {
+        "fr": "   Vent de dos Min: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Tailwind min: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "tailwind_max": {
+        "fr": "   Vent de dos Max: {value:.2f} km/h (au km {km:.2f})",
+        "en": "   Tailwind max: {value:.2f} km/h (at km {km:.2f})",
+    },
+    "windscore_section": {
+        "fr": "\n🏁 WindScore:",
+        "en": "\n🏁 WindScore:",
+    },
+    "windscore_grade": {
+        "fr": "   Grade final: {value}",
+        "en": "   Final grade: {value}",
+    },
+    "windscore_reason": {
+        "fr": "   Raison: {value}",
+        "en": "   Reason: {value}",
+    },
+    "windscore_performance": {
+        "fr": "   Performance: {grade} (score={score:+.3f})",
+        "en": "   Performance: {grade} (score={score:+.3f})",
+    },
+    "windscore_safety": {
+        "fr": "   Sécurité: {grade} (danger={danger})",
+        "en": "   Safety: {grade} (danger={danger})",
+    },
+    "sep60_open": {
+        "fr": "\n============================================================",
+        "en": "\n============================================================",
+    },
+    "sep60_close": {
+        "fr": "============================================================\n",
+        "en": "============================================================\n",
+    },
+}
+
+
+def _t(key: str, **kwargs) -> str:
+    lang = _detect_output_lang()
+    labels = I18N.get(key)
+    if not labels:
+        return key
+    template = labels.get(lang) or labels.get("en") or key
+    return template.format(**kwargs)
+
+
+def _tp(key: str, **kwargs) -> None:
+    print(_t(key, **kwargs))
+
+
 def smooth_segments(segments, window=5, keys=None):
     """
-    Lisse les valeurs des segments avec une moyenne mobile.
-    
+    Smooth segment values with a moving average.
+
     Args:
-        segments: Liste des segments à lisser
-        window: Taille de la fenêtre de lissage (nombre de segments, impair recommandé)
-        keys: Liste des clés à lisser. Par défaut: ['speed_m_s', 'slope', 'wind_along']
-    
+        segments: list of segments to smooth
+        window: smoothing window size (number of segments, odd recommended)
+        keys: list of keys to smooth. Default: ['speed_m_s', 'slope', 'wind_along']
+
     Returns:
-        Liste des segments avec valeurs lissées (copie profonde)
+        list of segments with smoothed values (deep copy)
     """
     if keys is None:
         keys = ['speed_m_s', 'slope', 'wind_along', 'effective_wind', 'crosswind']
@@ -233,7 +447,7 @@ def merge_short_segments(segments: List[Dict],
         text = "\n".join(output)
         
         if verbose:
-            print(text)
+            logger.info("%s", text)
         
         if log_file:
             with open(log_file, 'w', encoding='utf-8') as f:
@@ -363,29 +577,28 @@ def plot_elevation_profile(segments: List[Dict],
                            show_virtual: bool = True,
                            distance_from_finish: bool = False):
     """
-    Trace le profil d'altitude réel et virtuel (incluant l'effet du vent).
+    Plot the real and virtual elevation profile (including wind effect).
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats de simulate_with_weather
+        List of segments from simulate_with_weather
     figsize : tuple, optional
-        Taille de la figure (largeur, hauteur)
+        Figure size (width, height)
     title : str, optional
-        Titre principal du graphique
+        Main chart title
     show_virtual : bool, optional
-        Si True, affiche aussi le profil d'altitude virtuel (défaut: True)
+        If True, also show the virtual elevation profile (default: True)
     distance_from_finish : bool, optional
-        Si True, l'axe des abscisses représente la distance restante jusqu'à
-        l'arrivée. Le départ apparaît alors à la distance totale du parcours,
-        et l'arrivée à 0 km.
+        If True, the x-axis represents the remaining distance to the finish.
+        The start appears at the total route distance, the finish at 0 km.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
 
     if not segments:
@@ -496,46 +709,46 @@ def plot_segments_evolution(segments: List[Dict],
                             title: Optional[str] = None,
                             distance_from_finish: bool = False):
     """
-    Trace l'évolution des attributs des segments en fonction de la distance ou du temps.
+    Plot the evolution of segment attributes against distance or time.
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats de simulate_with_weather
+        List of segments from simulate_with_weather
     attributes : List[str]
-        Liste des attributs à tracer (ex: ['tws', 'twd', 'wind_along', 'speed_m_s'])
-        Attributs disponibles:
-        - 'tws': vitesse du vent (m/s)
-        - 'twd': direction du vent (degrés)
-        - 'wind_along': vent le long de la trajectoire (m/s)
-        - 'gust': rafales (m/s)
-        - 'headwind': vent de face (m/s)
-        - 'gust_along': rafales le long de la trajectoire (m/s)
-        - 'crosswind': vent de travers (m/s)
-        - 'is_headwind': indicateur de vent de face (booléen)
-        - 'speed_m_s': vitesse du cycliste (m/s)
-        - 'slope': pente (ratio)
-        - 'slope_terrain': pente du terrain (ratio)
-        - 'slope_wind': pente virtuelle due au vent (ratio)
-        - 'slope_effective': pente effective (terrain + vent) (ratio)
-        - 'elevation_virtual_m': dénivelé virtuel en mètres
+        List of attributes to plot (e.g., ['tws', 'twd', 'wind_along', 'speed_m_s'])
+        Available attributes:
+        - 'tws': wind speed (m/s)
+        - 'twd': wind direction (degrees)
+        - 'wind_along': wind along the trajectory (m/s)
+        - 'gust': gusts (m/s)
+        - 'headwind': headwind (m/s)
+        - 'gust_along': gusts along the trajectory (m/s)
+        - 'crosswind': crosswind (m/s)
+        - 'is_headwind': headwind indicator (boolean)
+        - 'speed_m_s': cyclist speed (m/s)
+        - 'slope': slope (ratio)
+        - 'slope_terrain': terrain slope (ratio)
+        - 'slope_wind': virtual slope due to wind (ratio)
+        - 'slope_effective': effective slope (terrain + wind) (ratio)
+        - 'elevation_virtual_m': virtual elevation gain in metres
     x_axis : str, optional
-        'distance' pour tracer en fonction des kilomètres (défaut)
-        'time' pour tracer en fonction du temps (minutes)
+        'distance' to plot against kilometres (default)
+        'time' to plot against time (minutes)
     figsize : tuple, optional
-        Taille de la figure (largeur, hauteur)
+        Figure size (width, height)
     title : str, optional
-        Titre principal du graphique
+        Main chart title
     distance_from_finish : bool, optional
-        Si True et si x_axis='distance', l'axe des abscisses représente la
-        distance restante jusqu'à l'arrivée.
+        If True and x_axis='distance', the x-axis represents the remaining
+        distance to the finish.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     axes : list
-        Liste des axes créés
+        List of created axes
     """
     
     # Dictionnaire des labels et unités pour chaque attribut
@@ -658,23 +871,23 @@ def plot_wind_rose(segments: List[Dict],
                    figsize: tuple = (10, 10),
                    title: Optional[str] = None):
     """
-    Trace une rose des vents basée sur les segments.
+    Plot a wind rose based on the segments.
     
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats
+        List of result segments
     figsize : tuple, optional
-        Taille de la figure
+        Figure size
     title : str, optional
-        Titre du graphique
+        Chart title
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
     
     # Extraire les directions et vitesses du vent
@@ -689,7 +902,7 @@ def plot_wind_rose(segments: List[Dict],
             tws_list.append(tws * 3.6)  # conversion en km/h
     
     if not twd_list:
-        print("Aucune donnée de vent disponible")
+        logger.warning("No wind data available")
         return None, None
     
     twd_array = np.array(twd_list)
@@ -728,32 +941,32 @@ def compare_scenarios(segments_list: List[List[Dict]],
                      title: Optional[str] = None,
                      distance_from_finish: bool = False):
     """
-    Compare plusieurs scénarios (ex: avec/sans vent) pour un attribut donné.
+    Compare multiple scenarios (e.g., with/without wind) for a given attribute.
     
     Parameters:
     -----------
     segments_list : List[List[Dict]]
-        Liste de listes de segments (un par scénario)
+        List of segment lists (one per scenario)
     labels : List[str]
-        Labels pour chaque scénario
+        Labels for each scenario
     attribute : str
-        Attribut à comparer
+        Attribute to compare
     x_axis : str, optional
-        'distance' ou 'time'
+        'distance' or 'time'
     figsize : tuple, optional
-        Taille de la figure
+        Figure size
     title : str, optional
-        Titre du graphique
+        Chart title
     distance_from_finish : bool, optional
-        Si True et si x_axis='distance', l'axe des abscisses représente la
-        distance restante jusqu'à l'arrivée.
+        If True and x_axis='distance', the x-axis represents the remaining
+        distance to the finish.
         
     Returns:
     --------
     fig : matplotlib.figure.Figure
-        La figure créée
+        The created figure
     ax : matplotlib.axes.Axes
-        L'axe créé
+        The created axes
     """
     
     # Dictionnaire des labels et unités
@@ -829,18 +1042,17 @@ def print_summary_statistics(
     terrain_smoothing_window_m: float = 100.0,
 ):
     """
-    Affiche les statistiques résumées des résultats de simulation.
+    Display summary statistics for simulation results.
     
     Parameters:
     -----------
     data : SimulationResult | List[Dict]
-        Résultat structuré (recommandé) ou liste de segments (legacy)
+        Structured result (recommended) or list of segments (legacy)
     label : str, optional
-        Label pour identifier la simulation
+        Label to identify the simulation
     terrain_smoothing_window_m : float, optional
-        Fenêtre de lissage (en mètres) pour les extrêmes de pente terrain,
-        virtuelle et effective. Nom conservé pour compatibilité.
-        Doit être comprise entre 50m et 2000m.
+        Smoothing window (in metres) for terrain, virtual, and effective slope
+        extremes. Name kept for compatibility. Must be between 50 m and 2000 m.
     """
 
     if not (50.0 <= float(terrain_smoothing_window_m) <= 2000.0):
@@ -848,9 +1060,9 @@ def print_summary_statistics(
             "terrain_smoothing_window_m must be between 50 and 2000 meters"
         )
     
-    print(f"\n{'='*60}")
-    print(f"  STATISTIQUES - {label}")
-    print(f"{'='*60}")
+    _tp("sep60_open")
+    _tp("stats_title", label=label)
+    _tp("sep60_close")
     
     def _format_hms(total_seconds: float) -> str:
         total_seconds_int = int(round(total_seconds))
@@ -962,15 +1174,19 @@ def print_summary_statistics(
 
     def _print_smoothed_slope_extremes(prefix: str, extremes: Optional[Dict], raw_min: float, raw_max: float):
         if extremes is not None:
-            print(
-                f"   Min (lissé {int(extremes['window_m'])}m): "
-                f"{extremes['smooth_min_pct']:.2f}% (au km {extremes['smooth_min_km']:.2f})"
+            _tp(
+                "line_slope_min_smoothed",
+                window=int(extremes['window_m']),
+                value=extremes['smooth_min_pct'],
+                km=extremes['smooth_min_km'],
             )
-            print(
-                f"   Max (lissé {int(extremes['window_m'])}m): "
-                f"{extremes['smooth_max_pct']:.2f}% (au km {extremes['smooth_max_km']:.2f})"
+            _tp(
+                "line_slope_max_smoothed",
+                window=int(extremes['window_m']),
+                value=extremes['smooth_max_pct'],
+                km=extremes['smooth_max_km'],
             )
-            logging.getLogger(__name__).debug(
+            logger.debug(
                 "%s raw extremes: min=%.2f%% at km %.2f, max=%.2f%% at km %.2f",
                 prefix,
                 extremes['raw_min_pct'],
@@ -980,32 +1196,32 @@ def print_summary_statistics(
             )
             return
 
-        print(f"   Min: {raw_min:.2f}%")
-        print(f"   Max: {raw_max:.2f}%")
+        _tp("line_slope_min", value=raw_min)
+        _tp("line_slope_max", value=raw_max)
 
     # Chemin recommandé: lecture directe depuis SimulationResult (sans recalcul)
     if hasattr(data, 'distance') and hasattr(data, 'time') and hasattr(data, 'speed'):
         result = data
 
-        print(f"\n📏 Distance totale: {result.distance.total_km:.2f} km")
-        print(f"⏱️  Temps total: {_format_hms(result.time.total_seconds)}")
-        print(f"🚴  Vitesse moyenne: {result.speed.avg:.2f} km/h (max={result.speed.max:.2f} km/h)")
+        _tp("distance_total", value=result.distance.total_km)
+        _tp("time_total", value=_format_hms(result.time.total_seconds))
+        _tp("speed_avg_with_max", avg=result.speed.avg, vmax=result.speed.max)
     
         if hasattr(result, 'power') and result.power is not None:
-            print(f"⚡  Puissance moyenne: {result.power.avg:.1f} W")
+            _tp("power_avg", value=result.power.avg)
 
-        print(f"\n💨 Vent (TWS et TWD):")
-        print(f"   Moyen: {result.wind.tws.avg * 3.6:.2f} km/h - Direction: {result.wind.twd_avg:.0f}° ({result.wind.twd_compass})")
-        print(f"   Min: {result.wind.tws.min * 3.6:.2f} km/h")
-        print(f"   Max: {result.wind.tws.max * 3.6:.2f} km/h")
+        _tp("wind_section")
+        _tp("line_mean_direction", value=result.wind.tws.avg * 3.6, deg=result.wind.twd_avg, text=result.wind.twd_compass)
+        _tp("line_min", value=result.wind.tws.min * 3.6)
+        _tp("line_max", value=result.wind.tws.max * 3.6)
 
-        print(f"\n💨 Rafales (Gust):")
-        print(f"   Moyenne: {result.gusts.avg * 3.6:.2f} km/h")
-        print(f"   Min: {result.gusts.min * 3.6:.2f} km/h (au km {result.gusts.min_at_km:.2f})")
-        print(f"   Max: {result.gusts.max * 3.6:.2f} km/h (au km {result.gusts.max_at_km:.2f})")
+        _tp("gust_section")
+        _tp("line_mean", value=result.gusts.avg * 3.6)
+        _tp("line_min_at_km", value=result.gusts.min * 3.6, km=result.gusts.min_at_km)
+        _tp("line_max_at_km", value=result.gusts.max * 3.6, km=result.gusts.max_at_km)
 
-        print(f"\n⛰️ Pente terrain:")
-        print(f"   Moyenne: {result.slopes.terrain.avg_pct:.2f} %")
+        _tp("terrain_section")
+        _tp("line_mean_pct_spaced", value=result.slopes.terrain.avg_pct)
         terrain_ext = _slope_extremes_with_km(
             result.get_segments(),
             _terrain_slope_getter,
@@ -1017,11 +1233,11 @@ def print_summary_statistics(
             result.slopes.terrain.min_pct,
             result.slopes.terrain.max_pct,
         )
-        print(f"   Dénivelé positif: {result.slopes.terrain.deniv_pos_m:.0f} m")
-        print(f"   Dénivelé négatif: {result.slopes.terrain.deniv_neg_m:.0f} m")
+        _tp("deniv_pos", value=result.slopes.terrain.deniv_pos_m)
+        _tp("deniv_neg", value=result.slopes.terrain.deniv_neg_m)
 
-        print(f"\n🌬️ Pente virtuelle (vent):")
-        print(f"   Moyenne: {result.slopes.virtual.avg_pct:.2f}%")
+        _tp("virtual_section")
+        _tp("line_mean_pct", value=result.slopes.virtual.avg_pct)
         virtual_ext = _slope_extremes_with_km(
             result.get_segments(),
             _segment_slope_getter('slope_wind'),
@@ -1033,11 +1249,11 @@ def print_summary_statistics(
             result.slopes.virtual.min_pct,
             result.slopes.virtual.max_pct,
         )
-        print(f"   Dénivelé virtuel positif: {result.slopes.virtual.deniv_pos_m:.0f} m")
-        print(f"   Dénivelé virtuel négatif: {result.slopes.virtual.deniv_neg_m:.0f} m")
+        _tp("deniv_virtual_pos", value=result.slopes.virtual.deniv_pos_m)
+        _tp("deniv_virtual_neg", value=result.slopes.virtual.deniv_neg_m)
 
-        print(f"\n📊 Pente effective (terrain + vent):")
-        print(f"   Moyenne: {result.slopes.effective.avg_pct:.2f}%")
+        _tp("effective_section")
+        _tp("line_mean_pct", value=result.slopes.effective.avg_pct)
         effective_ext = _slope_extremes_with_km(
             result.get_segments(),
             _segment_slope_getter('slope_effective', fallback_key='slope'),
@@ -1049,51 +1265,36 @@ def print_summary_statistics(
             result.slopes.effective.min_pct,
             result.slopes.effective.max_pct,
         )
-        print(f"   Dénivelé effectif positif: {result.slopes.effective.deniv_pos_m:.0f} m")
-        print(f"   Dénivelé effectif négatif: {result.slopes.effective.deniv_neg_m:.0f} m")
+        _tp("deniv_effective_pos", value=result.slopes.effective.deniv_pos_m)
+        _tp("deniv_effective_neg", value=result.slopes.effective.deniv_neg_m)
 
-        print(f"\n🎯 Vent le long de la trajectoire:")
-        print(
-            f"   Vent de face: {result.wind_along_trajectory.headwind.percentage:.1f}% "
-            f"({result.wind_along_trajectory.headwind.distance_km:.2f} km) - "
-            f"Moyenne: {result.wind_along_trajectory.headwind.avg_kmh:.2f} km/h"
+        _tp("along_wind_section")
+        _tp(
+            "headwind_line",
+            pct=result.wind_along_trajectory.headwind.percentage,
+            dist=result.wind_along_trajectory.headwind.distance_km,
+            avg=result.wind_along_trajectory.headwind.avg_kmh,
         )
-        print(
-            f"   Vent de dos: {result.wind_along_trajectory.tailwind.percentage:.1f}% "
-            f"({result.wind_along_trajectory.tailwind.distance_km:.2f} km) - "
-            f"Moyenne: {result.wind_along_trajectory.tailwind.avg_kmh:.2f} km/h"
+        _tp(
+            "tailwind_line",
+            pct=result.wind_along_trajectory.tailwind.percentage,
+            dist=result.wind_along_trajectory.tailwind.distance_km,
+            avg=result.wind_along_trajectory.tailwind.avg_kmh,
         )
-        print(
-            f"   Vent de face Min: {result.wind_along_trajectory.headwind.min_kmh:.2f} km/h "
-            f"(au km {result.wind_along_trajectory.headwind.min_at_km:.2f})"
-        )
-        print(
-            f"   Vent de face Max: {result.wind_along_trajectory.headwind.max_kmh:.2f} km/h "
-            f"(au km {result.wind_along_trajectory.headwind.max_at_km:.2f})"
-        )
-        print(
-            f"   Vent de dos Min: {result.wind_along_trajectory.tailwind.min_kmh:.2f} km/h "
-            f"(au km {result.wind_along_trajectory.tailwind.min_at_km:.2f})"
-        )
-        print(
-            f"   Vent de dos Max: {result.wind_along_trajectory.tailwind.max_kmh:.2f} km/h "
-            f"(au km {result.wind_along_trajectory.tailwind.max_at_km:.2f})"
-        )
+        _tp("headwind_min", value=result.wind_along_trajectory.headwind.min_kmh, km=result.wind_along_trajectory.headwind.min_at_km)
+        _tp("headwind_max", value=result.wind_along_trajectory.headwind.max_kmh, km=result.wind_along_trajectory.headwind.max_at_km)
+        _tp("tailwind_min", value=result.wind_along_trajectory.tailwind.min_kmh, km=result.wind_along_trajectory.tailwind.min_at_km)
+        _tp("tailwind_max", value=result.wind_along_trajectory.tailwind.max_kmh, km=result.wind_along_trajectory.tailwind.max_at_km)
 
         if hasattr(result, 'wind_score') and result.wind_score is not None:
-            print(f"\n🏁 WindScore:")
-            print(f"   Grade final: {result.wind_score.grade}")
-            print(f"   Raison: {result.wind_score.reason}")
-            print(
-                f"   Performance: {result.wind_score.performance_grade} "
-                f"(score={result.wind_score.performance_score:+.3f})"
-            )
-            print(
-                f"   Sécurité: {result.wind_score.safety_grade} "
-                f"(danger={result.wind_score.safety_danger_score})"
-            )
+            _tp("windscore_section")
+            _tp("windscore_grade", value=result.wind_score.grade)
+            _tp("windscore_reason", value=result.wind_score.reason)
+            _tp("windscore_performance", grade=result.wind_score.performance_grade, score=result.wind_score.performance_score)
+            _tp("windscore_safety", grade=result.wind_score.safety_grade, danger=result.wind_score.safety_danger_score)
 
-        print(f"\n{'='*60}\n")
+        _tp("sep60_open")
+        _tp("sep60_close")
         return
 
     segments = data
@@ -1104,15 +1305,15 @@ def print_summary_statistics(
                        if seg.get('time_s') not in (None, float('inf')))
     total_time = total_seconds / 60.0  # min
     
-    print(f"\n📏 Distance totale: {total_dist:.2f} km")
-    print(f"⏱️  Temps total: {_format_hms(total_seconds)}")
+    _tp("distance_total", value=total_dist)
+    _tp("time_total", value=_format_hms(total_seconds))
     
     if total_time > 0:
         avg_speed = (total_dist / (total_time/60))  # km/h
-        print(f"🚴 Vitesse moyenne: {avg_speed:.2f} km/h")
+        _tp("speed_avg", value=avg_speed)
         power_values = [seg.get('power') for seg in segments if seg.get('power') is not None]
         if power_values:
-            print(f"⚡ Puissance moyenne: {np.mean(power_values):.1f} W")
+            _tp("power_avg", value=np.mean(power_values))
     
     # Statistiques de vent
     tws_values = [seg.get('tws', 0) * 3.6 for seg in segments]  # km/h
@@ -1123,10 +1324,10 @@ def print_summary_statistics(
         # Calcul de la direction moyenne du vent (TWD) par méthode vectorielle
         avg_twd_deg, avg_twd_text, avg_tws_kmh = compute_average_twd_vectorial(segments)
         
-        print(f"\n💨 Vent (TWS et TWD):")
-        print(f"   Moyen: {np.mean(tws_values):.2f} km/h - Direction: {avg_twd_deg:.0f}° ({avg_twd_text})")
-        print(f"   Min: {np.min(tws_values):.2f} km/h")
-        print(f"   Max: {np.max(tws_values):.2f} km/h")
+        _tp("wind_section")
+        _tp("line_mean_direction", value=np.mean(tws_values), deg=avg_twd_deg, text=avg_twd_text)
+        _tp("line_min", value=np.min(tws_values))
+        _tp("line_max", value=np.max(tws_values))
     
     # Statistiques de rafales
     if gust_values:
@@ -1142,10 +1343,10 @@ def print_summary_statistics(
         min_idx = np.argmin(gust_values)
         max_idx = np.argmax(gust_values)
         
-        print(f"\n💨 Rafales (Gust):")
-        print(f"   Moyenne: {np.mean(gust_values):.2f} km/h")
-        print(f"   Min: {min_gust:.2f} km/h (au km {cumulative_dists[min_idx]:.2f})")
-        print(f"   Max: {max_gust:.2f} km/h (au km {cumulative_dists[max_idx]:.2f})")
+        _tp("gust_section")
+        _tp("line_mean", value=np.mean(gust_values))
+        _tp("line_min_at_km", value=min_gust, km=cumulative_dists[min_idx])
+        _tp("line_max_at_km", value=max_gust, km=cumulative_dists[max_idx])
     
      # Statistiques de pente terrain 
     slopes = [seg.get('slope', 0) * 100 for seg in segments]  # %
@@ -1164,16 +1365,16 @@ def print_summary_statistics(
             _terrain_slope_getter,
             window_m=float(terrain_smoothing_window_m),
         )
-        print(f"\n⛰️  Pente terrain:")
-        print(f"   Moyenne: {np.mean(slopes):.2f} %")
+        _tp("terrain_section")
+        _tp("line_mean_pct_spaced", value=np.mean(slopes))
         _print_smoothed_slope_extremes(
             "Terrain",
             terrain_ext,
             float(np.min(slopes)),
             float(np.max(slopes)),
         )
-        print(f"   Dénivelé positif: {deniv_pos:.0f} m")
-        print(f"   Dénivelé négatif: {deniv_neg:.0f} m")
+        _tp("deniv_pos", value=deniv_pos)
+        _tp("deniv_neg", value=deniv_neg)
 
     # Statistiques de pente virtuelle 
     slope_terrain_values = [seg.get('slope_terrain', 0) * 100 for seg in segments]  # %
@@ -1191,16 +1392,16 @@ def print_summary_statistics(
             _segment_slope_getter('slope_wind'),
             window_m=float(terrain_smoothing_window_m),
         )
-        print(f"\n🌬️  Pente virtuelle (vent):")
-        print(f"   Moyenne: {np.mean(slope_wind_values):.2f}%")
+        _tp("virtual_section")
+        _tp("line_mean_pct", value=np.mean(slope_wind_values))
         _print_smoothed_slope_extremes(
             "Virtual",
             virtual_ext,
             float(np.min(slope_wind_values)),
             float(np.max(slope_wind_values)),
         )
-        print(f"   Dénivelé virtuel positif: {total_elev_virtual_positive:.0f} m")
-        print(f"   Dénivelé virtuel négatif: {total_elev_virtual_negative:.0f} m") 
+        _tp("deniv_virtual_pos", value=total_elev_virtual_positive)
+        _tp("deniv_virtual_neg", value=total_elev_virtual_negative)
     
     if any(seg.get('slope_effective') is not None for seg in segments):
         total_elev_effective_positive=float(total_elev_virtual_positive)+ deniv_pos
@@ -1210,16 +1411,16 @@ def print_summary_statistics(
             _segment_slope_getter('slope_effective', fallback_key='slope'),
             window_m=float(terrain_smoothing_window_m),
         )
-        print(f"\n📊 Pente effective (terrain + vent):")
-        print(f"   Moyenne: {np.mean(slope_effective_values):.2f}%")
+        _tp("effective_section")
+        _tp("line_mean_pct", value=np.mean(slope_effective_values))
         _print_smoothed_slope_extremes(
             "Effective",
             effective_ext,
             float(np.min(slope_effective_values)),
             float(np.max(slope_effective_values)),
         )
-        print(f"   Dénivelé effectif positif: {total_elev_effective_positive:.0f} m")
-        print(f"   Dénivelé effectif négatif: {total_elev_effective_negative:.0f} m") 
+        _tp("deniv_effective_pos", value=total_elev_effective_positive)
+        _tp("deniv_effective_neg", value=total_elev_effective_negative)
     
     # Statistiques du vent le long de la trajectoire
     if wind_along_values:
@@ -1254,9 +1455,9 @@ def print_summary_statistics(
         avg_headwind = (sum_headwind_weighted / dist_headwind) if dist_headwind > 0 else 0
         avg_tailwind = (sum_tailwind_weighted / dist_tailwind) if dist_tailwind > 0 else 0
         
-        print(f"\n🎯 Vent le long de la trajectoire:")
-        print(f"   Vent de face: {ratio_headwind:.1f}% ({dist_headwind/1000:.2f} km) - Moyenne: {avg_headwind:.2f} km/h")
-        print(f"   Vent de dos: {ratio_tailwind:.1f}% ({dist_tailwind/1000:.2f} km) - Moyenne: {avg_tailwind:.2f} km/h")
+        _tp("along_wind_section")
+        _tp("headwind_line", pct=ratio_headwind, dist=dist_headwind / 1000, avg=avg_headwind)
+        _tp("tailwind_line", pct=ratio_tailwind, dist=dist_tailwind / 1000, avg=avg_tailwind)
         
         # Min et Max du vent de face
         headwind_values = [v for v in wind_along_values if v > 0]  # vent de face (positif)
@@ -1265,8 +1466,8 @@ def print_summary_statistics(
             max_headwind = max(headwind_values)
             min_hw_idx = wind_along_values.index(min_headwind)
             max_hw_idx = wind_along_values.index(max_headwind)
-            print(f"   Vent de face Min: {min_headwind:.2f} km/h (au km {cumulative_dists[min_hw_idx]:.2f})")
-            print(f"   Vent de face Max: {max_headwind:.2f} km/h (au km {cumulative_dists[max_hw_idx]:.2f})")
+            _tp("headwind_min", value=min_headwind, km=cumulative_dists[min_hw_idx])
+            _tp("headwind_max", value=max_headwind, km=cumulative_dists[max_hw_idx])
         
         # Min et Max du vent de dos (valeurs négatives)
         tailwind_values = [v for v in wind_along_values if v < 0]  # vent de dos (négatif)
@@ -1275,13 +1476,14 @@ def print_summary_statistics(
             max_tailwind = min(tailwind_values)  # min car valeurs négatives
             min_tw_idx = wind_along_values.index(min_tailwind)
             max_tw_idx = wind_along_values.index(max_tailwind)
-            print(f"   Vent de dos Min: {min_tailwind:.2f} km/h (au km {cumulative_dists[min_tw_idx]:.2f})")
-            print(f"   Vent de dos Max: {max_tailwind:.2f} km/h (au km {cumulative_dists[max_tw_idx]:.2f})")
+            _tp("tailwind_min", value=min_tailwind, km=cumulative_dists[min_tw_idx])
+            _tp("tailwind_max", value=max_tailwind, km=cumulative_dists[max_tw_idx])
     
     
    
     
-    print(f"\n{'='*60}\n")
+    _tp("sep60_open")
+    _tp("sep60_close")
 
 
 def detect_outliers(segments: List[Dict], 
@@ -1373,7 +1575,7 @@ def detect_outliers(segments: List[Dict],
         text = "\n".join(output)
         
         if show_details:
-            print(text)
+            logger.info("%s", text)
         
         if log_file:
             with open(log_file, 'w', encoding='utf-8') as f:
@@ -1382,7 +1584,7 @@ def detect_outliers(segments: List[Dict],
     elif not outliers:
         msg = "\n✅ Aucun segment aberrant détecté.\n"
         if show_details:
-            print(msg)
+            logger.info("%s", msg)
         if log_file:
             with open(log_file, 'w', encoding='utf-8') as f:
                 f.write(msg)

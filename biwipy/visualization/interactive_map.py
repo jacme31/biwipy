@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Module de visualisation interactive des parcours cyclistes avec analyse du vent.
-Génère une page HTML avec carte Folium et profils d'altitude interactifs.
+Interactive route visualization module with wind analysis.
+Generates an HTML page with a Folium map and interactive elevation profiles.
 """
 
 import folium
@@ -9,190 +9,362 @@ from folium import plugins
 import numpy as np
 from typing import List, Dict, Optional
 import json
+import logging
+import locale
+import os
 
 
-def _generate_statistics_html(segments: List[Dict]) -> str:
+logger = logging.getLogger(__name__)
+
+
+def _detect_output_lang() -> str:
+    """Detect output language: OUTPUT_LANG env var, then OS locale, default EN."""
+    lang = os.environ.get("OUTPUT_LANG", "").strip().lower()
+    if lang.startswith("fr"):
+        return "fr"
+    if lang.startswith("en"):
+        return "en"
+
+    loc = (locale.getdefaultlocale()[0] or "").lower()
+    if loc.startswith("fr"):
+        return "fr"
+    return "en"
+
+
+_UI_I18N = {
+    "fr": {
+        "page_title_default": "Analyse Interactive du Parcours Cycliste",
+        "error_empty_segments": "La liste de segments est vide",
+        "feature_group_name": "Tracé colorisé par vent",
+        "start_marker": "🏁 Départ",
+        "finish_marker": "🏁 Arrivée",
+        "xaxis_from_finish": "Distance depuis l'arrivée (km)",
+        "xaxis_distance": "Distance (km)",
+        "distance_label_remaining": "Distance restante",
+        "distance_label": "Distance",
+        "stats_panel_title": "📊 Statistiques du parcours",
+        "sec_distance_time": "📏 Distance et temps",
+        "label_total_distance": "Distance totale:",
+        "label_total_time": "Temps total:",
+        "label_avg_speed": "Vitesse moyenne:",
+        "sec_wind": "💨 Vent (TWS et TWD)",
+        "label_avg": "Moyen:",
+        "label_direction": "Direction:",
+        "sec_gusts": "💨 Rafales",
+        "label_average": "Moyenne:",
+        "label_min_max": "Min - Max:",
+        "sec_slope": "⛰️ Pente terrain",
+        "label_mean": "Moyenne:",
+        "label_deniv_pos": "Dénivelé +:",
+        "label_deniv_neg": "Dénivelé -:",
+        "sec_virtual": "🌬️ Dénivelé virtuel (vent)",
+        "label_positive": "Positif:",
+        "label_negative": "Négatif:",
+        "sec_along": "🎯 Vent le long de la trajectoire",
+        "label_headwind": "❌ Vent de face:",
+        "label_tailwind": "✅ Vent de dos:",
+        "popup_wind_head": "🔴 Vent de face",
+        "popup_wind_tail": "🟢 Vent de dos",
+        "popup_segment": "📍 Segment",
+        "popup_km": "km",
+        "popup_sec_wind": "💨 Vent",
+        "popup_tws": "Vitesse vent (TWS)",
+        "popup_gusts": "Rafales",
+        "popup_sec_slope": "⛰️ Pente",
+        "popup_terrain": "Terrain",
+        "popup_virtual": "Virtuelle (vent)",
+        "popup_effective": "Effective",
+        "popup_sec_perf": "🚴 Performance",
+        "popup_speed": "Vitesse",
+        "popup_distance": "Distance",
+        "popup_altitude": "Altitude",
+        "btn_stats_title": "Afficher les statistiques",
+        "btn_legend_title": "Afficher la légende vent",
+        "legend_title": "💨 Légende Vent",
+        "legend_head_gt15": "Vent de face > 15 km/h",
+        "legend_head_10_15": "Vent de face 10-15 km/h",
+        "legend_head_5_10": "Vent de face 5-10 km/h",
+        "legend_head_2_5": "Vent de face 2-5 km/h",
+        "legend_weak": "Vent faible ±2 km/h",
+        "legend_tail_2_5": "Vent de dos 2-5 km/h",
+        "legend_tail_5_10": "Vent de dos 5-10 km/h",
+        "legend_tail_10_15": "Vent de dos 10-15 km/h",
+        "legend_tail_gt15": "Vent de dos > 15 km/h",
+        "btn_play": "▶ Lecture",
+        "btn_pause": "⏸ Pause",
+        "btn_reset": "⏮ Début",
+        "popup_current_position": "📍 Position actuelle",
+        "popup_speed_label": "Vitesse",
+        "popup_wind_label": "Vent",
+        "popup_wind_head_short": "🔴 vent de face",
+        "popup_wind_tail_short": "🟢 vent de dos",
+        "trace_real": "Altitude réelle",
+        "trace_virtual": "Altitude virtuelle (effet vent)",
+        "hover_distance": "Distance",
+        "hover_real_altitude": "Altitude réelle",
+        "hover_virtual_altitude": "Altitude virtuelle",
+        "profile_title": "Profil d'altitude : réel vs virtuel (effet vent) - Cliquez pour localiser sur la carte",
+        "yaxis_altitude": "Altitude (m)",
+    },
+    "en": {
+        "page_title_default": "Interactive Cycling Route Analysis",
+        "error_empty_segments": "Segment list is empty",
+        "feature_group_name": "Wind-colored route",
+        "start_marker": "🏁 Start",
+        "finish_marker": "🏁 Finish",
+        "xaxis_from_finish": "Distance to finish (km)",
+        "xaxis_distance": "Distance (km)",
+        "distance_label_remaining": "Remaining distance",
+        "distance_label": "Distance",
+        "stats_panel_title": "📊 Route statistics",
+        "sec_distance_time": "📏 Distance and time",
+        "label_total_distance": "Total distance:",
+        "label_total_time": "Total time:",
+        "label_avg_speed": "Average speed:",
+        "sec_wind": "💨 Wind (TWS and TWD)",
+        "label_avg": "Average:",
+        "label_direction": "Direction:",
+        "sec_gusts": "💨 Gusts",
+        "label_average": "Average:",
+        "label_min_max": "Min - Max:",
+        "sec_slope": "⛰️ Terrain slope",
+        "label_mean": "Average:",
+        "label_deniv_pos": "Elevation gain:",
+        "label_deniv_neg": "Elevation loss:",
+        "sec_virtual": "🌬️ Virtual elevation (wind)",
+        "label_positive": "Positive:",
+        "label_negative": "Negative:",
+        "sec_along": "🎯 Wind along trajectory",
+        "label_headwind": "❌ Headwind:",
+        "label_tailwind": "✅ Tailwind:",
+        "popup_wind_head": "🔴 Headwind",
+        "popup_wind_tail": "🟢 Tailwind",
+        "popup_segment": "📍 Segment",
+        "popup_km": "km",
+        "popup_sec_wind": "💨 Wind",
+        "popup_tws": "Wind speed (TWS)",
+        "popup_gusts": "Gusts",
+        "popup_sec_slope": "⛰️ Slope",
+        "popup_terrain": "Terrain",
+        "popup_virtual": "Virtual (wind)",
+        "popup_effective": "Effective",
+        "popup_sec_perf": "🚴 Performance",
+        "popup_speed": "Speed",
+        "popup_distance": "Distance",
+        "popup_altitude": "Altitude",
+        "btn_stats_title": "Show statistics",
+        "btn_legend_title": "Show wind legend",
+        "legend_title": "💨 Wind legend",
+        "legend_head_gt15": "Headwind > 15 km/h",
+        "legend_head_10_15": "Headwind 10-15 km/h",
+        "legend_head_5_10": "Headwind 5-10 km/h",
+        "legend_head_2_5": "Headwind 2-5 km/h",
+        "legend_weak": "Light wind ±2 km/h",
+        "legend_tail_2_5": "Tailwind 2-5 km/h",
+        "legend_tail_5_10": "Tailwind 5-10 km/h",
+        "legend_tail_10_15": "Tailwind 10-15 km/h",
+        "legend_tail_gt15": "Tailwind > 15 km/h",
+        "btn_play": "▶ Play",
+        "btn_pause": "⏸ Pause",
+        "btn_reset": "⏮ Start",
+        "popup_current_position": "📍 Current position",
+        "popup_speed_label": "Speed",
+        "popup_wind_label": "Wind",
+        "popup_wind_head_short": "🔴 headwind",
+        "popup_wind_tail_short": "🟢 tailwind",
+        "trace_real": "Real altitude",
+        "trace_virtual": "Virtual altitude (wind effect)",
+        "hover_distance": "Distance",
+        "hover_real_altitude": "Real altitude",
+        "hover_virtual_altitude": "Virtual altitude",
+        "profile_title": "Altitude profile: real vs virtual (wind effect) - Click to locate on map",
+        "yaxis_altitude": "Altitude (m)",
+    },
+}
+
+
+def _ui_text(key: str) -> str:
+    lang = _detect_output_lang()
+    return _UI_I18N.get(lang, _UI_I18N["en"]).get(key, _UI_I18N["en"].get(key, key))
+
+
+def _generate_statistics_html(segments: List[Dict], ui: Optional[Dict[str, str]] = None) -> str:
     """
-    Génère le HTML des statistiques du parcours pour affichage dans le panel.
-    
+    Generate route statistics HTML for display in the panel.
+
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments avec données de simulation
-    
+        List of segments with simulation data
+
     Returns:
     --------
-    str : HTML des statistiques
+    str : Statistics HTML
     """
     try:
         from biwipy.analysis.anareswind import compute_average_twd_vectorial, twd_to_text
     except ImportError:
         # Fallback for legacy script usage outside the package context.
         from anareswind import compute_average_twd_vectorial, twd_to_text
-    
+
     # Calculer les statistiques
     total_distance = sum(seg['distance'] for seg in segments) / 1000.0  # km
     total_time = sum(seg['time_s'] for seg in segments) / 60.0  # min
     avg_speed = (total_distance / total_time * 60) if total_time > 0 else 0  # km/h
-    
+
     # Statistiques de vent
     avg_tws = np.mean([seg.get('tws', 0) for seg in segments]) * 3.6  # km/h
     avg_twd_deg, twd_text, _ = compute_average_twd_vectorial(segments)  # La fonction retourne un tuple
-    
+
     avg_gust = np.mean([seg.get('gust', 0) for seg in segments]) * 3.6
     min_gust = min([seg.get('gust', 0) for seg in segments]) * 3.6
     max_gust = max([seg.get('gust', 0) for seg in segments]) * 3.6
-    
+
     # Pentes
     avg_slope = np.mean([seg.get('slope', 0) for seg in segments]) * 100
     min_slope = min([seg.get('slope', 0) for seg in segments]) * 100
     max_slope = max([seg.get('slope', 0) for seg in segments]) * 100
-    
+
     # Dénivelés
-    deniv_pos = sum(seg.get('ele2', 0) - seg.get('ele1', 0) 
+    deniv_pos = sum(seg.get('ele2', 0) - seg.get('ele1', 0)
                     for seg in segments if seg.get('ele2', 0) > seg.get('ele1', 0))
-    deniv_neg = sum(seg.get('ele1', 0) - seg.get('ele2', 0) 
+    deniv_neg = sum(seg.get('ele1', 0) - seg.get('ele2', 0)
                     for seg in segments if seg.get('ele1', 0) > seg.get('ele2', 0))
-    
+
     # Dénivelé virtuel (vent)
-    deniv_virt_pos = sum(seg.get('elevation_virtual_m', 0) 
+    deniv_virt_pos = sum(seg.get('elevation_virtual_m', 0)
                          for seg in segments if seg.get('elevation_virtual_m', 0) > 0)
-    deniv_virt_neg = sum(seg.get('elevation_virtual_m', 0) 
+    deniv_virt_neg = sum(seg.get('elevation_virtual_m', 0)
                          for seg in segments if seg.get('elevation_virtual_m', 0) < 0)
-    
+
     # Vent le long de la trajectoire
     headwind_segs = [seg for seg in segments if seg.get('wind_along', 0) > 0]
     tailwind_segs = [seg for seg in segments if seg.get('wind_along', 0) < 0]
-    
+
     headwind_dist = sum(seg['distance'] for seg in headwind_segs) / 1000.0
     tailwind_dist = sum(seg['distance'] for seg in tailwind_segs) / 1000.0
-    
+
     headwind_pct = (headwind_dist / total_distance * 100) if total_distance > 0 else 0
     tailwind_pct = (tailwind_dist / total_distance * 100) if total_distance > 0 else 0
-    
+
     avg_headwind = np.mean([seg['wind_along'] * 3.6 for seg in headwind_segs]) if headwind_segs else 0
     avg_tailwind = np.mean([seg['wind_along'] * 3.6 for seg in tailwind_segs]) if tailwind_segs else 0
-    
+
+    if ui is None:
+        ui = _UI_I18N.get(_detect_output_lang(), _UI_I18N["en"])
+
     # Générer le HTML
     html = f"""
     <div style="padding: 15px; font-family: Arial, sans-serif; font-size: 13px;">
-        <h3 style="margin: 0 0 15px 0; color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 8px;">📊 Statistiques du parcours</h3>
-        
+        <h3 style="margin: 0 0 15px 0; color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 8px;">{ui['stats_panel_title']}</h3>
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">📏 Distance et temps</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_distance_time']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">Distance totale:</td><td style="text-align: right; font-weight: bold;">{total_distance:.2f} km</td></tr>
-                <tr><td style="padding: 4px 0;">Temps total:</td><td style="text-align: right; font-weight: bold;">{int(total_time//60)}h{int(total_time%60):02d}min</td></tr>
-                <tr><td style="padding: 4px 0;">Vitesse moyenne:</td><td style="text-align: right; font-weight: bold;">{avg_speed:.2f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_total_distance']}</td><td style="text-align: right; font-weight: bold;">{total_distance:.2f} km</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_total_time']}</td><td style="text-align: right; font-weight: bold;">{int(total_time//60)}h{int(total_time%60):02d}min</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_avg_speed']}</td><td style="text-align: right; font-weight: bold;">{avg_speed:.2f} km/h</td></tr>
             </table>
         </div>
-        
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">💨 Vent (TWS et TWD)</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_wind']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">Moyen:</td><td style="text-align: right; font-weight: bold;">{avg_tws:.2f} km/h</td></tr>
-                <tr><td style="padding: 4px 0;">Direction:</td><td style="text-align: right; font-weight: bold;">{avg_twd_deg:.0f}° ({twd_text})</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_avg']}</td><td style="text-align: right; font-weight: bold;">{avg_tws:.2f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_direction']}</td><td style="text-align: right; font-weight: bold;">{avg_twd_deg:.0f}° ({twd_text})</td></tr>
             </table>
         </div>
-        
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">💨 Rafales</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_gusts']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">Moyenne:</td><td style="text-align: right; font-weight: bold;">{avg_gust:.2f} km/h</td></tr>
-                <tr><td style="padding: 4px 0;">Min - Max:</td><td style="text-align: right; font-weight: bold;">{min_gust:.1f} - {max_gust:.1f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_average']}</td><td style="text-align: right; font-weight: bold;">{avg_gust:.2f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_min_max']}</td><td style="text-align: right; font-weight: bold;">{min_gust:.1f} - {max_gust:.1f} km/h</td></tr>
             </table>
         </div>
-        
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">⛰️ Pente terrain</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_slope']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">Moyenne:</td><td style="text-align: right; font-weight: bold;">{avg_slope:.2f} %</td></tr>
-                <tr><td style="padding: 4px 0;">Min - Max:</td><td style="text-align: right; font-weight: bold;">{min_slope:.1f} - {max_slope:.1f} %</td></tr>
-                <tr><td style="padding: 4px 0;">Dénivelé +:</td><td style="text-align: right; font-weight: bold;">{deniv_pos:.0f} m</td></tr>
-                <tr><td style="padding: 4px 0;">Dénivelé -:</td><td style="text-align: right; font-weight: bold;">{deniv_neg:.0f} m</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_mean']}</td><td style="text-align: right; font-weight: bold;">{avg_slope:.2f} %</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_min_max']}</td><td style="text-align: right; font-weight: bold;">{min_slope:.1f} - {max_slope:.1f} %</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_deniv_pos']}</td><td style="text-align: right; font-weight: bold;">{deniv_pos:.0f} m</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_deniv_neg']}</td><td style="text-align: right; font-weight: bold;">{deniv_neg:.0f} m</td></tr>
             </table>
         </div>
-        
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">🌬️ Dénivelé virtuel (vent)</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_virtual']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">Positif:</td><td style="text-align: right; font-weight: bold;">{deniv_virt_pos:.0f} m</td></tr>
-                <tr><td style="padding: 4px 0;">Négatif:</td><td style="text-align: right; font-weight: bold;">{deniv_virt_neg:.0f} m</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_positive']}</td><td style="text-align: right; font-weight: bold;">{deniv_virt_pos:.0f} m</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_negative']}</td><td style="text-align: right; font-weight: bold;">{deniv_virt_neg:.0f} m</td></tr>
             </table>
         </div>
-        
+
         <div style="margin-bottom: 15px;">
-            <h4 style="margin: 10px 0 8px 0; color: #555;">🎯 Vent le long de la trajectoire</h4>
+            <h4 style="margin: 10px 0 8px 0; color: #555;">{ui['sec_along']}</h4>
             <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 4px 0;">❌ Vent de face:</td><td style="text-align: right; font-weight: bold;">{headwind_pct:.1f}% ({headwind_dist:.1f} km)</td></tr>
-                <tr><td style="padding: 4px 0; padding-left: 15px;">Moyenne:</td><td style="text-align: right;">{avg_headwind:.2f} km/h</td></tr>
-                <tr><td style="padding: 4px 0;">✅ Vent de dos:</td><td style="text-align: right; font-weight: bold;">{tailwind_pct:.1f}% ({tailwind_dist:.1f} km)</td></tr>
-                <tr><td style="padding: 4px 0; padding-left: 15px;">Moyenne:</td><td style="text-align: right;">{avg_tailwind:.2f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_headwind']}</td><td style="text-align: right; font-weight: bold;">{headwind_pct:.1f}% ({headwind_dist:.1f} km)</td></tr>
+                <tr><td style="padding: 4px 0; padding-left: 15px;">{ui['label_average']}</td><td style="text-align: right;">{avg_headwind:.2f} km/h</td></tr>
+                <tr><td style="padding: 4px 0;">{ui['label_tailwind']}</td><td style="text-align: right; font-weight: bold;">{tailwind_pct:.1f}% ({tailwind_dist:.1f} km)</td></tr>
+                <tr><td style="padding: 4px 0; padding-left: 15px;">{ui['label_average']}</td><td style="text-align: right;">{avg_tailwind:.2f} km/h</td></tr>
             </table>
         </div>
     </div>
     """
-    
+
     return html
 
 
 def get_wind_color(wind_along_ms: float) -> str:
-    """
-    Retourne une couleur selon l'intensité du vent le long de la trajectoire.
-    
-    Parameters:
-    -----------
-    wind_along_ms : float
-        Vent le long de la trajectoire en m/s (+ = face, - = dos)
-    
-    Returns:
-    --------
-    str : Code couleur hexadécimal
-    """
+    """Return a color based on wind intensity along the trajectory."""
     wind_kmh = wind_along_ms * 3.6
-    
-    # Headwind (positive)
+
+    # Vent de face (positif)
     if wind_kmh > 15:
-        return '#8B0000'  # Dark red
+        return '#8B0000'  # Rouge foncé
     elif wind_kmh > 10:
-        return '#DC143C'  # Red
+        return '#DC143C'  # Rouge
     elif wind_kmh > 5:
-        return '#FF6347'  # Tomato
+        return '#FF6347'  # Tomate
     elif wind_kmh > 2:
         return '#FFA500'  # Orange
     elif wind_kmh > -2:
-        return '#FFD700'  # Yellow/gold (light wind)
-    # Tailwind (negative)
+        return '#FFD700'  # Jaune/or (vent faible)
+    # Vent de dos (négatif)
     elif wind_kmh > -5:
-        return '#90EE90'  # Light green
+        return '#90EE90'  # Vert clair
     elif wind_kmh > -10:
-        return '#32CD32'  # Lime green
+        return '#32CD32'  # Vert citron
     elif wind_kmh > -15:
-        return '#228B22'  # Forest green
+        return '#228B22'  # Vert forêt
     else:
-        return '#006400'  # Dark green
+        return '#006400'  # Vert foncé
 
 
-def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float) -> str:
+def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float, ui: Optional[Dict[str, str]] = None) -> str:
     """
-    Crée le contenu HTML d'un popup pour un segment.
-    
+    Create HTML popup content for a segment.
+
     Parameters:
     -----------
     seg : Dict
-        Segment avec données de simulation
+        Segment with simulation data
     seg_idx : int
-        Index du segment
+        Segment index
     cum_dist_km : float
-        Distance cumulée en km
-    
+        Cumulative distance in km
+
     Returns:
     --------
-    str : Contenu HTML du popup
+    str : Popup HTML content
     """
+    if ui is None:
+        ui = _UI_I18N.get(_detect_output_lang(), _UI_I18N["en"])
+
     wind_along_kmh = seg.get('wind_along', 0) * 3.6
-    wind_type = "🔴 Vent de face" if wind_along_kmh > 0 else "🟢 Vent de dos"
-    
+    wind_type = ui["popup_wind_head"] if wind_along_kmh > 0 else ui["popup_wind_tail"]
+
     tws = seg.get('tws', 0) * 3.6
     gust = seg.get('gust', 0) * 3.6
     speed = seg.get('speed_m_s', 0) * 3.6
@@ -200,16 +372,16 @@ def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float) -> str:
     slope_terrain = seg.get('slope_terrain', seg.get('slope', 0)) * 100
     slope_wind = seg.get('slope_wind', 0) * 100
     slope_effective = seg.get('slope_effective', slope) * 100
-    
+
     html = f"""
     <div style="font-family: Arial; font-size: 12px; min-width: 250px;">
         <h4 style="margin: 0 0 10px 0; color: #333;">
-            📍 Segment #{seg_idx} - km {cum_dist_km:.2f}
+            {ui['popup_segment']} #{seg_idx} - {ui['popup_km']} {cum_dist_km:.2f}
         </h4>
-        
+
         <table style="width: 100%; border-collapse: collapse;">
             <tr style="background-color: #f0f0f0;">
-                <td colspan="2" style="padding: 5px; font-weight: bold;">💨 Vent</td>
+                <td colspan="2" style="padding: 5px; font-weight: bold;">{ui['popup_sec_wind']}</td>
             </tr>
             <tr>
                 <td style="padding: 3px;">{wind_type}</td>
@@ -218,43 +390,43 @@ def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float) -> str:
                 </td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Vitesse vent (TWS)</td>
+                <td style="padding: 3px;">{ui['popup_tws']}</td>
                 <td style="padding: 3px; text-align: right;">{tws:.1f} km/h</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Rafales</td>
+                <td style="padding: 3px;">{ui['popup_gusts']}</td>
                 <td style="padding: 3px; text-align: right;">{gust:.1f} km/h</td>
             </tr>
-            
+
             <tr style="background-color: #f0f0f0;">
-                <td colspan="2" style="padding: 5px; font-weight: bold;">⛰️ Pente</td>
+                <td colspan="2" style="padding: 5px; font-weight: bold;">{ui['popup_sec_slope']}</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Terrain</td>
+                <td style="padding: 3px;">{ui['popup_terrain']}</td>
                 <td style="padding: 3px; text-align: right;">{slope_terrain:.1f}%</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Virtuelle (vent)</td>
+                <td style="padding: 3px;">{ui['popup_virtual']}</td>
                 <td style="padding: 3px; text-align: right;">{slope_wind:.1f}%</td>
             </tr>
             <tr style="font-weight: bold;">
-                <td style="padding: 3px;">Effective</td>
+                <td style="padding: 3px;">{ui['popup_effective']}</td>
                 <td style="padding: 3px; text-align: right;">{slope_effective:.1f}%</td>
             </tr>
-            
+
             <tr style="background-color: #f0f0f0;">
-                <td colspan="2" style="padding: 5px; font-weight: bold;">🚴 Performance</td>
+                <td colspan="2" style="padding: 5px; font-weight: bold;">{ui['popup_sec_perf']}</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Vitesse</td>
+                <td style="padding: 3px;">{ui['popup_speed']}</td>
                 <td style="padding: 3px; text-align: right;">{speed:.1f} km/h</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Distance</td>
+                <td style="padding: 3px;">{ui['popup_distance']}</td>
                 <td style="padding: 3px; text-align: right;">{seg['distance']:.0f} m</td>
             </tr>
             <tr>
-                <td style="padding: 3px;">Altitude</td>
+                <td style="padding: 3px;">{ui['popup_altitude']}</td>
                 <td style="padding: 3px; text-align: right;">
                     {seg.get('ele1', 0):.0f} → {seg.get('ele2', 0):.0f} m
                 </td>
@@ -265,46 +437,50 @@ def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float) -> str:
     return html
 
 
-def create_interactive_map(segments: List[Dict], 
+def create_interactive_map(segments: List[Dict],
                           output_file: str,
-                          title: str = "Analyse Interactive du Parcours Cycliste",
+                          title: Optional[str] = None,
                           enable_animation: bool = True,
                           distance_from_finish: bool = False) -> str:
     """
-    Crée une carte interactive HTML avec tracé colorisé et profil d'altitude.
-    
-    Fonctionnalités :
-    - Synchronisation carte ↔ profil : clic sur profil → marqueur animé sur carte
-    - Animation temporelle avec slider pour rejouer le parcours
-    
+    Create an interactive HTML map with a colorized trace and elevation profile.
+
+    Features:
+    - Map/profile sync: click the profile -> marker on the map
+    - Time animation with a slider to replay the route
+
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments résultats de simulate_with_weather
+        List of segments from simulate_with_weather
     output_file : str
-        Chemin du fichier HTML de sortie
+        Output HTML file path
     title : str, optional
-        Titre de la page
+        Page title
     enable_animation : bool, optional
-        Activer le slider d'animation temporelle (défaut: True)
+        Enable the time animation slider (default: True)
     distance_from_finish : bool, optional
-        Si True, le profil d'altitude interactif utilise la distance restante
-        jusqu'à l'arrivée sur l'axe des abscisses.
-    
+        If True, the interactive elevation profile uses remaining distance
+        to the finish on the x-axis.
+
     Returns:
     --------
-    str : Chemin du fichier généré
+    str : Generated file path
     """
-    
+
+    ui = _UI_I18N.get(_detect_output_lang(), _UI_I18N["en"])
+    if title is None:
+        title = ui["page_title_default"]
+
     if not segments:
-        raise ValueError("La liste de segments est vide")
-    
+        raise ValueError(ui["error_empty_segments"])
+
     # Calculer le centre de la carte
     all_lats = [seg['lat1'] for seg in segments] + [segments[-1]['lat2']]
     all_lons = [seg['lon1'] for seg in segments] + [segments[-1]['lon2']]
     center_lat = np.mean(all_lats)
     center_lon = np.mean(all_lons)
-    
+
     # Créer la carte Folium
     m = folium.Map(
         location=[center_lat, center_lon],
@@ -312,43 +488,43 @@ def create_interactive_map(segments: List[Dict],
         tiles='OpenStreetMap',
         control_scale=True
     )
-    
+
     # Ajouter d'autres fonds de carte avec attributions
     folium.TileLayer(
         tiles='https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.jpg',
         attr='Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL',
         name='Terrain'
     ).add_to(m)
-    
+
     folium.TileLayer(
         tiles='CartoDB positron',
         name='CartoDB'
     ).add_to(m)
-    
+
     # Créer les coordonnées pour la trace et les popups
     cum_dist = 0.0
     trace_coords = []
     segment_coords = []  # Pour la synchronisation et l'animation
     segment_times = []   # Pour l'animation temporelle
-    
+
     # Groupe de features pour la trace
-    feature_group = folium.FeatureGroup(name='Tracé colorisé par vent')
-    
+    feature_group = folium.FeatureGroup(name=ui['feature_group_name'])
+
     cum_time = 0.0  # Temps cumulé en secondes
-    
+
     for i, seg in enumerate(segments):
         lat1, lon1 = seg['lat1'], seg['lon1']
         lat2, lon2 = seg['lat2'], seg['lon2']
-        
+
         # Coordonnées du segment
         coords = [[lat1, lon1], [lat2, lon2]]
         trace_coords.extend(coords)
-        
+
         # Stocker les coordonnées pour la synchronisation (milieu du segment)
         mid_lat = (lat1 + lat2) / 2
         mid_lon = (lon1 + lon2) / 2
         segment_coords.append([mid_lat, mid_lon])
-        
+
         # Stocker le temps pour l'animation
         seg_time = seg.get('time_s', 0)
         segment_times.append({
@@ -359,13 +535,13 @@ def create_interactive_map(segments: List[Dict],
             'distance_km': cum_dist + seg['distance'] / 2000.0
         })
         cum_time += seg_time
-        
+
         # Couleur selon le vent
         color = get_wind_color(seg.get('wind_along', 0))
-        
+
         # Distance cumulée au milieu du segment
         cum_dist_mid = cum_dist + seg['distance'] / 2000.0  # km
-        
+
         # Créer le segment colorisé avec attribut data-segment-id
         folium.PolyLine(
             coords,
@@ -373,28 +549,28 @@ def create_interactive_map(segments: List[Dict],
             weight=5,
             opacity=0.8,
             popup=folium.Popup(
-                create_popup_content(seg, i, cum_dist_mid),
+                create_popup_content(seg, i, cum_dist_mid, ui),
                 max_width=300
             )
         ).add_to(feature_group)
-        
+
         cum_dist += seg['distance'] / 1000.0
-    
+
     feature_group.add_to(m)
-    
+
     # Marqueurs de départ et arrivée
     folium.Marker(
         [segments[0]['lat1'], segments[0]['lon1']],
-        popup='🏁 Départ',
+        popup=ui['start_marker'],
         icon=folium.Icon(color='green', icon='play')
     ).add_to(m)
-    
+
     folium.Marker(
         [segments[-1]['lat2'], segments[-1]['lon2']],
-        popup='🏁 Arrivée',
+        popup=ui['finish_marker'],
         icon=folium.Icon(color='red', icon='stop')
     ).add_to(m)
-    
+
     # Légende pour les couleurs de vent (positionnée à droite du profil d'altitude)
     legend_html = '''
     <div class="wind-legend">
@@ -411,36 +587,36 @@ def create_interactive_map(segments: List[Dict],
     </div>
     '''
     m.get_root().html.add_child(folium.Element(legend_html))
-    
+
     # Contrôle des couches
     folium.LayerControl().add_to(m)
-    
+
     # Plugin de mesure de distance
     plugins.MeasureControl(position='topleft', primary_length_unit='kilometers').add_to(m)
-    
+
     # Plugin de plein écran
     plugins.Fullscreen(position='topleft').add_to(m)
-    
+
     # Préparer les données pour le profil d'altitude (à intégrer avec Plotly)
     distances_km = [0]
     elevations_real = [segments[0].get('ele1', 0)]
     elevations_virtual = [segments[0].get('ele1', 0)]
     speeds_kmh = []
     wind_along_kmh = []
-    
+
     cum_dist = 0.0
     cum_elev_virtual = 0.0
-    
+
     for seg in segments:
         cum_dist += seg['distance'] / 1000.0
         distances_km.append(cum_dist)
-        
+
         elevations_real.append(seg.get('ele2', 0))
-        
+
         elev_virt_seg = seg.get('elevation_virtual_m', 0)
         cum_elev_virtual += elev_virt_seg
         elevations_virtual.append(seg.get('ele2', 0) + cum_elev_virtual)
-        
+
         # Données supplémentaires pour l'animation
         speeds_kmh.append(seg.get('speed_m_s', 0) * 3.6)
         wind_along_kmh.append(seg.get('wind_along', 0) * 3.6)
@@ -451,14 +627,14 @@ def create_interactive_map(segments: List[Dict],
         segment_distances_display_km = [
             total_distance_km - item['distance_km'] for item in segment_times
         ]
-        x_axis_label = "Distance depuis l'arrivée (km)"
-        popup_distance_label = "Distance restante"
+        x_axis_label = ui['xaxis_from_finish']
+        popup_distance_label = ui['distance_label_remaining']
     else:
         distances_display_km = distances_km
         segment_distances_display_km = [item['distance_km'] for item in segment_times]
-        x_axis_label = 'Distance (km)'
-        popup_distance_label = 'Distance'
-    
+        x_axis_label = ui['xaxis_distance']
+        popup_distance_label = ui['distance_label']
+
     # Créer le HTML avec Plotly intégré pour le profil
     plotly_data = {
         'distances': distances_display_km,
@@ -475,65 +651,84 @@ def create_interactive_map(segments: List[Dict],
         'popup_distance_label': popup_distance_label,
         'distance_from_finish': bool(distance_from_finish),
     }
-    
+
     # Sauvegarder la carte
     m.save(output_file)
-    
+
     # Ajouter le profil Plotly avec synchronisation et animation
-    _add_plotly_profile(output_file, plotly_data, title, segments)
-    
-    print(f"✅ Carte interactive créée : {output_file}")
-    print(f"   - {len(segments)} segments tracés")
-    print(f"   - Distance totale : {total_distance_km:.2f} km")
-    print(f"   - Altitude : {min(elevations_real):.0f} - {max(elevations_real):.0f} m")
-    print(f"   - Durée totale : {cum_time/60:.1f} min")
+    _add_plotly_profile(output_file, plotly_data, title, segments, ui)
+
+    logger.info("Interactive map created: %s", output_file)
+    logger.info("  - segments: %d", len(segments))
+    logger.info("  - total distance: %.2f km", total_distance_km)
+    logger.info("  - altitude range: %.0f - %.0f m", min(elevations_real), max(elevations_real))
+    logger.info("  - total duration: %.1f min", cum_time / 60)
     if enable_animation:
-        print(f"   - Animation temporelle activée")
-    
+        logger.info("  - time animation: enabled")
+
     return output_file
 
 
-def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[Dict]):
+def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[Dict], ui: Optional[Dict[str, str]] = None):
     """
-    Ajoute un profil d'altitude Plotly interactif dans le fichier HTML Folium.
-    
-    Fonctionnalités :
-    - Synchronisation carte ↔ profil : clic/survol sur profil → marqueur sur carte
-    - Animation temporelle avec slider pour rejouer le parcours
-    - Panel de statistiques accessible via bouton flottant
-    
+    Add an interactive Plotly elevation profile to the Folium HTML file.
+
+    Features:
+    - Map/profile sync: click/hover profile -> marker on the map
+    - Time animation with a slider to replay the route
+    - Statistics panel accessible via a floating button
+
     Parameters:
     -----------
     html_file : str
-        Chemin du fichier HTML
+        HTML file path
     data : Dict
-        Données de distance, altitude, coordonnées et temps
+        Distance, elevation, coordinates, and time data
     title : str
-        Titre du graphique
+        Plot title
     segments : List[Dict]
-        Liste des segments originaux pour générer les statistiques
+        List of original segments to generate statistics
     """
-    
+
+    if ui is None:
+        ui = _UI_I18N.get(_detect_output_lang(), _UI_I18N["en"])
+
+    js_ui = {
+        "popupCurrentPosition": ui["popup_current_position"],
+        "popupSpeedLabel": ui["popup_speed_label"],
+        "popupWindLabel": ui["popup_wind_label"],
+        "popupWindHead": ui["popup_wind_head_short"],
+        "popupWindTail": ui["popup_wind_tail_short"],
+        "traceReal": ui["trace_real"],
+        "traceVirtual": ui["trace_virtual"],
+        "hoverDistance": ui["hover_distance"],
+        "hoverRealAltitude": ui["hover_real_altitude"],
+        "hoverVirtualAltitude": ui["hover_virtual_altitude"],
+        "profileTitle": ui["profile_title"],
+        "yAxisAltitude": ui["yaxis_altitude"],
+    }
+
     # Lire le fichier HTML existant
     with open(html_file, 'r', encoding='utf-8') as f:
         html_content = f.read()
-    
+
     # Injecter le viewport meta tag si absent
     if '<meta name="viewport"' not in html_content:
         html_content = html_content.replace(
             '<head>',
             '<head>\n    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">'
         )
-    
+
     # Déterminer la hauteur du profil selon si l'animation est activée
     profile_height = 400 if data.get('enable_animation', True) else 350
     map_height = f"calc(100vh - {profile_height}px)"
-    
+    autorange_value = "\"reversed\"" if data.get('distance_from_finish') else "true"
+
     # Créer le script Plotly avec synchronisation et animation
     plotly_script = f"""
     <!-- Plotly CDN -->
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    
+
     <style>
     body {{
         margin: 0;
@@ -619,7 +814,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         font-weight: bold;
         color: #333;
     }}
-    
+
     /* Bouton flottant pour les statistiques */
     #stats-button {{
         position: fixed;
@@ -644,7 +839,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         background: #1976D2;
         transform: scale(1.05);
     }}
-    
+
     /* 🎨 Bouton flottant pour la légende */
     #legend-button {{
         position: fixed;
@@ -669,7 +864,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         background: #F57C00;
         transform: scale(1.05);
     }}
-    
+
     /* 📊 Panel de statistiques */
     #stats-panel {{
         position: fixed;
@@ -703,7 +898,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
     #stats-close:hover {{
         background: #e0e0e0;
     }}
-    
+
     /* 🎨 Panel de légende */
     #legend-panel {{
         position: fixed;
@@ -737,37 +932,37 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
     #legend-close:hover {{
         background: #e0e0e0;
     }}
-    
+
     .wind-legend-content {{
         padding: 15px;
         font-size: 13px;
     }}
-    
+
     .wind-legend {{
         /* Masquée par défaut - accessible via bouton */
         display: none;
     }}
-    
+
     /* 📱 ADAPTATION MOBILE PORTRAIT */
     @media only screen and (max-width: 768px) and (orientation: portrait) {{
         #map {{
             /* Utiliser dvh (dynamic viewport height) pour tenir compte des barres d'adresse */
             height: calc(100dvh - 240px - 50px) !important;
         }}
-        
+
         #elevation-profile {{
             width: 100% !important;
             height: 240px !important;
             bottom: 0 !important;
         }}
-        
+
         #animation-controls {{
             width: 100% !important;
             bottom: 240px !important;
             padding: 6px 8px !important;
             gap: 6px !important;
         }}
-        
+
         #stats-button {{
             top: 70px !important;
             right: 15px !important;
@@ -775,7 +970,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 48px !important;
             font-size: 20px !important;
         }}
-        
+
         #legend-button {{
             top: 130px !important;
             right: 15px !important;
@@ -783,7 +978,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 48px !important;
             font-size: 20px !important;
         }}
-        
+
         #stats-panel {{
             width: 100% !important;
             left: -100% !important;
@@ -791,7 +986,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         #stats-panel.open {{
             left: 0 !important;
         }}
-        
+
         #legend-panel {{
             width: 100% !important;
             left: -100% !important;
@@ -799,37 +994,37 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         #legend-panel.open {{
             left: 0 !important;
         }}
-        
+
         .anim-button {{
             padding: 6px 10px !important;
             font-size: 12px !important;
         }}
-        
+
         #time-display {{
             min-width: 100px !important;
             font-size: 12px !important;
         }}
     }}
-    
+
     /* 📱 ADAPTATION MOBILE PAYSAGE (landscape) */
     @media only screen and (max-height: 600px) and (orientation: landscape) {{
         #map {{
             height: calc(100dvh - 160px - 45px) !important;
         }}
-        
+
         #elevation-profile {{
             width: 100% !important;
             height: 160px !important;
             bottom: 0 !important;
         }}
-        
+
         #animation-controls {{
             width: 100% !important;
             bottom: 160px !important;
             padding: 4px 6px !important;
             gap: 5px !important;
         }}
-        
+
         #stats-button {{
             top: 10px !important;
             right: 10px !important;
@@ -837,7 +1032,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 44px !important;
             font-size: 18px !important;
         }}
-        
+
         #legend-button {{
             top: 65px !important;
             right: 10px !important;
@@ -845,7 +1040,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 44px !important;
             font-size: 18px !important;
         }}
-        
+
         #stats-panel {{
             width: 350px !important;
             left: -350px !important;
@@ -853,7 +1048,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         #stats-panel.open {{
             left: 0 !important;
         }}
-        
+
         #legend-panel {{
             width: 350px !important;
             left: -350px !important;
@@ -861,39 +1056,39 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         #legend-panel.open {{
             left: 0 !important;
         }}
-        
+
         .anim-button {{
             padding: 4px 8px !important;
             font-size: 11px !important;
         }}
-        
+
         #time-display {{
             min-width: 80px !important;
             font-size: 11px !important;
         }}
-        
+
         /* Masquer la légende en paysage mobile aussi */
         .wind-legend {{
             display: none !important;
         }}
     }}
-    
+
     /* 📱 TRÈS PETITS ÉCRANS PORTRAIT */
     @media only screen and (max-width: 480px) and (orientation: portrait) {{
         #map {{
             height: calc(100dvh - 220px - 45px) !important;
         }}
-        
+
         #elevation-profile {{
             height: 220px !important;
         }}
-        
+
         #animation-controls {{
             bottom: 220px !important;
             padding: 5px 6px !important;
             flex-wrap: wrap !important;
         }}
-        
+
         #stats-button {{
             top: 60px !important;
             right: 10px !important;
@@ -901,7 +1096,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 44px !important;
             font-size: 18px !important;
         }}
-        
+
         #legend-button {{
             top: 115px !important;
             right: 10px !important;
@@ -909,97 +1104,97 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             height: 44px !important;
             font-size: 18px !important;
         }}
-        
+
         .anim-button {{
             padding: 5px 8px !important;
             font-size: 11px !important;
         }}
-        
+
         #time-display {{
             font-size: 11px !important;
             min-width: 90px !important;
         }}
     }}
     </style>
-    
+
     <!-- Bouton flottant pour les statistiques -->
-    <button id="stats-button" title="Afficher les statistiques">📊</button>
-    
+    <button id="stats-button" title="{ui['btn_stats_title']}">📊</button>
+
     <!-- Bouton flottant pour la légende -->
-    <button id="legend-button" title="Afficher la légende vent">🎨</button>
-    
+    <button id="legend-button" title="{ui['btn_legend_title']}">🎨</button>
+
     <!-- Panel de statistiques -->
     <div id="stats-panel">
         <button id="stats-close">✖</button>
-        {_generate_statistics_html(segments)}
+        {_generate_statistics_html(segments, ui)}
     </div>
-    
+
     <!-- Panel de légende -->
     <div id="legend-panel">
         <button id="legend-close">✖</button>
         <div class="wind-legend-content">
-            <h3 style="margin: 0 0 15px 0; color: #333; border-bottom: 2px solid #FF9800; padding-bottom: 8px;">💨 Légende Vent</h3>
-            <p style="margin: 8px 0;"><span style="color: #8B0000; font-size: 20px;">█</span> Vent de face > 15 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #DC143C; font-size: 20px;">█</span> Vent de face 10-15 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #FF6347; font-size: 20px;">█</span> Vent de face 5-10 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #FFA500; font-size: 20px;">█</span> Vent de face 2-5 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #FFD700; font-size: 20px;">█</span> Vent faible ±2 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #90EE90; font-size: 20px;">█</span> Vent de dos 2-5 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #32CD32; font-size: 20px;">█</span> Vent de dos 5-10 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #228B22; font-size: 20px;">█</span> Vent de dos 10-15 km/h</p>
-            <p style="margin: 8px 0;"><span style="color: #006400; font-size: 20px;">█</span> Vent de dos > 15 km/h</p>
+            <h3 style="margin: 0 0 15px 0; color: #333; border-bottom: 2px solid #FF9800; padding-bottom: 8px;">{ui['legend_title']}</h3>
+            <p style="margin: 8px 0;"><span style="color: #8B0000; font-size: 20px;">█</span> {ui['legend_head_gt15']}</p>
+            <p style="margin: 8px 0;"><span style="color: #DC143C; font-size: 20px;">█</span> {ui['legend_head_10_15']}</p>
+            <p style="margin: 8px 0;"><span style="color: #FF6347; font-size: 20px;">█</span> {ui['legend_head_5_10']}</p>
+            <p style="margin: 8px 0;"><span style="color: #FFA500; font-size: 20px;">█</span> {ui['legend_head_2_5']}</p>
+            <p style="margin: 8px 0;"><span style="color: #FFD700; font-size: 20px;">█</span> {ui['legend_weak']}</p>
+            <p style="margin: 8px 0;"><span style="color: #90EE90; font-size: 20px;">█</span> {ui['legend_tail_2_5']}</p>
+            <p style="margin: 8px 0;"><span style="color: #32CD32; font-size: 20px;">█</span> {ui['legend_tail_5_10']}</p>
+            <p style="margin: 8px 0;"><span style="color: #228B22; font-size: 20px;">█</span> {ui['legend_tail_10_15']}</p>
+            <p style="margin: 8px 0;"><span style="color: #006400; font-size: 20px;">█</span> {ui['legend_tail_gt15']}</p>
         </div>
     </div>
-    
+
     <!-- Conteneur pour les contrôles d'animation -->
     <div id="animation-controls">
-        <button id="play-btn" class="anim-button">▶ Lecture</button>
-        <button id="pause-btn" class="anim-button" style="display:none;">⏸ Pause</button>
+        <button id="play-btn" class="anim-button">{ui['btn_play']}</button>
+        <button id="pause-btn" class="anim-button" style="display:none;">{ui['btn_pause']}</button>
         <input type="range" id="time-slider" min="0" max="{int(data.get('total_time_s', 0))}" value="0" step="1">
         <div id="time-display">00:00 / {int(data.get('total_time_s', 0) // 60):02d}:{int(data.get('total_time_s', 0) % 60):02d}</div>
-        <button id="reset-btn" class="anim-button">⏮ Début</button>
+        <button id="reset-btn" class="anim-button">{ui['btn_reset']}</button>
     </div>
-    
+
     <!-- Conteneur pour le profil -->
     <div id="elevation-profile"></div>
-    
+
     <script>
     // Variables globales
     var leafletMap = null;
     var currentMarker = null;
     var animationRunning = false;
     var animationInterval = null;
-    
+
     // 📊 Gestion du panel de statistiques
     var statsButton = document.getElementById('stats-button');
     var statsPanel = document.getElementById('stats-panel');
     var statsClose = document.getElementById('stats-close');
-    
+
     statsButton.addEventListener('click', function() {{
         statsPanel.classList.toggle('open');
         // Fermer la légende si ouverte
         legendPanel.classList.remove('open');
     }});
-    
+
     statsClose.addEventListener('click', function() {{
         statsPanel.classList.remove('open');
     }});
-    
+
     // 🎨 Gestion du panel de légende
     var legendButton = document.getElementById('legend-button');
     var legendPanel = document.getElementById('legend-panel');
     var legendClose = document.getElementById('legend-close');
-    
+
     legendButton.addEventListener('click', function() {{
         legendPanel.classList.toggle('open');
         // Fermer les stats si ouvertes
         statsPanel.classList.remove('open');
     }});
-    
+
     legendClose.addEventListener('click', function() {{
         legendPanel.classList.remove('open');
     }});
-    
+
     // Fermer les panels en cliquant en dehors
     document.addEventListener('click', function(e) {{
         if (!statsPanel.contains(e.target) && e.target !== statsButton) {{
@@ -1009,7 +1204,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             legendPanel.classList.remove('open');
         }}
     }});
-    
+
     // Fonction pour trouver la carte Leaflet dans les variables globales
     function findLeafletMap() {{
         // Méthode 1: Chercher dans les variables globales commençant par 'map_'
@@ -1019,7 +1214,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 return window[key];
             }}
         }}
-        
+
         // Méthode 2: Chercher via le conteneur DOM
         var mapContainer = document.getElementById('map');
         if (mapContainer && mapContainer._leaflet_id) {{
@@ -1031,10 +1226,10 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 }}
             }}
         }}
-        
+
         return null;
     }}
-    
+
     // Attendre que Leaflet et la carte soient chargés
     function waitForMap(callback) {{
         if (typeof L === 'undefined') {{
@@ -1042,7 +1237,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             setTimeout(function() {{ waitForMap(callback); }}, 100);
             return;
         }}
-        
+
         var map = findLeafletMap();
         if (map) {{
             leafletMap = map;
@@ -1052,7 +1247,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             setTimeout(function() {{ waitForMap(callback); }}, 100);
         }}
     }}
-    
+
     // Données du parcours
     var distances = {json.dumps(data['distances'])};
     var elevationsReal = {json.dumps(data['elevations_real'])};
@@ -1065,32 +1260,33 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
     var totalTimeS = {data.get('total_time_s', 0)};
     var xAxisLabel = {json.dumps(data.get('x_axis_label', 'Distance (km)'))};
     var popupDistanceLabel = {json.dumps(data.get('popup_distance_label', 'Distance'))};
-    
+    var ui = {json.dumps(js_ui, ensure_ascii=False)};
+
     // Fonction pour créer/déplacer le marqueur de position sur la carte
     function updateMarkerOnMap(lat, lon, distanceKm, speed, windAlong) {{
         if (!leafletMap) {{
             console.warn('⚠️ Carte non disponible');
             return;
         }}
-        
+
         if (typeof L === 'undefined') {{
             console.warn('⚠️ Leaflet non chargé');
             return;
         }}
-        
+
         var popupContent = '<div style="font-family: Arial; min-width: 180px; padding: 5px;">' +
-                          '<h4 style="margin: 0 0 10px 0; color: #FF4500;">📍 Position actuelle</h4>' +
+                          '<h4 style="margin: 0 0 10px 0; color: #FF4500;">' + ui.popupCurrentPosition + '</h4>' +
                           '<p style="margin: 4px 0; font-size: 13px;"><b>' + popupDistanceLabel + ':</b> ' + distanceKm.toFixed(2) + ' km</p>';
-        
+
         if (speed !== undefined && !isNaN(speed)) {{
-            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>Vitesse:</b> ' + speed.toFixed(1) + ' km/h</p>';
+            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>' + ui.popupSpeedLabel + ':</b> ' + speed.toFixed(1) + ' km/h</p>';
         }}
         if (windAlong !== undefined && !isNaN(windAlong)) {{
-            var windType = windAlong > 0 ? '🔴 vent de face' : '🟢 vent de dos';
-            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>Vent:</b> ' + Math.abs(windAlong).toFixed(1) + ' km/h ' + windType + '</p>';
+            var windType = windAlong > 0 ? ui.popupWindHead : ui.popupWindTail;
+            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>' + ui.popupWindLabel + ':</b> ' + Math.abs(windAlong).toFixed(1) + ' km/h ' + windType + '</p>';
         }}
         popupContent += '</div>';
-        
+
         if (currentMarker) {{
             // Déplacer le marqueur existant
             currentMarker.setLatLng([lat, lon]);
@@ -1118,20 +1314,20 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 iconSize: [28, 28],
                 iconAnchor: [14, 14]
             }});
-            
+
             currentMarker = L.marker([lat, lon], {{
                 icon: pulsingIcon,
                 zIndexOffset: 10000
             }}).addTo(leafletMap);
-            
+
             currentMarker.bindPopup(popupContent);
             console.log('✅ Marqueur créé à', lat, lon);
         }}
-        
+
         // Pas de recentrage automatique pendant l'animation - l'utilisateur garde le contrôle
         // Le marqueur suit simplement le parcours sur la carte visible
     }}
-    
+
     // Fonction pour trouver le segment à un temps donné
     function findSegmentAtTime(timeS) {{
         for (var i = 0; i < segmentTimes.length; i++) {{
@@ -1141,19 +1337,19 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         }}
         return segmentTimes.length - 1;
     }}
-    
+
     // Fonction pour mettre à jour la position selon le temps
     function updatePositionAtTime(timeS) {{
         var segIdx = findSegmentAtTime(timeS);
         if (segIdx < 0 || segIdx >= segmentCoords.length) return;
-        
+
         var coord = segmentCoords[segIdx];
         var dist = segmentDistances[segIdx];
         var speed = speedsKmh[segIdx];
         var wind = windAlongKmh[segIdx];
-        
+
         updateMarkerOnMap(coord[0], coord[1], dist, speed, wind);
-        
+
         // Mettre à jour la ligne verticale sur le graphique
         if (typeof Plotly !== 'undefined') {{
             var xPos = dist;
@@ -1174,7 +1370,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             }});
         }}
     }}
-    
+
     // Contrôles d'animation
     document.addEventListener('DOMContentLoaded', function() {{
         var playBtn = document.getElementById('play-btn');
@@ -1182,28 +1378,28 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         var resetBtn = document.getElementById('reset-btn');
         var timeSlider = document.getElementById('time-slider');
         var timeDisplay = document.getElementById('time-display');
-        
+
         function formatTime(seconds) {{
             var mins = Math.floor(seconds / 60);
             var secs = Math.floor(seconds % 60);
             return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
         }}
-        
+
         function updateTimeDisplay(currentTime) {{
             var totalMins = Math.floor(totalTimeS / 60);
             var totalSecs = Math.floor(totalTimeS % 60);
-            timeDisplay.textContent = formatTime(currentTime) + ' / ' + 
-                                     totalMins.toString().padStart(2, '0') + ':' + 
+            timeDisplay.textContent = formatTime(currentTime) + ' / ' +
+                                     totalMins.toString().padStart(2, '0') + ':' +
                                      totalSecs.toString().padStart(2, '0');
         }}
-        
+
         // Lecture
         playBtn.addEventListener('click', function() {{
             if (!animationRunning) {{
                 animationRunning = true;
                 playBtn.style.display = 'none';
                 pauseBtn.style.display = 'inline-block';
-                
+
                 animationInterval = setInterval(function() {{
                     var currentTime = parseInt(timeSlider.value);
                     if (currentTime >= totalTimeS) {{
@@ -1214,7 +1410,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                         pauseBtn.style.display = 'none';
                         return;
                     }}
-                    
+
                     currentTime += 1;  // Avancer de 1 seconde
                     timeSlider.value = currentTime;
                     updateTimeDisplay(currentTime);
@@ -1222,7 +1418,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 }}, 50);  // Mise à jour toutes les 50ms (vitesse x20)
             }}
         }});
-        
+
         // Pause
         pauseBtn.addEventListener('click', function() {{
             if (animationRunning) {{
@@ -1232,7 +1428,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 pauseBtn.style.display = 'none';
             }}
         }});
-        
+
         // Reset
         resetBtn.addEventListener('click', function() {{
             if (animationRunning) {{
@@ -1245,7 +1441,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             updateTimeDisplay(0);
             updatePositionAtTime(0);
         }});
-        
+
         // Slider manuel
         timeSlider.addEventListener('input', function() {{
             var currentTime = parseInt(this.value);
@@ -1253,7 +1449,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             updatePositionAtTime(currentTime);
         }});
     }});
-    
+
     // Attendre que Plotly soit chargé
     window.addEventListener('load', function() {{
         // 📱 Fonction pour détecter si on est sur mobile (incluant paysage)
@@ -1264,33 +1460,33 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             var isLandscapeMobile = window.innerHeight <= 600 && window.innerWidth <= 1024;
             return isTouchDevice && (isSmallWidth || isLandscapeMobile);
         }}
-        
+
         var traceReal = {{
             customdata: distances.map(function(v) {{
-                return popupDistanceLabel + ' : ' + v.toFixed(2) + ' km';
+                return ui.hoverDistance + ' : ' + v.toFixed(2) + ' km';
             }}),
             x: distances,
             y: elevationsReal,
             mode: 'lines',
-            name: 'Altitude réelle',
+            name: ui.traceReal,
             line: {{color: 'sienna', width: 2}},
             fill: 'tozeroy',
             fillcolor: 'rgba(210, 180, 140, 0.3)',
-            hovertemplate: '<b>%{{customdata}}</b><br><b>Altitude réelle :</b> %{{y:.0f}} m<extra></extra>'
+            hovertemplate: '<b>%{{customdata}}</b><br><b>' + ui.hoverRealAltitude + ':</b> %{{y:.0f}} m<extra></extra>'
         }};
-        
+
         var traceVirtual = {{
             x: distances,
             y: elevationsVirtual,
             mode: 'lines',
-            name: 'Altitude virtuelle (effet vent)',
+            name: ui.traceVirtual,
             line: {{color: 'steelblue', width: 2, dash: 'dash'}},
-            hovertemplate: '<b>Altitude virtuelle:</b> %{{y:.0f}} m<extra></extra>'
+            hovertemplate: '<b>' + ui.hoverVirtualAltitude + ':</b> %{{y:.0f}} m<extra></extra>'
         }};
-        
+
         var layout = {{
             title: {{
-                text: 'Profil d\\'altitude : réel vs virtuel (effet vent) - Cliquez pour localiser sur la carte',
+                text: ui.profileTitle,
                 font: {{size: 14}}
             }},
             xaxis: {{
@@ -1298,10 +1494,10 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 gridcolor: '#e0e0e0',
                 automargin: false,
                 hoverformat: '.2f',
-                autorange: {'"reversed"' if data.get('distance_from_finish') else 'true'}
+                autorange: {autorange_value}
             }},
             yaxis: {{
-                title: 'Altitude (m)',
+                title: ui.yAxisAltitude,
                 gridcolor: '#e0e0e0',
                 automargin: false
             }},
@@ -1323,7 +1519,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             // 📱 Désactiver le drag sur mobile (portrait ET paysage)
             dragmode: isMobileDevice() ? false : 'zoom'
         }};
-        
+
         var config = {{
             responsive: true,
             displayModeBar: !isMobileDevice(),  // Masquer toolbar sur mobile
@@ -1333,12 +1529,12 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             doubleClick: false,
             scrollZoom: false
         }};
-        
+
         Plotly.newPlot('elevation-profile', [traceReal, traceVirtual], layout, config);
-        
+
         // 📱 Empêcher le zoom sur mobile (portrait ET paysage)
         var plotlyDiv = document.getElementById('elevation-profile');
-        
+
         if (isMobileDevice()) {{
             // Empêcher le pinch-to-zoom (2+ doigts)
             plotlyDiv.addEventListener('touchstart', function(e) {{
@@ -1346,18 +1542,18 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                     e.preventDefault();
                 }}
             }}, {{ passive: false }});
-            
+
             // Empêcher le menu contextuel long press (mais pas le tap simple)
             plotlyDiv.addEventListener('contextmenu', function(e) {{
                 e.preventDefault();
             }});
-            
+
             // Empêcher le zoom par geste iOS
             plotlyDiv.addEventListener('gesturestart', function(e) {{
                 e.preventDefault();
             }});
         }}
-        
+
         // 📱 Adapter les marges pour mobile
         if (isMobileDevice()) {{
             Plotly.relayout('elevation-profile', {{
@@ -1370,17 +1566,17 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 'title.font.size': 11
             }});
         }}
-        
+
         // 📱 Ré-adapter lors de la rotation d'écran
         window.addEventListener('resize', function() {{
             Plotly.Plots.resize('elevation-profile');
-            
+
             // Redétecter si mobile après rotation
             var isMobileNow = isMobileDevice();
             Plotly.relayout('elevation-profile', {{
                 'dragmode': isMobileNow ? false : 'zoom'
             }});
-            
+
             if (isMobileNow) {{
                 Plotly.relayout('elevation-profile', {{
                     'margin.l': 35,
@@ -1397,20 +1593,20 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 }});
             }}
         }});
-        
+
         // Synchronisation : clic sur le profil → marqueur sur la carte
         var profileDiv = document.getElementById('elevation-profile');
-        
+
         profileDiv.on('plotly_click', function(data) {{
             console.log('🖱️ Clic sur profil détecté');
             if (data.points && data.points.length > 0) {{
                 var distanceKm = data.points[0].x;
                 console.log('📍 Distance cliquée:', distanceKm.toFixed(2), 'km');
-                
+
                 // Trouver le segment le plus proche
                 var closestSegIdx = 0;
                 var minDiff = Math.abs(segmentDistances[0] - distanceKm);
-                
+
                 for (var i = 1; i < segmentTimes.length; i++) {{
                     var diff = Math.abs(segmentDistances[i] - distanceKm);
                     if (diff < minDiff) {{
@@ -1418,12 +1614,12 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                         closestSegIdx = i;
                     }}
                 }}
-                
+
                 console.log('🎯 Segment trouvé:', closestSegIdx);
                 var coord = segmentCoords[closestSegIdx];
                 var speed = speedsKmh[closestSegIdx];
                 var wind = windAlongKmh[closestSegIdx];
-                
+
                 waitForMap(function() {{
                     updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind);
                     if (currentMarker && leafletMap) {{
@@ -1434,16 +1630,16 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 }});
             }}
         }});
-        
+
         // Survol du profil pour prévisualisation
         profileDiv.on('plotly_hover', function(data) {{
             if (data.points && data.points.length > 0) {{
                 var distanceKm = data.points[0].x;
-                
+
                 // Trouver le segment le plus proche
                 var closestSegIdx = 0;
                 var minDiff = Math.abs(segmentDistances[0] - distanceKm);
-                
+
                 for (var i = 1; i < segmentTimes.length; i++) {{
                     var diff = Math.abs(segmentDistances[i] - distanceKm);
                     if (diff < minDiff) {{
@@ -1451,22 +1647,22 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                         closestSegIdx = i;
                     }}
                 }}
-                
+
                 var coord = segmentCoords[closestSegIdx];
                 var speed = speedsKmh[closestSegIdx];
                 var wind = windAlongKmh[closestSegIdx];
-                
+
                 waitForMap(function() {{
                     updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind);
                 }});
             }}
         }});
-        
+
         // Redimensionner lors du changement de taille de fenêtre
         window.addEventListener('resize', function() {{
             Plotly.Plots.resize('elevation-profile');
         }});
-        
+
         // Initialiser la carte après chargement complet
         console.log('🚀 Initialisation de la synchronisation carte-profil...');
         waitForMap(function() {{
@@ -1483,15 +1679,15 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
     }});
     </script>
     """
-    
+
     # Insérer avant la balise </body>
     html_content = html_content.replace('</body>', plotly_script + '\n</body>')
-    
+
     # Réécrire le fichier
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
 
 
 if __name__ == "__main__":
-    print("Module interactive_map.py - Interactive cycling route visualization")
-    print("Usage: from interactive_map import create_interactive_map")
+    logger.info("interactive_map.py module - Interactive cycling route visualization")
+    logger.info("Usage: from interactive_map import create_interactive_map")

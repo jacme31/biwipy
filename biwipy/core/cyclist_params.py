@@ -274,14 +274,14 @@ class CyclistBehavior:
     
     def save(self, dirpath: str, filename: str):
         """
-        Sauvegarde la configuration dans un fichier JSON.
+        Save configuration to a JSON file.
         
         Parameters:
         -----------
         dirpath : str
-            Chemin du répertoire où sauvegarder
+            Path to the directory to save into
         filename : str
-            Nom du fichier (ex: 'remco_profile.json')
+            File name (e.g. 'remco_profile.json')
         
         Example:
         --------
@@ -300,18 +300,18 @@ class CyclistBehavior:
     @classmethod
     def load(cls, dirpath: str, filename: str) -> 'CyclistBehavior':
         """
-        Charge une configuration depuis un fichier JSON.
+        Load configuration from a JSON file.
         
         Parameters:
         -----------
         dirpath : str
-            Chemin du répertoire contenant le fichier
+            Path to the directory containing the file
         filename : str
-            Nom du fichier à charger
+            File name to load
         
         Returns:
         --------
-        CyclistBehavior : Instance avec la configuration chargée
+        CyclistBehavior : Instance with loaded configuration
         
         Example:
         --------

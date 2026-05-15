@@ -348,7 +348,7 @@ class Grib:
                     param_id = getattr(grb, 'paramId', None)
                     grb_name = getattr(grb, 'name', '')
                     is_gust_like = (
-                        shortname in ('gust', '10fg', '10fg3')
+                        (isinstance(shortname, str) and (shortname == 'gust' or shortname.startswith('10fg')))
                         or param_id == 49
                         or (isinstance(grb_name, str) and 'gust' in grb_name.lower())
                     )
@@ -530,7 +530,7 @@ class Grib:
                     param_id = getattr(grb, 'paramId', None)
                     grb_name = getattr(grb, 'name', '')
                     is_gust_like = (
-                        shortname in ('gust', '10fg', '10fg3')
+                        (isinstance(shortname, str) and (shortname == 'gust' or shortname.startswith('10fg')))
                         or param_id == 49
                         or (isinstance(grb_name, str) and 'gust' in grb_name.lower())
                     )

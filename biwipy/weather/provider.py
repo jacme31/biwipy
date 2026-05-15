@@ -5,10 +5,10 @@ from .grib_manager import Grib
 
 class WeatherProvider:
     """
-    Interface publique stable pour l'accès météo (GRIB).
+    Stable public interface for weather access (GRIB).
 
-    - get_wind(): récupère tws/twd/gust à un point
-    - wind_impact(): projection du vent sur un segment
+    - get_wind(): fetch tws/twd/gust at a point
+    - wind_impact(): project wind onto a segment
     """
 
     def __init__(

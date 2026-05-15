@@ -14,6 +14,87 @@ Usage:
 """
 
 from typing import List, Dict, Tuple
+import locale
+import os
+
+
+def _detect_output_lang() -> str:
+    lang = os.environ.get("OUTPUT_LANG", "").strip().lower()
+    if lang in ("fr", "en"):
+        return lang
+    try:
+        loc = locale.getlocale()[0] or locale.getdefaultlocale()[0] or ""
+        if loc.lower().startswith("fr"):
+            return "fr"
+    except Exception:
+        pass
+    return "en"
+
+
+_I18N = {
+    "title": {
+        "fr": "  🌪️  ANALYSE TACTIQUE - OPPORTUNITES DE BORDURES",
+        "en": "  🌪️  TACTICAL ANALYSIS - ECHELON OPPORTUNITIES",
+    },
+    "no_zones": {
+        "fr": "\n✅ Pas de zones de bordures detectees avec les criteres actuels",
+        "en": "\n✅ No echelon zones detected with current criteria",
+    },
+    "summary": {"fr": "\n📊 Resume :", "en": "\n📊 Summary:"},
+    "high_count": {"fr": "   • {count} zone(s) a HAUT RISQUE", "en": "   • {count} HIGH-RISK zone(s)"},
+    "medium_count": {"fr": "   • {count} zone(s) a RISQUE MODERE", "en": "   • {count} MEDIUM-RISK zone(s)"},
+    "total_exposed": {"fr": "   • Total : {km:.1f} km de route exposee", "en": "   • Total: {km:.1f} km of exposed road"},
+    "critical_title": {"fr": "\n⚠️  ZONES CRITIQUES (Haut Risque) :", "en": "\n⚠️  CRITICAL ZONES (High Risk):"},
+    "critical_line": {"fr": "  Km {start:5.1f} - {end:5.1f} ({dist:.1f} km)", "en": "  Km {start:5.1f} - {end:5.1f} ({dist:.1f} km)"},
+    "crosswind": {"fr": "     -> Crosswind : {value:.0f} km/h", "en": "     -> Crosswind: {value:.0f} km/h"},
+    "directions": {"fr": "     -> Direction route : {bearing:.0f} deg | Vent : {wind:.0f} deg", "en": "     -> Route direction: {bearing:.0f} deg | Wind: {wind:.0f} deg"},
+    "long_zone": {"fr": "     -> Zone longue : {count} segments consecutifs", "en": "     -> Long zone: {count} consecutive segments"},
+    "watch_title": {"fr": "\n⚡ ZONES A SURVEILLER (Risque Modere) :", "en": "\n⚡ ZONES TO WATCH (Moderate Risk):"},
+    "watch_line": {"fr": "  Km {start:5.1f} - {end:5.1f} : Crosswind {wind:.0f} km/h", "en": "  Km {start:5.1f} - {end:5.1f}: Crosswind {wind:.0f} km/h"},
+    "advice_title": {"fr": "\n💡 Recommandations tactiques :", "en": "\n💡 Tactical recommendations:"},
+    "advice_head": {"fr": "  • Km {km:.0f} : Placer equipe en tete AVANT cette zone", "en": "  • Km {km:.0f}: Move team to the front BEFORE this zone"},
+    "advice_accel": {"fr": "  • Acceleration probable des favoris dans ces sections", "en": "  • Likely acceleration from favorites in these sections"},
+    "advice_split": {"fr": "  • Risque de division du peloton en echelons", "en": "  • Risk of peloton splits into echelons"},
+    "advice_watch": {"fr": "  • Rester vigilant dans les zones moderees", "en": "  • Stay alert in moderate-risk zones"},
+    "advice_save": {"fr": "  • Economiser l'energie pour les zones critiques", "en": "  • Save energy for critical zones"},
+    "sep80_open": {"fr": "\n================================================================================", "en": "\n================================================================================"},
+    "sep80": {"fr": "================================================================================", "en": "================================================================================"},
+    "sep80_close": {"fr": "================================================================================\n", "en": "================================================================================\n"},
+    "dash80": {"fr": "--------------------------------------------------------------------------------", "en": "--------------------------------------------------------------------------------"},
+    "blank": {"fr": "", "en": ""},
+    "no_wind_data": {"fr": "Pas de donnees de vent", "en": "No wind data available"},
+    "risk_high_assured": {
+        "fr": "⚠️ BORDURE ASSUREE ! Vent de cote {wind:.0f} km/h sur {km:.1f} km",
+        "en": "⚠️ ECHELON GUARANTEED! Crosswind {wind:.0f} km/h over {km:.1f} km",
+    },
+    "risk_high": {
+        "fr": "⚠️ Fort risque bordure - Crosswind {wind:.0f} km/h",
+        "en": "⚠️ High echelon risk - Crosswind {wind:.0f} km/h",
+    },
+    "risk_medium_attention": {
+        "fr": "⚡ Attention crosswind {wind:.0f} km/h",
+        "en": "⚡ Watch crosswind {wind:.0f} km/h",
+    },
+    "risk_medium": {
+        "fr": "⚡ Crosswind modere {wind:.0f} km/h",
+        "en": "⚡ Moderate crosswind {wind:.0f} km/h",
+    },
+    "risk_low": {
+        "fr": "Vent de cote faible ({wind:.0f} km/h)",
+        "en": "Light crosswind ({wind:.0f} km/h)",
+    },
+}
+
+
+def _t(key: str, **kwargs) -> str:
+    lang = _detect_output_lang()
+    labels = _I18N.get(key, {})
+    template = labels.get(lang) or labels.get("en") or key
+    return template.format(**kwargs) if kwargs else template
+
+
+def _tp(key: str, **kwargs) -> None:
+    print(_t(key, **kwargs))
 
 
 def analyze_echelon_risk(segment: Dict, 
@@ -38,22 +119,22 @@ def analyze_echelon_risk(segment: Dict,
         description : Message descriptif
     """
     if 'crosswind' not in segment:
-        return 'UNKNOWN', "Pas de données de vent"
+        return 'UNKNOWN', _t("no_wind_data")
     
     crosswind_kmh = abs(segment['crosswind']) * 3.6
     distance = segment.get('distance', 0)
     
     # Critères de bordure
     if crosswind_kmh >= 30 and distance >= min_distance_m:
-        return 'HIGH', f"⚠️ BORDURE ASSURÉE ! Vent de côté {crosswind_kmh:.0f} km/h sur {distance/1000:.1f} km"
+        return 'HIGH', _t("risk_high_assured", wind=crosswind_kmh, km=distance/1000)
     elif crosswind_kmh >= 25 and distance >= min_distance_m:
-        return 'HIGH', f"⚠️ Fort risque bordure - Crosswind {crosswind_kmh:.0f} km/h"
+        return 'HIGH', _t("risk_high", wind=crosswind_kmh)
     elif crosswind_kmh >= 20 and distance >= min_distance_m:
-        return 'MEDIUM', f"⚡ Attention crosswind {crosswind_kmh:.0f} km/h"
+        return 'MEDIUM', _t("risk_medium_attention", wind=crosswind_kmh)
     elif crosswind_kmh >= 15 and distance >= 500:
-        return 'MEDIUM', f"⚡ Crosswind modéré {crosswind_kmh:.0f} km/h"
+        return 'MEDIUM', _t("risk_medium", wind=crosswind_kmh)
     else:
-        return 'LOW', f"Vent de côté faible ({crosswind_kmh:.0f} km/h)"
+        return 'LOW', _t("risk_low", wind=crosswind_kmh)
 
 
 def analyze_echelon_opportunities(segments: List[Dict],
@@ -155,61 +236,59 @@ def print_echelon_report(zones: List[Dict], merge_zones: bool = True):
     """
     if merge_zones:
         zones = merge_adjacent_zones(zones)
-    
-    print("\n" + "="*80)
-    print("  🌪️  ANALYSE TACTIQUE - OPPORTUNITÉS DE BORDURES")
-    print("="*80)
-    
+
+    _tp("sep80_open")
+    _tp("title")
+    _tp("sep80")
+
     if not zones:
-        print("\n✅ Pas de zones de bordures détectées avec les critères actuels")
-        print("="*80 + "\n")
+        _tp("no_zones")
+        _tp("sep80_close")
         return
-    
+
     high_risk = [z for z in zones if z['risk'] == 'HIGH']
     medium_risk = [z for z in zones if z['risk'] == 'MEDIUM']
-    
-    print(f"\n📊 Résumé :")
-    print(f"   • {len(high_risk)} zone(s) à HAUT RISQUE")
-    print(f"   • {len(medium_risk)} zone(s) à RISQUE MODÉRÉ")
-    print(f"   • Total : {sum(z['distance_m'] for z in zones)/1000:.1f} km de route exposée")
-    
+
+    _tp("summary")
+    _tp("high_count", count=len(high_risk))
+    _tp("medium_count", count=len(medium_risk))
+    _tp("total_exposed", km=sum(z['distance_m'] for z in zones)/1000)
+
     if high_risk:
-        print("\n⚠️  ZONES CRITIQUES (Haut Risque) :")
-        print("-" * 80)
+        _tp("critical_title")
+        _tp("dash80")
         for zone in high_risk:
-            print(f"  Km {zone['km_start']:5.1f} - {zone['km_end']:5.1f} "
-                  f"({zone['distance_m']/1000:.1f} km)")
-            print(f"     → Crosswind : {zone['crosswind_kmh']:.0f} km/h")
-            print(f"     → Direction route : {zone['bearing']:.0f}° | Vent : {zone['wind_direction']:.0f}°")
+            _tp("critical_line", start=zone['km_start'], end=zone['km_end'], dist=zone['distance_m']/1000)
+            _tp("crosswind", value=zone['crosswind_kmh'])
+            _tp("directions", bearing=zone['bearing'], wind=zone['wind_direction'])
             if merge_zones and zone.get('segments', 1) > 1:
-                print(f"     → Zone longue : {zone['segments']} segments consécutifs")
-            print()
-    
+                _tp("long_zone", count=zone['segments'])
+            _tp("blank")
+
     if medium_risk:
-        print("\n⚡ ZONES À SURVEILLER (Risque Modéré) :")
-        print("-" * 80)
+        _tp("watch_title")
+        _tp("dash80")
         for zone in medium_risk:
-            print(f"  Km {zone['km_start']:5.1f} - {zone['km_end']:5.1f} : "
-                  f"Crosswind {zone['crosswind_kmh']:.0f} km/h")
-    
-    print("\n💡 Recommandations tactiques :")
-    print("-" * 80)
+            _tp("watch_line", start=zone['km_start'], end=zone['km_end'], wind=zone['crosswind_kmh'])
+
+    _tp("advice_title")
+    _tp("dash80")
     if high_risk:
         first_critical = high_risk[0]
-        print(f"  • Km {first_critical['km_start']:.0f} : Placer équipe en tête AVANT cette zone")
-        print(f"  • Accélération probable des favoris dans ces sections")
-        print(f"  • Risque de division du peloton en échelons")
+        _tp("advice_head", km=first_critical['km_start'])
+        _tp("advice_accel")
+        _tp("advice_split")
     if medium_risk:
-        print(f"  • Rester vigilant dans les zones modérées")
-        print(f"  • Économiser l'énergie pour les zones critiques")
-    
-    print("="*80 + "\n")
+        _tp("advice_watch")
+        _tp("advice_save")
+
+    _tp("sep80_close")
 
 
 def export_echelon_zones_gpx(zones: List[Dict], output_file: str):
     """
-    Exporte les zones de bordures au format GPX pour visualisation.
-    (Fonction stub - à implémenter si besoin)
+    Export echelon zones to GPX for visualization.
+    (Stub function - implement if needed)
     """
     # TODO: Générer un fichier GPX avec waypoints pour chaque zone critique
     pass
