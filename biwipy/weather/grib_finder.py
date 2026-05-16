@@ -29,7 +29,8 @@ class IFSRef(TypedDict):
 
 
 def _ifs_product_for_run_hour(run_hour: int) -> str:
-    return "oper" if run_hour in (0, 12) else "scda"
+    # As of the ECMWF stream change, 06z/18z runs are in the main oper stream.
+    return "oper"
 
 
 def _is_valid_ifs_fxx(run_hour: int, fxx: int) -> bool:
