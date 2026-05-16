@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.11.0 - 2026-05-16
 
 ### Changed
 - Translated biwipy docstrings and messages to English for consistent documentation.
