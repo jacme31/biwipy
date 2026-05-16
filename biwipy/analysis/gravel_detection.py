@@ -6,7 +6,49 @@ import math
 from datetime import datetime
 from typing import List, Dict, Any
 import xml.etree.ElementTree as ET
+import locale
+import os
 from .gpx_tools import load_gpx_points, gpx_to_segments
+
+
+def _detect_output_lang() -> str:
+    lang = os.environ.get("OUTPUT_LANG", "").strip().lower()
+    if lang in ("fr", "en"):
+        return lang
+    try:
+        loc = locale.getlocale()[0] or locale.getdefaultlocale()[0] or ""
+        if loc.lower().startswith("fr"):
+            return "fr"
+    except Exception:
+        pass
+    return "en"
+
+
+_I18N = {
+    "surface_breakdown": {
+        "fr": "  Repartition temporelle des surfaces:",
+        "en": "  Surface time breakdown:",
+    },
+    "urban_line": {
+        "fr": "    Urbain : {minutes:.1f} min ({pct:.2f}%)",
+        "en": "    Urban : {minutes:.1f} min ({pct:.2f}%)",
+    },
+    "gravel_line": {
+        "fr": "    Gravel: {minutes:.1f} min ({pct:.2f}%)",
+        "en": "    Gravel: {minutes:.1f} min ({pct:.2f}%)",
+    },
+}
+
+
+def _t(key: str, **kwargs) -> str:
+    lang = _detect_output_lang()
+    labels = _I18N.get(key, {})
+    template = labels.get(lang) or labels.get("en") or key
+    return template.format(**kwargs) if kwargs else template
+
+
+def _tp(key: str, **kwargs) -> None:
+    print(_t(key, **kwargs))
 
 
 
@@ -16,10 +58,10 @@ from .gpx_tools import load_gpx_points, gpx_to_segments
 
 def detect_gravel_segments(segments: List[Dict], window_s=8, speed_drop_threshold=0.75, roughness_threshold=0.5, zigzag_threshold=10.0):
     """
-    Détecte les segments gravel dans un GPX.
-    Retourne une liste de classifications par segment : 'road' ou 'gravel'
-    window_s : fenêtre glissante en secondes pour le calcul
-    Les seuils peuvent être ajustés selon ton vélo et GPS
+    Detect gravel segments in a GPX.
+    Returns a list of per-segment classifications: 'road' or 'gravel'.
+    window_s : sliding window in seconds for the calculation.
+    Thresholds can be adjusted based on bike and GPS.
     """
     classifications = []
 
@@ -135,8 +177,8 @@ def propagate_gravel(segments, classes,
                      window_dist=30.0,
                      min_gravel_in_window=3):
     """
-    Propagation spatiale du gravel.
-    window_dist : distance totale de la fenêtre (m)
+    Spatial propagation of gravel labels.
+    window_dist : total window distance (m)
     """
     n = len(classes)
     smoothed = classes.copy()
@@ -181,12 +223,12 @@ def detect_surface_segments(
     density_window_dist=200.0,
 ):
     """
-    Classe les segments en 'road', 'urban' ou 'gravel'.
-    - 'urban' capture stop-and-go, virages fréquents, ralentissements circulation
-    - 'gravel' capture surface dégradée, rugosité, ralentissement sans arrêts
+    Classify segments as 'road', 'urban', or 'gravel'.
+    - 'urban' captures stop-and-go, frequent turns, traffic slowdowns
+    - 'gravel' captures degraded surface, roughness, slowdowns without stops
 
-    Cette fonction est non destructive par rapport à detect_gravel_segments.
-    Elle réutilise les mêmes features et ajoute des indicateurs d'urbanité.
+    This function is non-destructive relative to detect_gravel_segments.
+    It reuses the same features and adds urban indicators.
     """
 
     if not segments:
@@ -376,9 +418,9 @@ def report_urban_gravel_times(segments: List[Dict], classifications: List[str] =
     gravel_pct = (gravel_t / total) * 100.0 if total > 0 else 0.0
 
     # Simple stdout report (caller can disable/ignore output if needed)
-    print("  Surface time breakdown:")
-    print(f"    Urban : {urban_t/60:.1f} min ({urban_pct:.2f}%)")
-    print(f"    Gravel: {gravel_t/60:.1f} min ({gravel_pct:.2f}%)")
+    _tp("surface_breakdown")
+    _tp("urban_line", minutes=urban_t / 60, pct=urban_pct)
+    _tp("gravel_line", minutes=gravel_t / 60, pct=gravel_pct)
 
     return {
         'urban_time_s': urban_t,
@@ -391,9 +433,9 @@ def report_urban_gravel_times(segments: List[Dict], classifications: List[str] =
 
 def export_colorized_gpx(points: List[Dict], segments: List[Dict], classifications: List[str], output_file: str):
     """
-    Exporte un GPX colorisé : gravel=rouge (#FF0000), route=bleu (#0000FF).
-    La classification est faite au niveau des segments ; chaque point hérite
-    de la classification du segment qui le suit.
+    Export a colorized GPX: gravel=red (#FF0000), road=blue (#0000FF).
+    Classification is at the segment level; each point inherits the
+    classification of the following segment.
     """
     if len(segments) != len(classifications):
         raise ValueError("segments et classifications doivent avoir la même longueur")
@@ -454,10 +496,10 @@ def check_is_pure_road(gpx_file: str,
 
 def export_gpx_multitrack_garmin(points, segments, classes, output_file):
     """
-    Export GPX compatible GPXSee avec couleurs Garmin :
-    - route  -> vert
-    - gravel -> rouge
-    Un seul GPX, plusieurs <trk>, extensions Garmin.
+    Export GPX compatible with GPXSee using Garmin colors:
+    - road  -> green
+    - gravel -> red
+    One GPX, multiple <trk>, Garmin extensions.
     """
 
     if len(segments) != len(classes):
@@ -528,8 +570,8 @@ def export_gpx_multitrack_garmin(points, segments, classes, output_file):
 
 def indent_xml(elem, level=0):
     """
-    Ajoute des sauts de ligne et indentations (pretty print XML).
-    Compatible ElementTree standard.
+    Add line breaks and indentation (pretty print XML).
+    Compatible with standard ElementTree.
     """
     i = "\n" + level * "  "
     if len(elem):

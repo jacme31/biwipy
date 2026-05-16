@@ -1,0 +1,1100 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Input Data &#8212; biwipy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/Input-data';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulation and Replay" href="Simulation.html" />
+    <link rel="prev" title="User Guide" href="../user_guide.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">biwipy 0.1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Input Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulation.html">Simulation and Replay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analysis.html">Analysis of Simulation Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips.html">Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_used.html">Appendix: Mathematics and Physics Used</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../user_guide.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Input Data</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="input-data">
+<h1>Input Data<a class="headerlink" href="#input-data" title="Link to this heading">#</a></h1>
+<p>To simulate a bike ride, you need to define the following input data:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pcp-label"><span class="std std-ref">Physical cycling parameters</span></a>: physical characteristics of the rider, bike, and road surface.</p></li>
+<li><p><a class="reference internal" href="#cel-label"><span class="std std-ref">Cyclist effort level</span></a>: baseline effort for simulation, defined by base power or base speed.</p></li>
+<li><p><a class="reference internal" href="#bcp-label"><span class="std std-ref">Behavioral cycling parameters</span></a>: how the rider behaves on climbs, descents, and turns.</p></li>
+<li><p><a class="reference internal" href="#w-label"><span class="std std-ref">Wind</span></a>: data required to estimate wind speed and direction along the route over time.</p></li>
+<li><p><a class="reference internal" href="#r-label"><span class="std std-ref">Route</span></a>: the route, provided as a GPX file.</p></li>
+</ul>
+<section id="physical-cycling-parameters">
+<span id="pcp-label"></span><h2>Physical Cycling Parameters<a class="headerlink" href="#physical-cycling-parameters" title="Link to this heading">#</a></h2>
+<section id="cda-and-crr">
+<h3>CdA and Crr<a class="headerlink" href="#cda-and-crr" title="Link to this heading">#</a></h3>
+<section id="definition">
+<h4>Definition<a class="headerlink" href="#definition" title="Link to this heading">#</a></h4>
+<p>CdA and Crr are two key simulation parameters.</p>
+<p>The aerodynamic drag coefficient (CdA) represents air resistance for a moving cyclist. It depends on several factors, including:</p>
+<ul class="simple">
+<li><p>rider position,</p></li>
+<li><p>bike and component shape,</p></li>
+<li><p>rider morphology.</p></li>
+</ul>
+<p>CdA is expressed in m².</p>
+<p>The rolling resistance coefficient (Crr or Cr) depends mainly on:</p>
+<ul class="simple">
+<li><p>road and surface type (smooth/rough asphalt, concrete, gravel, etc.),</p></li>
+<li><p>tires (size, pressure, compound).</p></li>
+</ul>
+</section>
+<section id="quick-reference-table">
+<h4>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Link to this heading">#</a></h4>
+<p>The table below can help for a quick start:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Activity</p></th>
+<th class="head"><p>CdA range</p></th>
+<th class="head"><p>Crr range</p></th>
+<th class="head"><p>Typical [CdA - Crr]</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>Bikepacking / Travel</em></p></td>
+<td><p>0.45-0.65</p></td>
+<td><p>0.005-0.007</p></td>
+<td><p><strong>[0.55 - 0.006]</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><em>Gravel bike</em></p></td>
+<td><p>0.35-0.55</p></td>
+<td><p>0.005-0.007</p></td>
+<td><p><strong>[0.40 - 0.006]</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><em>Amateur road cycling</em></p></td>
+<td><p>0.30-0.40</p></td>
+<td><p>0.004-0.005</p></td>
+<td><p><strong>[0.35 - 0.0045]</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><em>Pro road cycling</em></p></td>
+<td><p>0.24-0.32</p></td>
+<td><p>0.003-0.004</p></td>
+<td><p><strong>[0.28 - 0.0035]</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><em>Pro triathlon / TT</em></p></td>
+<td><p>0.17-0.24</p></td>
+<td><p>0.003-0.004</p></td>
+<td><p><strong>[0.21 - 0.0035]</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For more precise settings:</p>
+<ul class="simple">
+<li><p>For Crr, see <a class="reference external" href="https://www.bicyclerollingresistance.com/">https://www.bicyclerollingresistance.com/</a> (adjust by load and pressure).</p></li>
+<li><p>For CdA, calibrate from one or more real rides.</p></li>
+</ul>
+<p>This simulation is primarily designed for solo riding.</p>
+<p>Riding in a group reduces aerodynamic drag, and the effect varies by position in the group.
+For group rides, one practical approach is to reduce solo CdA, then calibrate against real rides in similar conditions.</p>
+</section>
+</section>
+<section id="mass">
+<h3>Mass<a class="headerlink" href="#mass" title="Link to this heading">#</a></h3>
+<p>Mass corresponds to the combined weight of rider + bike (including typical clothing/gear), in kilograms.</p>
+</section>
+</section>
+<section id="cyclist-effort-level">
+<span id="cel-label"></span><h2>Cyclist Effort Level<a class="headerlink" href="#cyclist-effort-level" title="Link to this heading">#</a></h2>
+<section id="base-power-p0">
+<h3>Base Power (P0)<a class="headerlink" href="#base-power-p0" title="Link to this heading">#</a></h3>
+<p>Base power quantifies rider effort in simulation.
+It is the power (W) on flat terrain with no wind.</p>
+<p>This base power is then adjusted by:</p>
+<ul class="simple">
+<li><p>rider behavior profile,</p></li>
+<li><p>route gradient,</p></li>
+<li><p>turns,</p></li>
+<li><p>wind effects.</p></li>
+</ul>
+<p>If you replay a completed ride with GPX timestamps, providing P0 is not mandatory.
+For future simulation, P0 (or v0) is required to compute speed and timing.</p>
+<p>Recommended practice:</p>
+<ul class="simple">
+<li><p>use a P0 calibrated from replaying this same route,</p></li>
+<li><p>or replay a similar ride and reuse the calibrated value,</p></li>
+<li><p>or provide a realistic base speed v0 (flat, no wind), then convert to P0.</p></li>
+</ul>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Power meters measure crank power. Some power is lost in drivetrain transmission.</p></li>
+<li><p>The model does not explicitly model drivetrain losses.</p></li>
+<li><p>If you use power-meter values directly, reducing by about 3% to 5% can be reasonable.</p></li>
+</ul>
+</section>
+<section id="physical-parameter-settings">
+<span id="ppm-label"></span><h3>Physical Parameter Settings<a class="headerlink" href="#physical-parameter-settings" title="Link to this heading">#</a></h3>
+<p>In Python, CdA, Crr, and Mass are floating-point values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CdA</span></code> in m²,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Crr</span></code> as a dimensionless coefficient,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Mass</span></code> in kg.</p></li>
+</ul>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example values (replace with your own estimates)</span>
+<span class="n">my_cda</span> <span class="o">=</span> <span class="mf">0.480</span>
+<span class="n">my_crr</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="n">my_mass</span> <span class="o">=</span> <span class="mf">80.0</span>
+</pre></div>
+</div>
+<p>P0 and v0 are also floating-point values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">P0</span></code> in watts,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v0</span></code> in m/s.</p></li>
+</ul>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example values</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="mf">130.0</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mf">30.0</span> <span class="o">/</span> <span class="mf">3.6</span>  <span class="c1"># 30 km/h converted to m/s</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="behavioral-cycling-parameters">
+<span id="bcp-label"></span><h2>Behavioral Cycling Parameters<a class="headerlink" href="#behavioral-cycling-parameters" title="Link to this heading">#</a></h2>
+<section id="behavior-profiles">
+<h3>Behavior Profiles<a class="headerlink" href="#behavior-profiles" title="Link to this heading">#</a></h3>
+<p>Cyclists naturally adjust power output based on terrain.
+The simulation uses an adaptive power model.</p>
+<p>The behavior profile controls how power is adjusted for:</p>
+<ul class="simple">
+<li><p>uphills,</p></li>
+<li><p>downhills,</p></li>
+<li><p>corners.</p></li>
+</ul>
+<p>Wind is treated as virtual slope (positive or negative), so behavior settings for climbs/descents also influence wind response.</p>
+<p>Three behavior modes are available:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">realistic</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conservative</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aggressive</span></code></p></li>
+</ul>
+<p>You can choose different modes for uphill, downhill, and cornering.</p>
+<p>For a quick start, three preset profiles are available:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Profile name</p></th>
+<th class="head"><p>Uphill behavior</p></th>
+<th class="head"><p>Downhill behavior</p></th>
+<th class="head"><p>Corner behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>amateur</strong></p></td>
+<td><p>conservative</p></td>
+<td><p>conservative</p></td>
+<td><p>conservative</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>competitive</strong></p></td>
+<td><p>realistic</p></td>
+<td><p>realistic</p></td>
+<td><p>realistic</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>pro</strong></p></td>
+<td><p>aggressive</p></td>
+<td><p>aggressive</p></td>
+<td><p>aggressive</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>You can also build a custom profile by:</p>
+<ul class="simple">
+<li><p>combining modes differently per category,</p></li>
+<li><p>manually tuning one or more internal factors.</p></li>
+</ul>
+<p>You can display a profile at any time, save it, and reload it later.</p>
+</section>
+<section id="built-in-presets">
+<h3>Built-in Presets<a class="headerlink" href="#built-in-presets" title="Link to this heading">#</a></h3>
+<section id="uphill-modes">
+<h4>Uphill Modes<a class="headerlink" href="#uphill-modes" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Steep slope</p></th>
+<th class="head"><p>Medium slope</p></th>
+<th class="head"><p>Gentle slope</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>realistic</strong></p></td>
+<td><p>3.5</p></td>
+<td><p>2.5</p></td>
+<td><p>1.5</p></td>
+<td><p>Balanced effort</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>conservative</strong></p></td>
+<td><p>2.0</p></td>
+<td><p>2.0</p></td>
+<td><p>2.0</p></td>
+<td><p>Prudent and steady</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>aggressive</strong></p></td>
+<td><p>4.0</p></td>
+<td><p>4.0</p></td>
+<td><p>4.0</p></td>
+<td><p>High-effort climbing</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="downhill-modes">
+<h4>Downhill Modes<a class="headerlink" href="#downhill-modes" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Medium slope</p></th>
+<th class="head"><p>Steep slope</p></th>
+<th class="head"><p>Max speed</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>realistic</strong></p></td>
+<td><p>6.0</p></td>
+<td><p>20.0</p></td>
+<td><p>22 m/s</p></td>
+<td><p>Safe, controlled descent</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>conservative</strong></p></td>
+<td><p>3.0</p></td>
+<td><p>3.0</p></td>
+<td><p>18 m/s</p></td>
+<td><p>Very cautious</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>aggressive</strong></p></td>
+<td><p>5.0</p></td>
+<td><p>5.0</p></td>
+<td><p>22 m/s</p></td>
+<td><p>Confident, performance-oriented</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="corner-modes-max-speed-m-s">
+<h4>Corner Modes (max speed, m/s)<a class="headerlink" href="#corner-modes-max-speed-m-s" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Straight</p></th>
+<th class="head"><p>Slight</p></th>
+<th class="head"><p>Moderate</p></th>
+<th class="head"><p>Sharp</p></th>
+<th class="head"><p>Hairpin</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>realistic</strong></p></td>
+<td><p>22.0</p></td>
+<td><p>18.0</p></td>
+<td><p>14.0</p></td>
+<td><p>7.0</p></td>
+<td><p>4.5</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>conservative</strong></p></td>
+<td><p>20.0</p></td>
+<td><p>16.0</p></td>
+<td><p>12.0</p></td>
+<td><p>6.0</p></td>
+<td><p>4.0</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>aggressive</strong></p></td>
+<td><p>22.0</p></td>
+<td><p>22.0</p></td>
+<td><p>22.0</p></td>
+<td><p>22.0</p></td>
+<td><p>22.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="behavior-profile-settings">
+<h3>Behavior Profile Settings<a class="headerlink" href="#behavior-profile-settings" title="Link to this heading">#</a></h3>
+<p>A behavior profile can be created with helper functions.</p>
+<p>Example: predefined competitive profile.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CyclistBehavior</span><span class="p">,</span>
+    <span class="n">create_competitive_profile</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">my_profile</span> <span class="o">=</span> <span class="n">create_competitive_profile</span><span class="p">()</span>
+
+<span class="c1"># Equivalent explicit form</span>
+<span class="n">my_profile</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="p">(</span>
+    <span class="n">uphill</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span>
+    <span class="n">downhill</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span>
+    <span class="n">corner</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Display current settings</span>
+<span class="n">my_profile</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Mixed mode profile:</strong></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">behavior</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="p">(</span>
+    <span class="n">uphill</span><span class="o">=</span><span class="s1">&#39;conservative&#39;</span><span class="p">,</span>
+    <span class="n">downhill</span><span class="o">=</span><span class="s1">&#39;aggressive&#39;</span><span class="p">,</span>
+    <span class="n">corner</span><span class="o">=</span><span class="s1">&#39;realistic&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Customizing individual parameters:</strong></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">behavior</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="p">()</span>
+<span class="n">behavior</span><span class="o">.</span><span class="n">uphill_facteur_forte</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">behavior</span><span class="o">.</span><span class="n">downhill_vitesse_max_absolue</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="n">behavior</span><span class="o">.</span><span class="n">corner_speed_slight</span> <span class="o">=</span> <span class="mf">20.0</span>
+</pre></div>
+</div>
+<p><strong>Saving and loading profiles:</strong></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">behavior</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/path/to/profiles&#39;</span><span class="p">,</span> <span class="s1">&#39;my_rider.json&#39;</span><span class="p">)</span>
+<span class="n">behavior</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/path/to/profiles&#39;</span><span class="p">,</span> <span class="s1">&#39;my_rider.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="wind">
+<span id="w-label"></span><h2>Wind<a class="headerlink" href="#wind" title="Link to this heading">#</a></h2>
+<section id="gfs-model">
+<h3>GFS Model<a class="headerlink" href="#gfs-model" title="Link to this heading">#</a></h3>
+<p>Wind analysis currently relies on meteorological forecasts.
+As with any forecast, results should be interpreted with uncertainty in mind.</p>
+<ul class="simple">
+<li><p>For replay on a past date, the most recent forecast available for that time is used. This is usually reliable (short forecast horizon).</p></li>
+<li><p>For future simulations, reliability decreases as the ride date gets farther away.</p></li>
+<li><p>Results beyond about 5 days should be interpreted with caution.</p></li>
+</ul>
+<p>The tool currently uses NOAA GFS.
+Main characteristics:</p>
+<ul class="simple">
+<li><p>global coverage,</p></li>
+<li><p>4 model runs per day: 00Z, 06Z, 12Z, 18Z,</p></li>
+<li><p>0.25° x 0.25° grid,</p></li>
+<li><p>forecast horizon up to 16 days,</p></li>
+<li><p>hourly steps up to 120 h, then 3-hour steps up to 384 h.</p></li>
+</ul>
+</section>
+<section id="grib-files">
+<h3>GRIB Files<a class="headerlink" href="#grib-files" title="Link to this heading">#</a></h3>
+<p>Forecast data is retrieved on demand using GRIB files.
+The tool downloads only required variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">u10</span></code> and <code class="docutils literal notranslate"><span class="pre">v10</span></code> wind components at 10 m,</p></li>
+<li><p>gust speed at 10 m.</p></li>
+</ul>
+<p>From these, the model derives:</p>
+<ul class="simple">
+<li><p>True Wind Speed (TWS),</p></li>
+<li><p>True Wind Direction (TWD),</p></li>
+<li><p>gust speed,</p></li>
+<li><p>wind-along component along route bearing.</p></li>
+</ul>
+<p>Ground-level wind is lower than 10 m wind due to roughness and obstacles.
+The model supports two approaches:</p>
+<ul class="simple">
+<li><p>default constant roughness scaling,</p></li>
+<li><p>optional terrain-based roughness map (see <a class="reference internal" href="#roughness-factor-label"><span class="std std-ref">Roughness factor</span></a>).</p></li>
+</ul>
+<p>Default normalization:</p>
+<p><code class="docutils literal notranslate"><span class="pre">TWS0</span> <span class="pre">=</span> <span class="pre">TWS10</span> <span class="pre">*</span> <span class="pre">58%</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">GUST0</span> <span class="pre">=</span> <span class="pre">GUST10</span> <span class="pre">*</span> <span class="pre">58%</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">TWS_final</span> <span class="pre">=</span> <span class="pre">TWS0</span> <span class="pre">-</span> <span class="pre">25%</span> <span class="pre">*</span> <span class="pre">(GUST0</span> <span class="pre">-</span> <span class="pre">TWS0)</span></code></p>
+</section>
+<section id="requesting-grib-files">
+<h3>Requesting GRIB Files<a class="headerlink" href="#requesting-grib-files" title="Link to this heading">#</a></h3>
+<p>To simulate a ride, download the required GRIB files based on:</p>
+<ul class="simple">
+<li><p>ride start datetime,</p></li>
+<li><p>estimated ride duration,</p></li>
+<li><p>time step (1 h or 3 h).</p></li>
+</ul>
+<p>Helper function:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather.grib_finder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_grib_list</span>
+
+<span class="n">hdir</span> <span class="o">=</span> <span class="s1">&#39;~/data&#39;</span>
+<span class="n">origin_tz</span> <span class="o">=</span> <span class="n">ZoneInfo</span><span class="p">(</span><span class="s1">&#39;Europe/Paris&#39;</span><span class="p">)</span>
+<span class="n">st_start</span> <span class="o">=</span> <span class="s1">&#39;2026-02-12 14:00:00&#39;</span>
+<span class="n">t_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">st_start</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">origin_tz</span><span class="p">)</span>
+
+<span class="n">step</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="n">gribs_list</span> <span class="o">=</span> <span class="n">build_grib_list</span><span class="p">(</span><span class="n">hdir</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following diagram summarizes how step size and duration determine the GRIB files to request:</p>
+<p><img alt="" src="../_images/Gribs.png" /></p>
+</section>
+<section id="weather-initialization">
+<h3>Weather Initialization<a class="headerlink" href="#weather-initialization" title="Link to this heading">#</a></h3>
+<p>Once GRIB files are available:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+
+<span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">)</span>
+<span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
+</pre></div>
+</div>
+</section>
+<section id="grib-size-and-storage-notes">
+<h3>GRIB Size and Storage Notes<a class="headerlink" href="#grib-size-and-storage-notes" title="Link to this heading">#</a></h3>
+<p>Downloaded files are stored under a <code class="docutils literal notranslate"><span class="pre">gfs/YYYYMMDD/</span></code> tree in your selected directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">data</span><span class="o">/</span><span class="n">gfs</span><span class="o">/</span><span class="n">YYYYMMDD</span><span class="o">/</span><span class="n">subset_01ef10f5__gfs</span><span class="o">.</span><span class="n">t18z</span><span class="o">.</span><span class="n">pgrb2</span><span class="mf">.0</span><span class="n">p25</span><span class="o">.</span><span class="n">f003</span>
+</pre></div>
+</div>
+<p>Name fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">subset_01ef10f5</span></code>: subset hash (u10/v10/gust),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t18z</span></code>: 18:00 UTC model run,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f003</span></code>: forecast hour (+3 h from run).</p></li>
+</ul>
+<p>Typical file size is around 2.5 MB.</p>
+<p>Files already present are reused.</p>
+<p>Wind model loading is accelerated with an optional cache (<code class="docutils literal notranslate"><span class="pre">~/.cache/grib/</span></code>) automatically purged after 48 h.</p>
+<p>To disable cache:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+
+<span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">,</span> <span class="n">bcache</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
+</pre></div>
+</div>
+</section>
+<section id="air-density">
+<h3>Air Density<a class="headerlink" href="#air-density" title="Link to this heading">#</a></h3>
+<p>Aerodynamic drag also depends on air density (rho), which decreases with altitude.</p>
+<p>Standard sea-level value: <code class="docutils literal notranslate"><span class="pre">rho</span> <span class="pre">=</span> <span class="pre">1.225</span> <span class="pre">kg/m3</span></code>.</p>
+<p>The tool estimates rho along the route from altitude.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">bike_physics</span>
+
+<span class="n">rho_sea</span> <span class="o">=</span> <span class="n">bike_physics</span><span class="o">.</span><span class="n">calculate_air_density</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">rho_kigali</span> <span class="o">=</span> <span class="n">bike_physics</span><span class="o">.</span><span class="n">calculate_air_density</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span>
+<span class="n">rho_lapaz</span> <span class="o">=</span> <span class="n">bike_physics</span><span class="o">.</span><span class="n">calculate_air_density</span><span class="p">(</span><span class="mi">3640</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also force a constant rho value in simulation methods.</p>
+</section>
+</section>
+<section id="routes">
+<span id="r-label"></span><h2>Routes<a class="headerlink" href="#routes" title="Link to this heading">#</a></h2>
+<p>For full simulation workflows, see <a class="reference internal" href="Simulation.html"><span class="std std-doc">Simulation and replay</span></a>.
+For detailed interfaces and signatures, see <a class="reference internal" href="../api.html"><span class="std std-doc">API Reference</span></a>.</p>
+<section id="two-types-of-gpx">
+<h3>Two Types of GPX<a class="headerlink" href="#two-types-of-gpx" title="Link to this heading">#</a></h3>
+<p>Routes are provided through GPX files.</p>
+<p>There are two main GPX types:</p>
+<ul class="simple">
+<li><p>GPX with timestamps: supports replay and full timing analysis.</p></li>
+<li><p>GPX without timestamps: supports route geometry analysis and future simulation.</p></li>
+</ul>
+<p>Platforms such as Strava often include timestamps only for your own rides.</p>
+<p>In this tool:</p>
+<ul class="simple">
+<li><p>GPX without timestamps can be used with <code class="docutils literal notranslate"><span class="pre">simulate_future()</span></code>.</p></li>
+<li><p>GPX with timestamps can be used with <code class="docutils literal notranslate"><span class="pre">simulate_future()</span></code> and <code class="docutils literal notranslate"><span class="pre">simulate_replay()</span></code>.</p></li>
+</ul>
+</section>
+<section id="preprocessing">
+<h3>Preprocessing<a class="headerlink" href="#preprocessing" title="Link to this heading">#</a></h3>
+<p>A GPX file is processed as follows:</p>
+<ul class="simple">
+<li><p>parse and convert to route segments,</p></li>
+<li><p>detect and filter GPS outliers,</p></li>
+<li><p>smooth altitude signal,</p></li>
+<li><p>merge very short segments,</p></li>
+<li><p>optionally remove stop segments (if timestamps are available).</p></li>
+</ul>
+<section id="route-analysis">
+<h4>Route Analysis<a class="headerlink" href="#route-analysis" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer</span></code> is the main interface for GPX preprocessing.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
+<span class="n">gpx_result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="n">filegpx</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_stops_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="preprocessing-output">
+<h4>Preprocessing Output<a class="headerlink" href="#preprocessing-output" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">gpx_result</span></code> contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">has_timestamps</span></code> (bool),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t_start</span></code>, <code class="docutils literal notranslate"><span class="pre">t_end</span></code>, and duration when timestamps are present,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">segments</span></code> list for simulation,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code> dictionary with route and preprocessing metrics.</p></li>
+</ul>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">segments</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">segments</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">stats</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;distance_km&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">has_timestamps</span><span class="p">:</span>
+    <span class="n">t_start</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">t_start</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">origin_tz</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start date: </span><span class="si">{</span><span class="n">t_start</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">t_start</span><span class="o">.</span><span class="n">tzname</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="useful-feature-route-cutting">
+<h4>Useful Feature: Route Cutting<a class="headerlink" href="#useful-feature-route-cutting" title="Link to this heading">#</a></h4>
+<p>You can isolate a subsection of the route by distance markers.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
+<span class="n">gpx_result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="n">filegpx</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_stops_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Remove first and last 2 km (example)</span>
+<span class="n">gpx_result_cut</span> <span class="o">=</span> <span class="n">gpx_result</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span>
+    <span class="n">p1_km</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">p2_km</span><span class="o">=</span><span class="n">gpx_result</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;distance_km&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">segments</span> <span class="o">=</span> <span class="n">gpx_result_cut</span><span class="o">.</span><span class="n">segments</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">gpx_result_cut</span><span class="o">.</span><span class="n">stats</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="roughness-factor">
+<span id="roughness-factor-label"></span><h3>Roughness Factor<a class="headerlink" href="#roughness-factor" title="Link to this heading">#</a></h3>
+<p>For finer near-ground wind estimation, you can use a roughness (z0) map based on ESA WorldCover.</p>
+<p>The preprocessing step provides an integer bounding box:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stats['rectangle_SN']</span></code> as <code class="docutils literal notranslate"><span class="pre">(south,</span> <span class="pre">north)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats['rectangle_EW']</span></code> as <code class="docutils literal notranslate"><span class="pre">(west,</span> <span class="pre">east)</span></code></p></li>
+</ul>
+<p>Raster files are stored in your selected cache directory and reused when available.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather.roughness_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoughnessProvider</span>
+
+<span class="n">roughdir</span> <span class="o">=</span> <span class="s1">&#39;~/data/roughness_cache&#39;</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">RoughnessProvider</span><span class="p">(</span><span class="n">cache_dir</span><span class="o">=</span><span class="n">roughdir</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">provider</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="o">*</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;rectangle_SN&#39;</span><span class="p">],</span> <span class="o">*</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;rectangle_EW&#39;</span><span class="p">]):</span>
+    <span class="n">mygrib</span><span class="o">.</span><span class="n">roughness_provider</span> <span class="o">=</span> <span class="n">provider</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;✓ Roughness provider activated - rectangle SN=</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;rectangle_SN&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> EW=</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;rectangle_EW&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;⚠ Roughness provider unavailable - fallback to default z0&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../user_guide.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">User Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Simulation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulation and Replay</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-cycling-parameters">Physical Cycling Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cda-and-crr">CdA and Crr</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-table">Quick Reference Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass">Mass</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cyclist-effort-level">Cyclist Effort Level</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-power-p0">Base Power (P0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-parameter-settings">Physical Parameter Settings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behavioral-cycling-parameters">Behavioral Cycling Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-profiles">Behavior Profiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-presets">Built-in Presets</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uphill-modes">Uphill Modes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#downhill-modes">Downhill Modes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#corner-modes-max-speed-m-s">Corner Modes (max speed, m/s)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-profile-settings">Behavior Profile Settings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wind">Wind</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gfs-model">GFS Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grib-files">GRIB Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#requesting-grib-files">Requesting GRIB Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-initialization">Weather Initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grib-size-and-storage-notes">GRIB Size and Storage Notes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#air-density">Air Density</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#routes">Routes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-types-of-gpx">Two Types of GPX</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#route-analysis">Route Analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-output">Preprocessing Output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-feature-route-cutting">Useful Feature: Route Cutting</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roughness-factor">Roughness Factor</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/Input-data.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Jacques.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1197 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; biwipy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="CDA Calibration Notebook" href="user_guide/notebook-4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">biwipy 0.1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="changelog.html">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">API Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
+<p>This reference intentionally focuses on the high-level public API used in
+the official samples and notebooks.</p>
+<section id="core-public-api">
+<h2>Core Public API<a class="headerlink" href="#core-public-api" title="Link to this heading">#</a></h2>
+<section id="simulator">
+<h3>Simulator<a class="headerlink" href="#simulator" title="Link to this heading">#</a></h3>
+<p>Primary entry point for replay and forward simulation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biwipy.core.Simulator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biwipy.core.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">behavior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#biwipy.core.CyclistBehavior" title="biwipy.core.cyclist_params.CyclistBehavior"><span class="pre">CyclistBehavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CdA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.004</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">75.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9.80665</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_wind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_yaw_cdA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_wind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yaw_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_dynamic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_speed_in_corners</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_forced</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.core.Simulator" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stable public interface for cycling simulations.</p>
+<ul class="simple">
+<li><p>simulate_future(): forward simulation (forecast) -&gt; SimulationResult</p></li>
+<li><p>simulate_replay(): replay of a completed ride (post-ride) -&gt; SimulationResult</p></li>
+<li><p>P0_from_v0(): convert a target flat speed to a reference power</p></li>
+<li><p>v0_from_P0(): convert a reference power to an equilibrium flat speed</p></li>
+<li><p>print_power_model(): display the adaptive power table by slope</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.Simulator.P0_from_v0">
+<span class="sig-name descname"><span class="pre">P0_from_v0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#biwipy.core.Simulator.P0_from_v0" title="Link to this definition">#</a></dt>
+<dd><p>Compute P0 (W) from a reference speed v0 (m/s) on flat ground and no wind.</p>
+<p>Wrapper around <code class="docutils literal notranslate"><span class="pre">estimate_P0_from_v0</span></code> using the Simulator parameters
+(<cite>CdA</cite>, <cite>Cr</cite>, <cite>m</cite>, <cite>g</cite>, <cite>rho_forced</cite>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.Simulator.print_power_model">
+<span class="sig-name descname"><span class="pre">print_power_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#biwipy.core.Simulator.print_power_model" title="Link to this definition">#</a></dt>
+<dd><p>Print the adaptive power model table by slope.</p>
+<p>Wrapper around <code class="docutils literal notranslate"><span class="pre">print_power_model_info</span></code> with the configured
+Simulator behavior.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.Simulator.simulate_future">
+<span class="sig-name descname"><span class="pre">simulate_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_smooth_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimulationResult</span></span></span><a class="headerlink" href="#biwipy.core.Simulator.simulate_future" title="Link to this definition">#</a></dt>
+<dd><p>Prospective simulation (future forecast).</p>
+<section id="parameters">
+<h4>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>segments_in<span class="classifier">List[Dict]</span></dt><dd><p>Route segment data</p>
+</dd>
+<dt>t_start<span class="classifier">datetime</span></dt><dd><p>Start timestamp</p>
+</dd>
+<dt>v0<span class="classifier">Optional[float]</span></dt><dd><p>Initial speed (m/s)</p>
+</dd>
+<dt>P0<span class="classifier">Optional[float]</span></dt><dd><p>Reference power for simulation (Watts) - REQUIRED for forecast</p>
+</dd>
+<dt>passes<span class="classifier">int</span></dt><dd><p>Number of simulation passes (default: 2)</p>
+</dd>
+<dt>velocity_smooth_window<span class="classifier">int</span></dt><dd><p>Window size for velocity smoothing (default: 0, no smoothing).
+Typically not needed for prospective simulations (use for replay only).</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns:<a class="headerlink" href="#returns" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>SimulationResult</dt><dd><p>Complete structured output with all statistics.
+The t_start field preserves the provided timezone (typically UTC from GPX files).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.Simulator.simulate_replay">
+<span class="sig-name descname"><span class="pre">simulate_replay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_smooth_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimulationResult</span></span></span><a class="headerlink" href="#biwipy.core.Simulator.simulate_replay" title="Link to this definition">#</a></dt>
+<dd><p>Replay simulation (post-ride analysis).</p>
+<p>Uses GPS timestamps to calculate power from observed speeds.
+P0 is automatically calibrated from the ride data (always enabled).</p>
+<section id="id1">
+<h4>Parameters:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>segments_in<span class="classifier">List[Dict]</span></dt><dd><p>GPS segment data with timestamps and speeds</p>
+</dd>
+<dt>t_start<span class="classifier">datetime, optional</span></dt><dd><p>Start timestamp. If None, will be auto-extracted from first segment’s gpxtime_start.
+GPX segments must contain timestamps (gpxtime_start, gpxtime_end).</p>
+</dd>
+<dt>passes<span class="classifier">int</span></dt><dd><p>Number of simulation passes (default: 2)</p>
+</dd>
+<dt>velocity_smooth_window<span class="classifier">int</span></dt><dd><p>Window size for velocity smoothing to eliminate GPS timestamp noise.
+Default is 7 segments. Set to 0 to disable smoothing.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h4>Returns:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>SimulationResult</dt><dd><p>Complete structured output with all statistics and power data.
+The t_start field will contain the auto-extracted start time (in UTC timezone).
+The P0 field contains the calibrated reference power matching observed performance.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.Simulator.v0_from_P0">
+<span class="sig-name descname"><span class="pre">v0_from_P0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#biwipy.core.Simulator.v0_from_P0" title="Link to this definition">#</a></dt>
+<dd><p>Compute equilibrium speed v0 (m/s) from power P0 (W) on flat ground and no wind.</p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">solve_speed_for_power</span></code> with zero slope and zero wind.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cyclist-behavior">
+<h3>Cyclist behavior<a class="headerlink" href="#cyclist-behavior" title="Link to this heading">#</a></h3>
+<p>Behavior profiles for climbing, descending and cornering.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biwipy.core.</span></span><span class="sig-name descname"><span class="pre">CyclistBehavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uphill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'realistic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downhill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'realistic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'realistic'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.core.CyclistBehavior" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Centralized cyclist behavior parameters.</p>
+<p>Groups:
+- Slope thresholds (uphill/downhill)
+- Turn thresholds
+- Uphill behavior factors (3 modes: realistic, conservative, aggressive)
+- Downhill behavior factors (3 modes)
+- Turn speed limits (3 modes)</p>
+<section id="usage">
+<h4>Usage:<a class="headerlink" href="#usage" title="Link to this heading">#</a></h4>
+<p># Create mixed profile
+&gt;&gt;&gt; params = CyclistBehavior(uphill=’realistic’, downhill=’conservative’, corner=’aggressive’)</p>
+<p># Customize specific parameter
+&gt;&gt;&gt; params.corner_speed_slight = 20.0  # m/s</p>
+<p># Save
+&gt;&gt;&gt; params.save(‘/path/to/configs’, ‘remco_profile.json’)</p>
+<p># Load
+&gt;&gt;&gt; params = CyclistBehavior.load(‘/path/to/configs’, ‘remco_profile.json’)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.CORNER_PRESETS">
+<span class="sig-name descname"><span class="pre">CORNER_PRESETS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'aggressive':</span> <span class="pre">{'hairpin':</span> <span class="pre">22.0,</span> <span class="pre">'moderate':</span> <span class="pre">22.0,</span> <span class="pre">'sharp':</span> <span class="pre">22.0,</span> <span class="pre">'slight':</span> <span class="pre">22.0,</span> <span class="pre">'straight':</span> <span class="pre">22.0},</span> <span class="pre">'conservative':</span> <span class="pre">{'hairpin':</span> <span class="pre">4.0,</span> <span class="pre">'moderate':</span> <span class="pre">12.0,</span> <span class="pre">'sharp':</span> <span class="pre">6.0,</span> <span class="pre">'slight':</span> <span class="pre">16.0,</span> <span class="pre">'straight':</span> <span class="pre">20.0},</span> <span class="pre">'realistic':</span> <span class="pre">{'hairpin':</span> <span class="pre">4.5,</span> <span class="pre">'moderate':</span> <span class="pre">14.0,</span> <span class="pre">'sharp':</span> <span class="pre">7.0,</span> <span class="pre">'slight':</span> <span class="pre">18.0,</span> <span class="pre">'straight':</span> <span class="pre">22.0}}</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.CORNER_PRESETS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.DOWNHILL_PRESETS">
+<span class="sig-name descname"><span class="pre">DOWNHILL_PRESETS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'aggressive':</span> <span class="pre">{'corner_downhill_safety_factor':</span> <span class="pre">0.97,</span> <span class="pre">'facteur_forte':</span> <span class="pre">5.0,</span> <span class="pre">'facteur_legere':</span> <span class="pre">5.0,</span> <span class="pre">'puissance_min':</span> <span class="pre">10,</span> <span class="pre">'vitesse_max_absolue':</span> <span class="pre">22.0,</span> <span class="pre">'vitesse_reduction_cap':</span> <span class="pre">0.1,</span> <span class="pre">'vitesse_reduction_factor':</span> <span class="pre">1.0},</span> <span class="pre">'conservative':</span> <span class="pre">{'corner_downhill_safety_factor':</span> <span class="pre">0.85,</span> <span class="pre">'facteur_forte':</span> <span class="pre">3.0,</span> <span class="pre">'facteur_legere':</span> <span class="pre">3.0,</span> <span class="pre">'puissance_min':</span> <span class="pre">10,</span> <span class="pre">'vitesse_max_absolue':</span> <span class="pre">18.0,</span> <span class="pre">'vitesse_reduction_cap':</span> <span class="pre">0.7,</span> <span class="pre">'vitesse_reduction_factor':</span> <span class="pre">10.0},</span> <span class="pre">'realistic':</span> <span class="pre">{'corner_downhill_safety_factor':</span> <span class="pre">0.9,</span> <span class="pre">'facteur_forte':</span> <span class="pre">20.0,</span> <span class="pre">'facteur_legere':</span> <span class="pre">6.0,</span> <span class="pre">'puissance_min':</span> <span class="pre">10,</span> <span class="pre">'vitesse_max_absolue':</span> <span class="pre">22.0,</span> <span class="pre">'vitesse_reduction_cap':</span> <span class="pre">0.4,</span> <span class="pre">'vitesse_reduction_factor':</span> <span class="pre">2.5}}</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.DOWNHILL_PRESETS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_CORNER_MODERATE">
+<span class="sig-name descname"><span class="pre">SEUIL_CORNER_MODERATE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">45</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_MODERATE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_CORNER_SHARP">
+<span class="sig-name descname"><span class="pre">SEUIL_CORNER_SHARP</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">90</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_SHARP" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_CORNER_SLIGHT">
+<span class="sig-name descname"><span class="pre">SEUIL_CORNER_SLIGHT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_SLIGHT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_CORNER_STRAIGHT">
+<span class="sig-name descname"><span class="pre">SEUIL_CORNER_STRAIGHT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_STRAIGHT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_DESCENTE_LEGERE">
+<span class="sig-name descname"><span class="pre">SEUIL_DESCENTE_LEGERE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-0.05</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_DESCENTE_LEGERE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_MONTEE_FORTE">
+<span class="sig-name descname"><span class="pre">SEUIL_MONTEE_FORTE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.08</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_FORTE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_MONTEE_LEGERE">
+<span class="sig-name descname"><span class="pre">SEUIL_MONTEE_LEGERE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_LEGERE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_MONTEE_MODEREE">
+<span class="sig-name descname"><span class="pre">SEUIL_MONTEE_MODEREE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.03</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_MODEREE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.SEUIL_PLAT">
+<span class="sig-name descname"><span class="pre">SEUIL_PLAT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-0.02</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.SEUIL_PLAT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.UPHILL_PRESETS">
+<span class="sig-name descname"><span class="pre">UPHILL_PRESETS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'aggressive':</span> <span class="pre">{'facteur_forte':</span> <span class="pre">4.0,</span> <span class="pre">'facteur_legere':</span> <span class="pre">4.0,</span> <span class="pre">'facteur_moderee':</span> <span class="pre">4.0},</span> <span class="pre">'conservative':</span> <span class="pre">{'facteur_forte':</span> <span class="pre">2.0,</span> <span class="pre">'facteur_legere':</span> <span class="pre">2.0,</span> <span class="pre">'facteur_moderee':</span> <span class="pre">2.0},</span> <span class="pre">'realistic':</span> <span class="pre">{'facteur_forte':</span> <span class="pre">3.5,</span> <span class="pre">'facteur_legere':</span> <span class="pre">1.5,</span> <span class="pre">'facteur_moderee':</span> <span class="pre">2.5}}</span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.UPHILL_PRESETS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.core.CyclistBehavior.display" title="Link to this definition">#</a></dt>
+<dd><p>Display current configuration with explanations.</p>
+<section id="id3">
+<h5>Parameters:<a class="headerlink" href="#id3" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>verbose<span class="classifier">bool</span></dt><dd><p>If True, display full details. If False, display summary only.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.get_corner_speed_limit">
+<span class="sig-name descname"><span class="pre">get_corner_speed_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bearing_change</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.get_corner_speed_limit" title="Link to this definition">#</a></dt>
+<dd><p>Return maximum speed for given turn.</p>
+<section id="id4">
+<h5>Parameters:<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>bearing_change<span class="classifier">float</span></dt><dd><p>Direction change in degrees (0-180)</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h5>Returns:<a class="headerlink" href="#id5" title="Link to this heading">#</a></h5>
+<p>float : Maximum speed in m/s</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.get_uphill_factor">
+<span class="sig-name descname"><span class="pre">get_uphill_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.get_uphill_factor" title="Link to this definition">#</a></dt>
+<dd><p>Return appropriate power factor for given slope.</p>
+<section id="id6">
+<h5>Parameters:<a class="headerlink" href="#id6" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>slope<span class="classifier">float</span></dt><dd><p>Slope (ratio, e.g., 0.05 = 5%)</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h5>Returns:<a class="headerlink" href="#id7" title="Link to this heading">#</a></h5>
+<p>float : Power multiplier factor</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.load">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#biwipy.core.CyclistBehavior" title="biwipy.core.cyclist_params.CyclistBehavior"><span class="pre">CyclistBehavior</span></a></span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.load" title="Link to this definition">#</a></dt>
+<dd><p>Load configuration from a JSON file.</p>
+<section id="id8">
+<h5>Parameters:<a class="headerlink" href="#id8" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>dirpath<span class="classifier">str</span></dt><dd><p>Path to the directory containing the file</p>
+</dd>
+<dt>filename<span class="classifier">str</span></dt><dd><p>File name to load</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h5>Returns:<a class="headerlink" href="#id9" title="Link to this heading">#</a></h5>
+<p>CyclistBehavior : Instance with loaded configuration</p>
+</section>
+<section id="example">
+<h5>Example:<a class="headerlink" href="#example" title="Link to this heading">#</a></h5>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">CyclistBehavior</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/home/user/configs&#39;</span><span class="p">,</span> <span class="s1">&#39;my_profile.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.core.CyclistBehavior.save" title="Link to this definition">#</a></dt>
+<dd><p>Save configuration to a JSON file.</p>
+<section id="id10">
+<h5>Parameters:<a class="headerlink" href="#id10" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>dirpath<span class="classifier">str</span></dt><dd><p>Path to the directory to save into</p>
+</dd>
+<dt>filename<span class="classifier">str</span></dt><dd><p>File name (e.g. ‘remco_profile.json’)</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h5>Example:<a class="headerlink" href="#id11" title="Link to this heading">#</a></h5>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">params</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/home/user/configs&#39;</span><span class="p">,</span> <span class="s1">&#39;my_profile.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.core.CyclistBehavior.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.core.CyclistBehavior.to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Convert configuration to dictionary for save.</p>
+<section id="id12">
+<h5>Returns:<a class="headerlink" href="#id12" title="Link to this heading">#</a></h5>
+<p>dict : Complete configuration</p>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.core.bike_physics.estimate_P0_from_v0">
+<span class="sig-prename descclassname"><span class="pre">biwipy.core.bike_physics.</span></span><span class="sig-name descname"><span class="pre">estimate_P0_from_v0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CdA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.004</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.225</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.80665</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.core.bike_physics.estimate_P0_from_v0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="route-analysis">
+<h3>Route analysis<a class="headerlink" href="#route-analysis" title="Link to this heading">#</a></h3>
+<p>High-level GPX preprocessing and segment generation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biwipy.analysis.</span></span><span class="sig-name descname"><span class="pre">RouteAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothing_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mediane'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_min_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_max_bearing_diff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_max_slope_diff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_max_slope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stable public interface for GPX preprocessing and route analysis.</p>
+<p>Individual methods (for flexibility):
+- load_gpx(): load points
+- segments_from_gpx(): build segments (with smoothing)
+- merge_segments(): merge short segments
+- moving_average_kmh(): moving average speed
+- filter_stops(): remove stops (v &lt; threshold)</p>
+<p>Full workflow (convenience):
+- process_gpx(): wraps the full GPX cleaning pipeline</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.filter_stops">
+<span class="sig-name descname"><span class="pre">filter_stops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.filter_stops" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.load_gpx">
+<span class="sig-name descname"><span class="pre">load_gpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpx_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.load_gpx" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.merge_segments">
+<span class="sig-name descname"><span class="pre">merge_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.merge_segments" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.moving_average_kmh">
+<span class="sig-name descname"><span class="pre">moving_average_kmh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.moving_average_kmh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.process_gpx">
+<span class="sig-name descname"><span class="pre">process_gpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpx_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detect_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_segments_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_stops_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_elevation_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_slope_threshold_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_slope_threshold_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GPXProcessingResult</span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.process_gpx" title="Link to this definition">#</a></dt>
+<dd><p>Run the full GPX cleanup pipeline and return a structured result.</p>
+<p>The returned object provides:
+- segments: List of processed segments
+- stats: Dictionary with processing statistics
+- distance_km: Total distance property
+- cut(p1_km, p2_km): Method to extract a portion of the route</p>
+<section id="id13">
+<h4>Example:<a class="headerlink" href="#id13" title="Link to this heading">#</a></h4>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="s1">&#39;route.gpx&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">distance_km</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cut_result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">p1_km</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">p2_km</span><span class="o">=</span><span class="mf">15.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cut: </span><span class="si">{</span><span class="n">cut_result</span><span class="o">.</span><span class="n">distance_km</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Backward-compatible tuple unpacking is preserved:
+&gt;&gt;&gt; segments, stats = analyzer.process_gpx(‘route.gpx’)</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.analysis.RouteAnalyzer.segments_from_gpx">
+<span class="sig-name descname"><span class="pre">segments_from_gpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.analysis.RouteAnalyzer.segments_from_gpx" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="weather-provider">
+<h3>Weather provider<a class="headerlink" href="#weather-provider" title="Link to this heading">#</a></h3>
+<p>High-level weather model wrapper for GRIB-backed simulations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biwipy.weather.</span></span><span class="sig-name descname"><span class="pre">WeatherProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bcache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'GFS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grib_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">359.75,</span> <span class="pre">-90.0,</span> <span class="pre">90.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.weather.WeatherProvider" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stable public interface for weather access (GRIB).</p>
+<ul class="simple">
+<li><p>get_wind(): fetch tws/twd/gust at a point</p></li>
+<li><p>wind_impact(): project wind onto a segment</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider.from_grib">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_grib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grib</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Grib</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#biwipy.weather.WeatherProvider" title="biwipy.weather.provider.WeatherProvider"><span class="pre">WeatherProvider</span></a></span></span><a class="headerlink" href="#biwipy.weather.WeatherProvider.from_grib" title="Link to this definition">#</a></dt>
+<dd><p>Wrap an existing Grib instance without reloading files.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider.get_wind">
+<span class="sig-name descname"><span class="pre">get_wind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.weather.WeatherProvider.get_wind" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider.purge_before">
+<span class="sig-name descname"><span class="pre">purge_before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.weather.WeatherProvider.purge_before" title="Link to this definition">#</a></dt>
+<dd><p>Remove all timesteps strictly before the given datetime.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider.purge_between">
+<span class="sig-name descname"><span class="pre">purge_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.weather.WeatherProvider.purge_between" title="Link to this definition">#</a></dt>
+<dd><p>Remove all timesteps within the closed interval [dt1, dt2] inclusive.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biwipy.weather.WeatherProvider.wind_impact">
+<span class="sig-name descname"><span class="pre">wind_impact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bearing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_wind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rugosite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.weather.WeatherProvider.wind_impact" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="grib-file-planning-helper">
+<h3>GRIB file planning helper<a class="headerlink" href="#grib-file-planning-helper" title="Link to this heading">#</a></h3>
+<p>Plan and retrieve the GRIB files required for interpolation over a ride window.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.weather.grib_finder.build_grib_list">
+<span class="sig-prename descclassname"><span class="pre">biwipy.weather.grib_finder.</span></span><span class="sig-name descname"><span class="pre">build_grib_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_cible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervalle_h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'GFS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grib_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">359.75,</span> <span class="pre">-90.0,</span> <span class="pre">90.0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#biwipy.weather.grib_finder.build_grib_list" title="Link to this definition">#</a></dt>
+<dd><p>Build the GRIB file list required for interpolation over a ride time window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdir</strong> (<em>str</em>) – Base directory containing GRIB files (for example <code class="docutils literal notranslate"><span class="pre">/path/to/grib/data/</span></code>).</p></li>
+<li><p><strong>date_cible</strong> (<em>datetime</em>) – Target departure datetime. If not UTC, it will be converted to UTC internally.</p></li>
+<li><p><strong>pas</strong> (<em>Literal</em><em>[</em><em>1</em><em>, </em><em>3</em><em>]</em><em>, </em><em>default=1</em>) – Time-step granularity for file selection (1 = hourly, 3 = every 3 hours).</p></li>
+<li><p><strong>intervalle_h</strong> (<em>int</em><em>, </em><em>default=6</em>) – Estimated ride duration in hours.
+An automatic margin is added so interpolation remains valid for the full window.</p></li>
+<li><p><strong>model</strong> (<em>str</em><em>, </em><em>default=&quot;GFS&quot;</em>) – Weather model name (currently <code class="docutils literal notranslate"><span class="pre">GFS</span></code> or <code class="docutils literal notranslate"><span class="pre">IFS</span></code>).</p></li>
+<li><p><strong>resolution</strong> (<em>float</em><em>, </em><em>default=0.25</em>) – Target grid resolution in degrees.</p></li>
+<li><p><strong>grib_limit</strong> (<em>tuple</em><em>, </em><em>default=</em><em>(</em><em>0.0</em><em>, </em><em>359.75</em><em>, </em><em>-90.0</em><em>, </em><em>90.0</em><em>)</em>) – Optional geographic bounds <code class="docutils literal notranslate"><span class="pre">(lon_min,</span> <span class="pre">lon_max,</span> <span class="pre">lat_min,</span> <span class="pre">lat_max)</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>List[str]</em> – Absolute file paths to GRIB files covering the interpolation period.</p></li>
+<li><p><em>Example</em> – # For a 2-hour bike ride starting at 10:00 local time
+departure = datetime(2026, 2, 18, 10, 0, tzinfo=ZoneInfo(“Europe/Paris”))
+gribs = build_grib_list(“/data/grib/”, departure, pas=3, intervalle_h=2)
+# Returns files covering before, during, and after the ride for interpolation</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="visualization-helpers">
+<h2>Visualization helpers<a class="headerlink" href="#visualization-helpers" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.analysis.anareswind.print_summary_statistics">
+<span class="sig-prename descclassname"><span class="pre">biwipy.analysis.anareswind.</span></span><span class="sig-name descname"><span class="pre">print_summary_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Simulation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terrain_smoothing_window_m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.anareswind.print_summary_statistics" title="Link to this definition">#</a></dt>
+<dd><p>Display summary statistics for simulation results.</p>
+<section id="id14">
+<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">SimulationResult | List[Dict]</span></dt><dd><p>Structured result (recommended) or list of segments (legacy)</p>
+</dd>
+<dt>label<span class="classifier">str, optional</span></dt><dd><p>Label to identify the simulation</p>
+</dd>
+<dt>terrain_smoothing_window_m<span class="classifier">float, optional</span></dt><dd><p>Smoothing window (in metres) for terrain, virtual, and effective slope
+extremes. Name kept for compatibility. Must be between 50 m and 2000 m.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.analysis.anareswind.compare_scenarios">
+<span class="sig-prename descclassname"><span class="pre">biwipy.analysis.anareswind.</span></span><span class="sig-name descname"><span class="pre">compare_scenarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'distance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_from_finish</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.anareswind.compare_scenarios" title="Link to this definition">#</a></dt>
+<dd><p>Compare multiple scenarios (e.g., with/without wind) for a given attribute.</p>
+<section id="id15">
+<h3>Parameters:<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>segments_list<span class="classifier">List[List[Dict]]</span></dt><dd><p>List of segment lists (one per scenario)</p>
+</dd>
+<dt>labels<span class="classifier">List[str]</span></dt><dd><p>Labels for each scenario</p>
+</dd>
+<dt>attribute<span class="classifier">str</span></dt><dd><p>Attribute to compare</p>
+</dd>
+<dt>x_axis<span class="classifier">str, optional</span></dt><dd><p>‘distance’ or ‘time’</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Figure size</p>
+</dd>
+<dt>title<span class="classifier">str, optional</span></dt><dd><p>Chart title</p>
+</dd>
+<dt>distance_from_finish<span class="classifier">bool, optional</span></dt><dd><p>If True and x_axis=’distance’, the x-axis represents the remaining
+distance to the finish.</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns:<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The created figure</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>The created axes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.analysis.anareswind.plot_segments_evolution">
+<span class="sig-prename descclassname"><span class="pre">biwipy.analysis.anareswind.</span></span><span class="sig-name descname"><span class="pre">plot_segments_evolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'distance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_from_finish</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.anareswind.plot_segments_evolution" title="Link to this definition">#</a></dt>
+<dd><p>Plot the evolution of segment attributes against distance or time.</p>
+<section id="id17">
+<h3>Parameters:<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>segments<span class="classifier">List[Dict]</span></dt><dd><p>List of segments from simulate_with_weather</p>
+</dd>
+<dt>attributes<span class="classifier">List[str]</span></dt><dd><p>List of attributes to plot (e.g., [‘tws’, ‘twd’, ‘wind_along’, ‘speed_m_s’])
+Available attributes:
+- ‘tws’: wind speed (m/s)
+- ‘twd’: wind direction (degrees)
+- ‘wind_along’: wind along the trajectory (m/s)
+- ‘gust’: gusts (m/s)
+- ‘headwind’: headwind (m/s)
+- ‘gust_along’: gusts along the trajectory (m/s)
+- ‘crosswind’: crosswind (m/s)
+- ‘is_headwind’: headwind indicator (boolean)
+- ‘speed_m_s’: cyclist speed (m/s)
+- ‘slope’: slope (ratio)
+- ‘slope_terrain’: terrain slope (ratio)
+- ‘slope_wind’: virtual slope due to wind (ratio)
+- ‘slope_effective’: effective slope (terrain + wind) (ratio)
+- ‘elevation_virtual_m’: virtual elevation gain in metres</p>
+</dd>
+<dt>x_axis<span class="classifier">str, optional</span></dt><dd><p>‘distance’ to plot against kilometres (default)
+‘time’ to plot against time (minutes)</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Figure size (width, height)</p>
+</dd>
+<dt>title<span class="classifier">str, optional</span></dt><dd><p>Main chart title</p>
+</dd>
+<dt>distance_from_finish<span class="classifier">bool, optional</span></dt><dd><p>If True and x_axis=’distance’, the x-axis represents the remaining
+distance to the finish.</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h3>Returns:<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The created figure</p>
+</dd>
+<dt>axes<span class="classifier">list</span></dt><dd><p>List of created axes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.analysis.anareswind.plot_elevation_profile">
+<span class="sig-prename descclassname"><span class="pre">biwipy.analysis.anareswind.</span></span><span class="sig-name descname"><span class="pre">plot_elevation_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_virtual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_from_finish</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.anareswind.plot_elevation_profile" title="Link to this definition">#</a></dt>
+<dd><p>Plot the real and virtual elevation profile (including wind effect).</p>
+<section id="id19">
+<h3>Parameters:<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>segments<span class="classifier">List[Dict]</span></dt><dd><p>List of segments from simulate_with_weather</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Figure size (width, height)</p>
+</dd>
+<dt>title<span class="classifier">str, optional</span></dt><dd><p>Main chart title</p>
+</dd>
+<dt>show_virtual<span class="classifier">bool, optional</span></dt><dd><p>If True, also show the virtual elevation profile (default: True)</p>
+</dd>
+<dt>distance_from_finish<span class="classifier">bool, optional</span></dt><dd><p>If True, the x-axis represents the remaining distance to the finish.
+The start appears at the total route distance, the finish at 0 km.</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h3>Returns:<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The created figure</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>The created axes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.analysis.anareswind.plot_wind_rose">
+<span class="sig-prename descclassname"><span class="pre">biwipy.analysis.anareswind.</span></span><span class="sig-name descname"><span class="pre">plot_wind_rose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(10,</span> <span class="pre">10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#biwipy.analysis.anareswind.plot_wind_rose" title="Link to this definition">#</a></dt>
+<dd><p>Plot a wind rose based on the segments.</p>
+<section id="id21">
+<h3>Parameters:<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>segments<span class="classifier">List[Dict]</span></dt><dd><p>List of result segments</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Figure size</p>
+</dd>
+<dt>title<span class="classifier">str, optional</span></dt><dd><p>Chart title</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h3>Returns:<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>fig<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The created figure</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>The created axes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biwipy.visualization.interactive_map.create_interactive_map">
+<span class="sig-prename descclassname"><span class="pre">biwipy.visualization.interactive_map.</span></span><span class="sig-name descname"><span class="pre">create_interactive_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_animation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_from_finish</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#biwipy.visualization.interactive_map.create_interactive_map" title="Link to this definition">#</a></dt>
+<dd><p>Create an interactive HTML map with a colorized trace and elevation profile.</p>
+<p>Features:
+- Map/profile sync: click the profile -&gt; marker on the map
+- Time animation with a slider to replay the route</p>
+<section id="id23">
+<h3>Parameters:<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>segments<span class="classifier">List[Dict]</span></dt><dd><p>List of segments from simulate_with_weather</p>
+</dd>
+<dt>output_file<span class="classifier">str</span></dt><dd><p>Output HTML file path</p>
+</dd>
+<dt>title<span class="classifier">str, optional</span></dt><dd><p>Page title</p>
+</dd>
+<dt>enable_animation<span class="classifier">bool, optional</span></dt><dd><p>Enable the time animation slider (default: True)</p>
+</dd>
+<dt>distance_from_finish<span class="classifier">bool, optional</span></dt><dd><p>If True, the interactive elevation profile uses remaining distance
+to the finish on the x-axis.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h3>Returns:<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<p>str : Generated file path</p>
+</section>
+</dd></dl>
+
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">#</a></h2>
+<p>Lower-level/internal modules remain available in the codebase but are not part
+of this condensed public API reference.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="user_guide/notebook-4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CDA Calibration Notebook</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="changelog.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Changelog</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-public-api">Core Public API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulator">Simulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator.P0_from_v0"><code class="docutils literal notranslate"><span class="pre">Simulator.P0_from_v0()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator.print_power_model"><code class="docutils literal notranslate"><span class="pre">Simulator.print_power_model()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator.simulate_future"><code class="docutils literal notranslate"><span class="pre">Simulator.simulate_future()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator.simulate_replay"><code class="docutils literal notranslate"><span class="pre">Simulator.simulate_replay()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.Simulator.v0_from_P0"><code class="docutils literal notranslate"><span class="pre">Simulator.v0_from_P0()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cyclist-behavior">Cyclist behavior</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.CORNER_PRESETS"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.CORNER_PRESETS</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.DOWNHILL_PRESETS"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.DOWNHILL_PRESETS</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_MODERATE"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_CORNER_MODERATE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_SHARP"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_CORNER_SHARP</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_SLIGHT"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_CORNER_SLIGHT</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_CORNER_STRAIGHT"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_CORNER_STRAIGHT</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_DESCENTE_LEGERE"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_DESCENTE_LEGERE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_FORTE"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_MONTEE_FORTE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_LEGERE"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_MONTEE_LEGERE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_MONTEE_MODEREE"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_MONTEE_MODEREE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.SEUIL_PLAT"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.SEUIL_PLAT</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.UPHILL_PRESETS"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.UPHILL_PRESETS</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.display"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.display()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.get_corner_speed_limit"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.get_corner_speed_limit()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.get_uphill_factor"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.get_uphill_factor()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.load"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.load()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.save"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.save()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.CyclistBehavior.to_dict"><code class="docutils literal notranslate"><span class="pre">CyclistBehavior.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.core.bike_physics.estimate_P0_from_v0"><code class="docutils literal notranslate"><span class="pre">estimate_P0_from_v0()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#route-analysis">Route analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.filter_stops"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.filter_stops()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.load_gpx"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.load_gpx()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.merge_segments"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.merge_segments()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.moving_average_kmh"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.moving_average_kmh()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.process_gpx"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.process_gpx()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.RouteAnalyzer.segments_from_gpx"><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer.segments_from_gpx()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-provider">Weather provider</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider"><code class="docutils literal notranslate"><span class="pre">WeatherProvider</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider.from_grib"><code class="docutils literal notranslate"><span class="pre">WeatherProvider.from_grib()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider.get_wind"><code class="docutils literal notranslate"><span class="pre">WeatherProvider.get_wind()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider.purge_before"><code class="docutils literal notranslate"><span class="pre">WeatherProvider.purge_before()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider.purge_between"><code class="docutils literal notranslate"><span class="pre">WeatherProvider.purge_between()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.WeatherProvider.wind_impact"><code class="docutils literal notranslate"><span class="pre">WeatherProvider.wind_impact()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grib-file-planning-helper">GRIB file planning helper</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.weather.grib_finder.build_grib_list"><code class="docutils literal notranslate"><span class="pre">build_grib_list()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-helpers">Visualization helpers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.anareswind.print_summary_statistics"><code class="docutils literal notranslate"><span class="pre">print_summary_statistics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.anareswind.compare_scenarios"><code class="docutils literal notranslate"><span class="pre">compare_scenarios()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.anareswind.plot_segments_evolution"><code class="docutils literal notranslate"><span class="pre">plot_segments_evolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.anareswind.plot_elevation_profile"><code class="docutils literal notranslate"><span class="pre">plot_elevation_profile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.analysis.anareswind.plot_wind_rose"><code class="docutils literal notranslate"><span class="pre">plot_wind_rose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biwipy.visualization.interactive_map.create_interactive_map"><code class="docutils literal notranslate"><span class="pre">create_interactive_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/api.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Jacques.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

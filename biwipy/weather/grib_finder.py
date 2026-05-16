@@ -29,7 +29,8 @@ class IFSRef(TypedDict):
 
 
 def _ifs_product_for_run_hour(run_hour: int) -> str:
-    return "oper" if run_hour in (0, 12) else "scda"
+    # As of the ECMWF stream change, 06z/18z runs are in the main oper stream.
+    return "oper"
 
 
 def _is_valid_ifs_fxx(run_hour: int, fxx: int) -> bool:
@@ -302,12 +303,10 @@ def chkgribfile(file, model: str = "GFS"):
         model_upper = str(model).upper()
         if model_upper == "IFS":
             required_shortnames = {'10u', '10v'}
-            gust_aliases = {'10fg', '10fg3'}
             required_labels = {'10u', '10v'}
             optional_labels = {'gust'}
         else:
             required_shortnames = {'10u', '10v', 'gust'}
-            gust_aliases = set()
             required_labels = set(required_shortnames)
             optional_labels = set()
         found_shortnames = set()
@@ -325,7 +324,7 @@ def chkgribfile(file, model: str = "GFS"):
                     found_shortnames.add(shortname)
                     logging.debug(f"Found required parameter: {shortname}")
                 elif model_upper == "IFS" and (
-                    shortname in gust_aliases
+                    (isinstance(shortname, str) and (shortname == 'gust' or shortname.startswith('10fg')))
                     or param_id == 49
                     or (isinstance(name, str) and 'gust' in name.lower())
                 ):
@@ -338,9 +337,10 @@ def chkgribfile(file, model: str = "GFS"):
                 logging.debug(f"Could not read shortName: {e}")
                 continue
             
-            # Early exit if all parameters found
+            # Early exit if all required (and optional, when applicable) parameters found
             if found_shortnames == required_labels:
-                break
+                if model_upper != "IFS" or "gust" in found_shortnames or not optional_labels:
+                    break
         
         grbs.close()
         

@@ -6,7 +6,67 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Tuple
 from copy import deepcopy
 import logging
+import locale
+import os
 from .cyclist_params import CyclistBehavior
+
+
+logger = logging.getLogger(__name__)
+
+
+def _detect_output_lang() -> str:
+    """Detect output language: env var OUTPUT_LANG -> OS locale -> default EN."""
+    lang = os.environ.get("OUTPUT_LANG", "").lower()
+    if lang in ("fr", "en"):
+        return lang
+    try:
+        loc = locale.getlocale()[0] or locale.getdefaultlocale()[0] or ""
+        if loc.startswith("fr"):
+            return "fr"
+    except Exception:
+        pass
+    return "en"
+
+
+_I18N = {
+    "cyclist_profile": {
+        "fr": "\n  PROFIL CYCLISTE: {uphill} (montée) / {downhill} (descente) / {corner} (virages)",
+        "en": "\n  CYCLIST PROFILE: {uphill} (uphill) / {downhill} (downhill) / {corner} (corners)",
+    },
+    "ref_power": {
+        "fr": "Puissance de référence sur le plat: {p0:.1f} W\n",
+        "en": "Reference power on flat: {p0:.1f} W\n",
+    },
+    "expected_power_by_slope": {
+        "fr": "Puissances prévues selon la pente:",
+        "en": "Expected power by slope:",
+    },
+    "dash_60": {"fr": "------------------------------------------------------------", "en": "------------------------------------------------------------"},
+    "eq_70": {"fr": "======================================================================\n", "en": "======================================================================\n"},
+    "power_line": {
+        "fr": "{label:28s}: {power:5.1f} W ({ratio:5.1f}% | {sign}{variation:5.1f}W)",
+        "en": "{label:28s}: {power:5.1f} W ({ratio:5.1f}% | {sign}{variation:5.1f}W)",
+    },
+    "slope_very_steep_down": {"fr": "Descente très forte -10%", "en": "Very steep descent -10%"},
+    "slope_down5": {"fr": "Descente -5%", "en": "Descent -5%"},
+    "slope_down2": {"fr": "Légère descente -2%", "en": "Slight descent -2%"},
+    "slope_flat": {"fr": "Plat", "en": "Flat"},
+    "slope_up2": {"fr": "Légère montée +2%", "en": "Slight climb +2%"},
+    "slope_up5": {"fr": "Montée +5%", "en": "Climb +5%"},
+    "slope_up8": {"fr": "Montée forte +8%", "en": "Strong climb +8%"},
+    "slope_very_steep_up": {"fr": "Montée très forte +10%", "en": "Very steep climb +10%"},
+}
+
+
+def _t(key: str, **kwargs) -> str:
+    lang = _detect_output_lang()
+    labels = _I18N.get(key, {})
+    template = labels.get(lang) or labels.get("en") or key
+    return template.format(**kwargs) if kwargs else template
+
+
+def _tp(key: str, **kwargs) -> None:
+    print(_t(key, **kwargs))
 
 # -------------------------------------------------
 # Physical constants
@@ -795,29 +855,35 @@ def print_power_model_info(P0: float, behavior: Optional[CyclistBehavior] = None
     if behavior is None:
         behavior = get_default_behavior()
     
-    print(f"\n  PROFIL CYCLISTE: {behavior.mode_uphill.upper()} (montée) / {behavior.mode_downhill.upper()} (descente) / {behavior.mode_corner.upper()} (virages)")
-    print(f"Puissance de référence sur le plat: {P0:.1f} W\n")
-    
+    _tp(
+        "cyclist_profile",
+        uphill=behavior.mode_uphill.upper(),
+        downhill=behavior.mode_downhill.upper(),
+        corner=behavior.mode_corner.upper(),
+    )
+    _tp("ref_power", p0=P0)
+
     test_slopes = [
-        (-0.10, "Descente très forte -10%"),
-        (-0.05, "Descente -5%"),
-        (-0.02, "Légère descente -2%"),
-        (0.00, "Plat"),
-        (0.02, "Légère montée +2%"),
-        (0.05, "Montée +5%"),
-        (0.08, "Montée forte +8%"),
-        (0.10, "Montée très forte +10%")
+        (-0.10, "slope_very_steep_down"),
+        (-0.05, "slope_down5"),
+        (-0.02, "slope_down2"),
+        (0.00, "slope_flat"),
+        (0.02, "slope_up2"),
+        (0.05, "slope_up5"),
+        (0.08, "slope_up8"),
+        (0.10, "slope_very_steep_up"),
     ]
-    
-    print("Puissances prévues selon la pente:")
-    print("-" * 60)
-    for slope, label in test_slopes:
+
+    _tp("expected_power_by_slope")
+    _tp("dash_60")
+    for slope, key in test_slopes:
+        label = _t(key)
         power = calculate_adaptive_power(P0, slope, behavior)
         ratio = (power / P0) * 100
         variation = power - P0
         sign = "+" if variation > 0 else ""
-        print(f"{label:28s}: {power:5.1f} W ({ratio:5.1f}% | {sign}{variation:5.1f}W)")
-    print("="*70 + "\n")
+        _tp("power_line", label=label, power=power, ratio=ratio, sign=sign, variation=variation)
+    _tp("eq_70")
 
 
 # -------------------------------------------------

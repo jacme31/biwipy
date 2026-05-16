@@ -42,9 +42,9 @@ def bearing(lat1, lon1, lat2, lon2):
 #############################
 
 def load_gpx_points(gpx_file):
-    """Charge les points GPX dans une liste propre.
-    
-    Détecte automatiquement le namespace GPX (1.0, 1.1, ou autre).
+    """Load GPX points into a clean list.
+
+    Automatically detects the GPX namespace (1.0, 1.1, or other).
     """
     tree = ET.parse(gpx_file)
     root = tree.getroot()
@@ -59,14 +59,14 @@ def load_gpx_points(gpx_file):
     
     # Crée une fonction helper pour trouver les éléments avec ou sans namespace
     def find_tag(element, tag_name):
-        """Cherche un tag avec ou sans namespace."""
+        """Find a tag with or without a namespace."""
         if gpx_namespace:
             return element.find(f"{{{gpx_namespace}}}{tag_name}")
         else:
             return element.find(tag_name)
     
     def findall_tag(element, tag_name):
-        """Cherche plusieurs tags avec ou sans namespace."""
+        """Find multiple tags with or without a namespace."""
         if gpx_namespace:
             return element.findall(f"{{{gpx_namespace}}}{tag_name}")
         else:
@@ -172,10 +172,10 @@ def gpx_to_segments(points, smooth=True, smoothing_window=11, smoothing_method="
 # -------------------------------------------------
 def compute_moving_average_from_gpx_segments(segments, speed_threshold=1.0):
     """
-    Calcule la moving average (vitesse en déplacement) en utilisant les durées GPX,
-    en excluant les segments dont la vitesse instantanée est trop faible.
-    
-    speed_threshold : vitesse minimale (m/s) pour considérer un segment comme "en mouvement".
+    Compute moving average speed (moving time only) from GPX durations,
+    excluding segments whose instantaneous speed is too low.
+
+    speed_threshold : minimum speed (m/s) to consider a segment "moving".
     """
     moving_dist = 0.0
     moving_time = 0.0
@@ -198,21 +198,21 @@ def compute_moving_average_from_gpx_segments(segments, speed_threshold=1.0):
 
 def filter_stopped_segments(segments, speed_threshold=1.0, verbose=True):
     """
-    Filtre les segments arrêtés (vitesse < threshold) en utilisant les timestamps GPX.
-    À appeler APRÈS gpx_to_segments() et AVANT les simulations.
-    
+    Filter stopped segments (speed < threshold) using GPX timestamps.
+    Call AFTER gpx_to_segments() and BEFORE simulations.
+
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments GPX (doit contenir gpxtime_start et gpxtime_end)
+        GPX segments (must contain gpxtime_start and gpxtime_end)
     speed_threshold : float
-        Vitesse minimale (m/s) pour considérer un segment comme "en mouvement" (défaut 1.0 m/s)
+        Minimum speed (m/s) to consider a segment "moving" (default 1.0 m/s)
     verbose : bool
-        Si True, affiche un résumé du filtrage
-    
+        If True, display a filtering summary
+
     Returns:
     --------
-    List[Dict] : Segments filtrés (arrêts supprimés)
+    List[Dict] : Filtered segments (stops removed)
     """
     
     filtered_segments = []
@@ -265,29 +265,29 @@ def filter_stopped_segments(segments, speed_threshold=1.0, verbose=True):
 def detect_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10, 
                                normal_slope_threshold=0.05, log_file=None):
     """
-    Détecte les segments aberrants causés par du bruit GPS en altitude.
-    
-    Critères d'identification:
-    - Segment court (distance < max_dist, défaut 5m)
-    - Pente anormale (|pente| > min_slope_threshold, défaut 10%)
-    - Isolé entre deux segments avec pentes normales (|pente| < normal_slope_threshold, défaut 5%)
-    
+    Detect abnormal segments caused by GPS altitude noise.
+
+    Identification criteria:
+    - Short segment (distance < max_dist, default 5 m)
+    - Abnormal slope (|slope| > min_slope_threshold, default 10%)
+    - Isolated between two segments with normal slopes (|slope| < normal_slope_threshold, default 5%)
+
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments GPX
+        GPX segments list
     max_dist : float
-        Distance maximale (en mètres) pour considérer un segment comme "court"
+        Maximum distance (meters) to consider a segment "short"
     min_slope_threshold : float
-        Pente minimale (en absolu) pour être considérée comme "anormale"
+        Minimum absolute slope to be considered "abnormal"
     normal_slope_threshold : float
-        Pente maximale (en absolu) pour être considérée comme "normale"
+        Maximum absolute slope to be considered "normal"
     log_file : str or None
-        Fichier log pour sauvegarder les résultats. Si None, log en console.
-    
+        Log file to save results. If None, log to console.
+
     Returns:
     --------
-    List[Dict] : Liste des segments aberrants détectés
+    List[Dict] : List of detected abnormal segments
     """
     
     aberrants = []
@@ -376,29 +376,29 @@ def detect_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10,
 def remove_gps_altitude_noise(segments, max_dist=5.0, min_slope_threshold=0.10, 
                               normal_slope_threshold=0.05, verbose=True):
     """
-    Supprime les segments aberrants causés par du bruit GPS en altitude.
-    
-    Les segments aberrants sont identifiés par les mêmes critères que detect_gps_altitude_noise:
+    Remove abnormal segments caused by GPS altitude noise.
+
+    Abnormal segments use the same criteria as detect_gps_altitude_noise:
     - Distance < max_dist
-    - |pente| > min_slope_threshold
-    - Isolés entre deux segments avec pentes normales
-    
+    - |slope| > min_slope_threshold
+    - Isolated between two segments with normal slopes
+
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments GPX
+        GPX segments list
     max_dist : float
-        Distance maximale pour considérer un segment comme "court" (défaut 5m)
+        Maximum distance to consider a segment "short" (default 5 m)
     min_slope_threshold : float
-        Pente minimale pour être "anormale" (défaut 10%)
+        Minimum slope to be considered "abnormal" (default 10%)
     normal_slope_threshold : float
-        Pente maximale pour être "normale" (défaut 5%)
+        Maximum slope to be considered "normal" (default 5%)
     verbose : bool
-        Si True, affiche un résumé de la suppression
-    
+        If True, display a removal summary
+
     Returns:
     --------
-    List[Dict] : Segments filtrés (bruits supprimés)
+    List[Dict] : Filtered segments (noise removed)
     """
     
     # Identifier les indices à supprimer
