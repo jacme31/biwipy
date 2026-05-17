@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 project = "biwipy"
 copyright = "2026, Jacques"
 author = "Jacques"
-release = "0.1.0"
+release = "0.11.0"
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -15,6 +15,7 @@ extensions = [
     "nbsphinx",
     "sphinx_copybutton",
     "myst_parser",
+    "sphinx_sitemap",
 ]
 # MyST Docs: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
 myst_enable_extensions = [
@@ -33,6 +34,7 @@ language = "en"
 
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+html_baseurl = "https://jacme31.github.io/biwipy/"
 
 autosummary_generate = True
 autodoc_default_options = {

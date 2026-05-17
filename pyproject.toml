@@ -49,6 +49,7 @@ docs = [
     "nbsphinx",
     "sphinx-copybutton",
     "sphinx-autodoc-typehints",
+    "sphinx-sitemap",
     "ipython",
     "jupyter",
 ]
