@@ -35,6 +35,7 @@ language = "en"
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
 html_baseurl = "https://jacme31.github.io/biwipy/"
+sitemap_url_scheme = "{link}"
 
 autosummary_generate = True
 autodoc_default_options = {
