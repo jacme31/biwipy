@@ -22,9 +22,9 @@ Constructor inputs:
 - cyclist parameters: `CdA`, `Cr`, `m`
 
 ```{code-block} python3
-from refwindcycle.weather import WeatherProvider
-from refwindcycle.core.cyclist_params import CyclistBehavior
-from refwindcycle.core import Simulator
+from biwipy.weather import WeatherProvider
+from biwipy.core.cyclist_params import CyclistBehavior
+from biwipy.core import Simulator
 
 # Weather object (gribs_list obtained earlier)
 weather = WeatherProvider(gribs_list)
@@ -72,7 +72,7 @@ Required inputs:
 ```{code-block} python3
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from refwindcycle.analysis import RouteAnalyzer
+from biwipy.analysis import RouteAnalyzer
 
 # Preprocess GPX
 analyzer = RouteAnalyzer()
@@ -108,7 +108,7 @@ Notes:
 - `P0` is not required for replay.
 
 ```{code-block} python3
-from refwindcycle.analysis import RouteAnalyzer
+from biwipy.analysis import RouteAnalyzer
 
 analyzer = RouteAnalyzer()
 gpx_result = analyzer.process_gpx('ride_with_timestamps.gpx')

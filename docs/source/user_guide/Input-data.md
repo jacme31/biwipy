@@ -185,7 +185,7 @@ A behavior profile can be created with helper functions.
 Example: predefined competitive profile.
 
 ```{code-block} python3
-from refwindcycle.core.cyclist_params import (
+from biwipy.core.cyclist_params import (
     CyclistBehavior,
     create_competitive_profile,
 )
@@ -292,7 +292,7 @@ Helper function:
 ```{code-block} python3
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from refwindcycle.weather.grib_finder import build_grib_list
+from biwipy.weather.grib_finder import build_grib_list
 
 hdir = '~/data'
 origin_tz = ZoneInfo('Europe/Paris')
@@ -314,7 +314,7 @@ The following diagram summarizes how step size and duration determine the GRIB f
 Once GRIB files are available:
 
 ```{code-block} python3
-from refwindcycle.weather import WeatherProvider
+from biwipy.weather import WeatherProvider
 
 weather = WeatherProvider(gribs_list)
 mygrib = weather.grib
@@ -343,7 +343,7 @@ Wind model loading is accelerated with an optional cache (`~/.cache/grib/`) auto
 To disable cache:
 
 ```{code-block} python3
-from refwindcycle.weather import WeatherProvider
+from biwipy.weather import WeatherProvider
 
 weather = WeatherProvider(gribs_list, bcache=False)
 mygrib = weather.grib
@@ -358,7 +358,7 @@ Standard sea-level value: `rho = 1.225 kg/m3`.
 The tool estimates rho along the route from altitude.
 
 ```{code-block} python3
-from refwindcycle.core import bike_physics
+from biwipy.core import bike_physics
 
 rho_sea = bike_physics.calculate_air_density(0)
 rho_kigali = bike_physics.calculate_air_density(1500)
@@ -404,7 +404,7 @@ A GPX file is processed as follows:
 `RouteAnalyzer` is the main interface for GPX preprocessing.
 
 ```{code-block} python3
-from refwindcycle.analysis import RouteAnalyzer
+from biwipy.analysis import RouteAnalyzer
 
 analyzer = RouteAnalyzer()
 gpx_result = analyzer.process_gpx(filegpx, verbose=True, filter_stops_flag=True)
@@ -460,7 +460,7 @@ The preprocessing step provides an integer bounding box:
 Raster files are stored in your selected cache directory and reused when available.
 
 ```{code-block} python3
-from refwindcycle.weather.roughness_provider import RoughnessProvider
+from biwipy.weather.roughness_provider import RoughnessProvider
 
 roughdir = '~/data/roughness_cache'
 provider = RoughnessProvider(cache_dir=roughdir)

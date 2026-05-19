@@ -32,7 +32,7 @@ Quick reminder for frequent lookups:
 Typical usage:
 
 ```{code-block} python3
-from refwindcycle.analysis.anareswind import print_summary_statistics
+from biwipy.analysis.anareswind import print_summary_statistics
 
 print_summary_statistics(result, "Ride with wind")
 ```

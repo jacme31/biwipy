@@ -384,9 +384,9 @@ It applies a cycling physics model using your input data (rider, route, weather,
 <li><p><code class="docutils literal notranslate"><span class="pre">behavior</span></code>: cyclist behavior profile</p></li>
 <li><p>cyclist parameters: <code class="docutils literal notranslate"><span class="pre">CdA</span></code>, <code class="docutils literal notranslate"><span class="pre">Cr</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code></p></li>
 </ul>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">CyclistBehavior</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Simulator</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">CyclistBehavior</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Simulator</span>
 
 <span class="c1"># Weather object (gribs_list obtained earlier)</span>
 <span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">)</span>
@@ -430,7 +430,7 @@ It applies a cycling physics model using your input data (rider, route, weather,
 </ul>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
 
 <span class="c1"># Preprocess GPX</span>
 <span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
@@ -464,7 +464,7 @@ It applies a cycling physics model using your input data (rider, route, weather,
 <li><p><code class="docutils literal notranslate"><span class="pre">t_start</span></code> is auto-extracted from GPX by default.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">P0</span></code> is not required for replay.</p></li>
 </ul>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
 
 <span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
 <span class="n">gpx_result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="s1">&#39;ride_with_timestamps.gpx&#39;</span><span class="p">)</span>

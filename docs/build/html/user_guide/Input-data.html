@@ -672,7 +672,7 @@ The simulation uses an adaptive power model.</p>
 <h3>Behavior Profile Settings<a class="headerlink" href="#behavior-profile-settings" title="Link to this heading">#</a></h3>
 <p>A behavior profile can be created with helper functions.</p>
 <p>Example: predefined competitive profile.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core.cyclist_params</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CyclistBehavior</span><span class="p">,</span>
     <span class="n">create_competitive_profile</span><span class="p">,</span>
 <span class="p">)</span>
@@ -770,7 +770,7 @@ The model supports two approaches:</p>
 <p>Helper function:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">zoneinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoneInfo</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather.grib_finder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_grib_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather.grib_finder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_grib_list</span>
 
 <span class="n">hdir</span> <span class="o">=</span> <span class="s1">&#39;~/data&#39;</span>
 <span class="n">origin_tz</span> <span class="o">=</span> <span class="n">ZoneInfo</span><span class="p">(</span><span class="s1">&#39;Europe/Paris&#39;</span><span class="p">)</span>
@@ -789,7 +789,7 @@ The model supports two approaches:</p>
 <section id="weather-initialization">
 <h3>Weather Initialization<a class="headerlink" href="#weather-initialization" title="Link to this heading">#</a></h3>
 <p>Once GRIB files are available:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
 
 <span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">)</span>
 <span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
@@ -812,7 +812,7 @@ The model supports two approaches:</p>
 <p>Files already present are reused.</p>
 <p>Wind model loading is accelerated with an optional cache (<code class="docutils literal notranslate"><span class="pre">~/.cache/grib/</span></code>) automatically purged after 48 h.</p>
 <p>To disable cache:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherProvider</span>
 
 <span class="n">weather</span> <span class="o">=</span> <span class="n">WeatherProvider</span><span class="p">(</span><span class="n">gribs_list</span><span class="p">,</span> <span class="n">bcache</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">mygrib</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">grib</span>
@@ -824,7 +824,7 @@ The model supports two approaches:</p>
 <p>Aerodynamic drag also depends on air density (rho), which decreases with altitude.</p>
 <p>Standard sea-level value: <code class="docutils literal notranslate"><span class="pre">rho</span> <span class="pre">=</span> <span class="pre">1.225</span> <span class="pre">kg/m3</span></code>.</p>
 <p>The tool estimates rho along the route from altitude.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">bike_physics</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">bike_physics</span>
 
 <span class="n">rho_sea</span> <span class="o">=</span> <span class="n">bike_physics</span><span class="o">.</span><span class="n">calculate_air_density</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">rho_kigali</span> <span class="o">=</span> <span class="n">bike_physics</span><span class="o">.</span><span class="n">calculate_air_density</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span>
@@ -866,7 +866,7 @@ For detailed interfaces and signatures, see <a class="reference internal" href="
 <section id="route-analysis">
 <h4>Route Analysis<a class="headerlink" href="#route-analysis" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">RouteAnalyzer</span></code> is the main interface for GPX preprocessing.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteAnalyzer</span>
 
 <span class="n">analyzer</span> <span class="o">=</span> <span class="n">RouteAnalyzer</span><span class="p">()</span>
 <span class="n">gpx_result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">process_gpx</span><span class="p">(</span><span class="n">filegpx</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_stops_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -919,7 +919,7 @@ For detailed interfaces and signatures, see <a class="reference internal" href="
 <li><p><code class="docutils literal notranslate"><span class="pre">stats['rectangle_EW']</span></code> as <code class="docutils literal notranslate"><span class="pre">(west,</span> <span class="pre">east)</span></code></p></li>
 </ul>
 <p>Raster files are stored in your selected cache directory and reused when available.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">refwindcycle.weather.roughness_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoughnessProvider</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biwipy.weather.roughness_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoughnessProvider</span>
 
 <span class="n">roughdir</span> <span class="o">=</span> <span class="s1">&#39;~/data/roughness_cache&#39;</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">RoughnessProvider</span><span class="p">(</span><span class="n">cache_dir</span><span class="o">=</span><span class="n">roughdir</span><span class="p">)</span>
