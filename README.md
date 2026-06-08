@@ -32,6 +32,14 @@ biwipy/
 
 ## Installation
 
+### Using Conda
+
+The easiest way to install biwipy and dependencies is via Conda:
+
+```bash
+conda install-c conda-forge biwipy
+```
+
 ### From PyPI
 
 ```bash
@@ -40,23 +48,8 @@ pip install biwipy
 
 `pygrib` is a required dependency of `biwipy`.
 
-### Windows Installation (Required: conda-forge)
+On Windows, **you must install `pygrib` via conda-forge before using pip**. This is because `pygrib` requires the ECCODES C library which conda provides automatically. Therefore, it is preferable to use the conda installation directly for biwipy.
 
-On Windows, **you must install `pygrib` via conda-forge before using pip**. This is because `pygrib` requires the ECCODES C library which conda provides automatically.
-
-**Step-by-step (Windows with Conda):**
-
-```powershell
-# 1. Create conda environment
-conda create -n biwipy-env python=3.13
-conda activate biwipy-env
-
-# 2. Install pygrib from conda-forge (BEFORE pip)
-conda install -c conda-forge pygrib
-
-# 3. Install biwipy via pip
-pip install biwipy
-```
 
 **For development (with tests/linting):**
 
