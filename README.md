@@ -50,14 +50,6 @@ pip install biwipy
 
 On Windows, **you must install `pygrib` via conda-forge before using pip**. This is because `pygrib` requires the ECCODES C library which conda provides automatically. Therefore, it is preferable to use the conda installation directly for biwipy.
 
-
-**For development (with tests/linting):**
-
-```powershell
-conda activate biwipy-env
-pip install -e ".[dev]"
-```
-
 **If you encounter `boot.def` errors**, set this environment variable:
 
 ```powershell
