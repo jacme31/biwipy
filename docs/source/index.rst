@@ -47,7 +47,7 @@ Some concrete examples of questions that biwipy can help you answer:
 
 Biwipy also offers tools to calibrate your Drag Coefficient (CdA). ( `example 4`_ )
 
-.. _example 4: user_guide/Notebook-4.html
+.. _example 4: user_guide/notebook-4.html
 
 Biwipy is an open-source project, and we welcome contributions from the community. If you have suggestions for improvements, new features, or want to report issues, please visit our `GitHub repository <https://github.com/jacme31/biwipy>`_.
 
