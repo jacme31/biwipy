@@ -1110,8 +1110,10 @@ def simulate_with_weather(segments_in: List[Dict],
             if grib is None:
                 impact = {
                     'tws_m_s': 0.0,
+                    'tws_10m_m_s': 0.0,
                     'twd_deg': 0.0,
                     'gust_m_s': 0.0,
+                    'gust_10m_m_s': 0.0,
                     'headwind_m_s': 0.0,
                     'gust_along_m_s': 0.0,
                     'effective_wind_m_s': 0.0,
@@ -1141,6 +1143,8 @@ def simulate_with_weather(segments_in: List[Dict],
             seg['twd'] = twd
             seg['wind_along'] = impact['effective_wind_m_s']
             seg['gust'] = impact['gust_m_s']
+            seg['tws_10m'] = impact.get('tws_10m_m_s', seg['tws'])
+            seg['gust_10m'] = impact.get('gust_10m_m_s', seg['gust'])
             seg['headwind'] = impact['headwind_m_s']
             seg['gust_along'] = impact['gust_along_m_s']
             seg['crosswind'] = impact['crosswind_m_s']
@@ -1389,8 +1393,10 @@ def simulate_with_weather(segments_in: List[Dict],
             if grib is None:
                 impact = {
                     'tws_m_s': 0.0,
+                    'tws_10m_m_s': 0.0,
                     'twd_deg': 0.0,
                     'gust_m_s': 0.0,
+                    'gust_10m_m_s': 0.0,
                     'headwind_m_s': 0.0,
                     'gust_along_m_s': 0.0,
                     'effective_wind_m_s': 0.0,
@@ -1417,6 +1423,8 @@ def simulate_with_weather(segments_in: List[Dict],
             seg['twd'] = twd
             seg['wind_along'] = impact['effective_wind_m_s']
             seg['gust'] = impact['gust_m_s']
+            seg['tws_10m'] = impact.get('tws_10m_m_s', seg['tws'])
+            seg['gust_10m'] = impact.get('gust_10m_m_s', seg['gust'])
             seg['headwind'] = impact['headwind_m_s']
             seg['gust_along'] = impact['gust_along_m_s']
             seg['crosswind'] = impact['crosswind_m_s']
@@ -1552,8 +1560,10 @@ def simulate_with_weather(segments_in: List[Dict],
             if grib is None:
                 impact = {
                     'tws_m_s': 0.0,
+                    'tws_10m_m_s': 0.0,
                     'twd_deg': 0.0,
                     'gust_m_s': 0.0,
+                    'gust_10m_m_s': 0.0,
                     'headwind_m_s': 0.0,
                     'gust_along_m_s': 0.0,
                     'effective_wind_m_s': 0.0,
@@ -1581,6 +1591,8 @@ def simulate_with_weather(segments_in: List[Dict],
             seg['twd'] = twd
             seg['wind_along'] = impact['effective_wind_m_s']
             seg['gust'] = impact['gust_m_s']
+            seg['tws_10m'] = impact.get('tws_10m_m_s', seg['tws'])
+            seg['gust_10m'] = impact.get('gust_10m_m_s', seg['gust'])
             seg['headwind'] = impact['headwind_m_s']
             seg['gust_along'] = impact['gust_along_m_s']
             seg['crosswind'] = impact['crosswind_m_s']
