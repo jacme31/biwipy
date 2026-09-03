@@ -472,76 +472,17 @@ def merge_short_segments(segments: List[Dict],
     return merged,n_merged
 
 
-CLIMB_PROFILES: Dict[str, Dict[str, Any]] = {
-    'flat': {
-        'slope_threshold_pct': 3.5,
-        'sustain_threshold_pct': 2.0,
-        'min_distance_m': 200.0,
-        'gap_ratio': 0.08,
-        'gap_min_distance_m': 25.0,
-        'gap_max_distance_m': 1200.0,
-        'max_gap_segments': 4,
-        'min_gap_slope_pct': -0.5,
-        'hard_break_slope_pct': -2.5,
-        'min_elevation_gain_m': 10.0,
-    },
-    'mountains': {
-        'slope_threshold_pct': 3.0,
-        'sustain_threshold_pct': 1.75,
-        'min_distance_m': 1200.0,
-        'gap_ratio': 0.15,
-        'gap_min_distance_m': 40.0,
-        'gap_max_distance_m': 1500.0,
-        'max_gap_segments': 200,
-        'min_gap_slope_pct': -20.0,
-        'hard_break_slope_pct': -25.0,
-        'min_elevation_gain_m': 50.0,
-    },
-    'hills': {
-        'slope_threshold_pct': 3.0,
-        'sustain_threshold_pct': 1.5,
-        'min_distance_m': 400.0,
-        'gap_ratio': 0.1,
-        'gap_min_distance_m': 20.0,
-        'gap_max_distance_m': 900.0,
-        'max_gap_segments': 3,
-        'min_gap_slope_pct': -0.5,
-        'hard_break_slope_pct': -2.5,
-        'min_elevation_gain_m': 15.0,
-    },
-}
-
-
-def get_climb_profile(profile: str) -> Dict[str, Any]:
-    """Return a copy of a built-in climb-detection profile."""
-    try:
-        return CLIMB_PROFILES[profile].copy()
-    except KeyError as exc:
-        choices = ', '.join(CLIMB_PROFILES)
-        raise ValueError(f"Unknown climb profile: {profile!r}. Choose from: {choices}") from exc
-
-
 def detect_real_climbs(
     segments: List[Dict[str, Any]],
     slope_threshold_pct: float,
     min_distance_m: float,
-    sustain_threshold_pct: Optional[float] = None,
-    gap_ratio: float = 0.0,
-    gap_min_distance_m: float = 0.0,
-    gap_max_distance_m: float = 0.0,
-    max_gap_segments: int = 0,
-    min_gap_slope_pct: float = 0.0,
-    hard_break_slope_pct: float = -100.0,
-    min_elevation_gain_m: float = 0.0,
 ) -> List[Dict[str, Any]]:
     """
-    Detect climbs with threshold-based segments and optional short-gap tolerance.
+    Detect climbs as contiguous segment sequences where terrain slope is above threshold.
 
-    By default, behavior matches the strict contiguous-threshold mode:
-    a segment below threshold ends the climb candidate immediately.
-
-    When gap parameters are enabled, short interruptions are allowed while preserving
-    hard-break protection for marked downhill sections.
+    A climb is detected when:
+    - each segment in the sequence has slope >= slope_threshold_pct
+    - cumulative sequence distance >= min_distance_m
 
     Parameters
     ----------
@@ -551,24 +492,6 @@ def detect_real_climbs(
         Threshold in percent (e.g. 3.0 for 3%).
     min_distance_m : float
         Minimum cumulative climb length in meters.
-    sustain_threshold_pct : Optional[float]
-        Maintain threshold in percent once a climb starts. If ``None``, uses
-        ``slope_threshold_pct``.
-    gap_ratio : float
-        Adaptive gap budget ratio against the already accumulated climb distance.
-    gap_min_distance_m : float
-        Minimum gap budget distance in meters.
-    gap_max_distance_m : float
-        Maximum gap budget distance in meters.
-    max_gap_segments : int
-        Maximum number of consecutive tolerated gap segments.
-    min_gap_slope_pct : float
-        Lowest accepted slope within a tolerated gap, in percent.
-    hard_break_slope_pct : float
-        Immediate break threshold, in percent. Any segment below this value closes
-        the current climb candidate.
-    min_elevation_gain_m : float
-        Minimum positive elevation gain required to validate a climb.
 
     Returns
     -------
@@ -583,19 +506,6 @@ def detect_real_climbs(
         return []
 
     threshold_ratio = float(slope_threshold_pct) / 100.0
-    sustain_ratio = (
-        threshold_ratio
-        if sustain_threshold_pct is None
-        else min(float(sustain_threshold_pct) / 100.0, threshold_ratio)
-    )
-    gap_ratio = max(float(gap_ratio), 0.0)
-    gap_min_distance_m = max(float(gap_min_distance_m), 0.0)
-    gap_max_distance_m = max(float(gap_max_distance_m), 0.0)
-    max_gap_segments = max(int(max_gap_segments), 0)
-    min_gap_slope_ratio = float(min_gap_slope_pct) / 100.0
-    hard_break_slope_ratio = float(hard_break_slope_pct) / 100.0
-    min_elevation_gain_m = max(float(min_elevation_gain_m), 0.0)
-
     climbs: List[Dict[str, Any]] = []
 
     cum_dist_m = 0.0
@@ -624,39 +534,13 @@ def detect_real_climbs(
         summit_lat = float(seg.get('lat2', seg.get('lat1', 0.0)))
         summit_lon = float(seg.get('lon2', seg.get('lon1', 0.0)))
 
-        current_gap_dist_m = 0.0
-        current_gap_segments = 0
-        current_gap_budget_m = 0.0
-
         while i < n:
             s = segments[i]
             s_slope = float(s.get('slope_terrain', s.get('slope', 0.0)))
-            if s_slope < hard_break_slope_ratio:
+            if s_slope < threshold_ratio:
                 break
 
             dist = float(s.get('distance', 0.0))
-
-            if s_slope >= sustain_ratio:
-                current_gap_dist_m = 0.0
-                current_gap_segments = 0
-            else:
-                if s_slope < min_gap_slope_ratio:
-                    break
-
-                if current_gap_segments == 0:
-                    current_gap_budget_m = min(
-                        gap_max_distance_m,
-                        max(gap_min_distance_m, gap_ratio * block_dist_m),
-                    )
-
-                if current_gap_segments + 1 > max_gap_segments:
-                    break
-                if current_gap_dist_m + dist > current_gap_budget_m:
-                    break
-
-                current_gap_dist_m += dist
-                current_gap_segments += 1
-
             block_dist_m += dist
             weighted_slope_sum += s_slope * dist
 
@@ -672,14 +556,9 @@ def detect_real_climbs(
 
             i += 1
 
-        if block_dist_m == 0.0:
-            cum_dist_m += float(seg.get('distance', 0.0))
-            i += 1
-            continue
-
         end_km = (cum_dist_m + block_dist_m) / 1000.0
 
-        if block_dist_m >= float(min_distance_m) and elev_gain_m >= min_elevation_gain_m:
+        if block_dist_m >= float(min_distance_m):
             avg_slope_pct = (weighted_slope_sum / block_dist_m) * 100.0 if block_dist_m > 0 else 0.0
             climbs.append(
                 {
@@ -1371,18 +1250,16 @@ def print_summary_statistics(
         _tp("line_min", value=result.wind.tws.min * 3.6)
         _tp("line_max", value=result.wind.tws.max * 3.6)
 
-        tws_10m_stats = _series_stats_kmh_by_key(result_segments, 'tws_10m')
-        if tws_10m_stats is not None:
-            avg_twd_10m_deg, avg_twd_10m_text, _ = compute_average_twd_vectorial(result_segments, tws_key='tws_10m')
+        if result.wind.tws_10m is not None:
             _tp("wind_section_10m")
             _tp(
                 "line_mean_direction",
-                value=tws_10m_stats['avg_kmh'],
-                deg=avg_twd_10m_deg,
-                text=avg_twd_10m_text,
+                value=result.wind.tws_10m.avg * 3.6,
+                deg=result.wind.twd_10m_avg,
+                text=result.wind.twd_10m_compass,
             )
-            _tp("line_min", value=tws_10m_stats['min_kmh'])
-            _tp("line_max", value=tws_10m_stats['max_kmh'])
+            _tp("line_min", value=result.wind.tws_10m.min * 3.6)
+            _tp("line_max", value=result.wind.tws_10m.max * 3.6)
 
         _tp("gust_section")
         _tp("line_mean", value=result.gusts.avg * 3.6)

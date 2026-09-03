@@ -251,6 +251,17 @@ class Simulator:
         compass_dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
         compass_idx = int((avg_twd + 11.25) / 22.5) % 16
         twd_compass = compass_dirs[compass_idx]
+
+        tws_10m_values = [seg.get('tws_10m', 0) for seg in segments]
+        u_10m_comp = np.array([seg.get('tws_10m', 0) * np.sin(np.radians(seg.get('twd', 0))) for seg in segments])
+        v_10m_comp = np.array([seg.get('tws_10m', 0) * np.cos(np.radians(seg.get('twd', 0))) for seg in segments])
+        avg_u_10m = np.mean(u_10m_comp)
+        avg_v_10m = np.mean(v_10m_comp)
+        avg_twd_10m = np.degrees(np.arctan2(avg_u_10m, avg_v_10m))
+        if avg_twd_10m < 0:
+            avg_twd_10m += 360.0
+        compass_idx_10m = int((avg_twd_10m + 11.25) / 22.5) % 16
+        twd_10m_compass = compass_dirs[compass_idx_10m]
         
         # Find min/max positions
         cumulative_dist = 0.0
@@ -274,6 +285,13 @@ class Simulator:
             ),
             twd_avg=avg_twd,
             twd_compass=twd_compass,
+            tws_10m=NumericStats(
+                avg=np.mean(tws_10m_values) if tws_10m_values else 0.0,
+                min=min(tws_10m_values) if tws_10m_values else 0.0,
+                max=max(tws_10m_values) if tws_10m_values else 0.0,
+            ),
+            twd_10m_avg=avg_twd_10m,
+            twd_10m_compass=twd_10m_compass,
         )
         
         # ============================================================
