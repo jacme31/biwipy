@@ -1,9 +1,26 @@
 import unittest
 
+from biwipy.analysis import CLIMB_PROFILES, get_climb_profile
 from biwipy.analysis.anareswind import detect_real_climbs
 
 
 class TestDetectRealClimbs(unittest.TestCase):
+    def test_builtin_climb_profiles_have_expected_names_and_parameters(self):
+        self.assertEqual(set(CLIMB_PROFILES), {"flat", "mountains", "hills"})
+        self.assertEqual(get_climb_profile("flat")["slope_threshold_pct"], 3.5)
+        self.assertEqual(get_climb_profile("mountains")["max_gap_segments"], 200)
+        self.assertEqual(get_climb_profile("hills")["gap_max_distance_m"], 900.0)
+
+    def test_get_climb_profile_returns_an_independent_copy(self):
+        profile = get_climb_profile("mountains")
+        profile["min_distance_m"] = 1.0
+
+        self.assertEqual(get_climb_profile("mountains")["min_distance_m"], 1200.0)
+
+    def test_get_climb_profile_rejects_unknown_profile(self):
+        with self.assertRaises(ValueError):
+            get_climb_profile("mountain")
+
     @staticmethod
     def _segment(
         distance: float,

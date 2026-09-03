@@ -472,6 +472,55 @@ def merge_short_segments(segments: List[Dict],
     return merged,n_merged
 
 
+CLIMB_PROFILES: Dict[str, Dict[str, Any]] = {
+    'flat': {
+        'slope_threshold_pct': 3.5,
+        'sustain_threshold_pct': 2.0,
+        'min_distance_m': 200.0,
+        'gap_ratio': 0.08,
+        'gap_min_distance_m': 25.0,
+        'gap_max_distance_m': 1200.0,
+        'max_gap_segments': 4,
+        'min_gap_slope_pct': -0.5,
+        'hard_break_slope_pct': -2.5,
+        'min_elevation_gain_m': 10.0,
+    },
+    'mountains': {
+        'slope_threshold_pct': 3.0,
+        'sustain_threshold_pct': 1.75,
+        'min_distance_m': 1200.0,
+        'gap_ratio': 0.15,
+        'gap_min_distance_m': 40.0,
+        'gap_max_distance_m': 1500.0,
+        'max_gap_segments': 200,
+        'min_gap_slope_pct': -20.0,
+        'hard_break_slope_pct': -25.0,
+        'min_elevation_gain_m': 50.0,
+    },
+    'hills': {
+        'slope_threshold_pct': 3.0,
+        'sustain_threshold_pct': 1.5,
+        'min_distance_m': 400.0,
+        'gap_ratio': 0.1,
+        'gap_min_distance_m': 20.0,
+        'gap_max_distance_m': 900.0,
+        'max_gap_segments': 3,
+        'min_gap_slope_pct': -0.5,
+        'hard_break_slope_pct': -2.5,
+        'min_elevation_gain_m': 15.0,
+    },
+}
+
+
+def get_climb_profile(profile: str) -> Dict[str, Any]:
+    """Return a copy of a built-in climb-detection profile."""
+    try:
+        return CLIMB_PROFILES[profile].copy()
+    except KeyError as exc:
+        choices = ', '.join(CLIMB_PROFILES)
+        raise ValueError(f"Unknown climb profile: {profile!r}. Choose from: {choices}") from exc
+
+
 def detect_real_climbs(
     segments: List[Dict[str, Any]],
     slope_threshold_pct: float,
