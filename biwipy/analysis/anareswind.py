@@ -62,12 +62,20 @@ I18N = {
         "en": "⚡  Average power: {value:.1f} W",
     },
     "wind_section": {
-        "fr": "\n💨 Vent (TWS et TWD):",
-        "en": "\n💨 Wind (TWS and TWD):",
+        "fr": "\n💨 Vent (TWS et TWD a 1,5 m):",
+        "en": "\n💨 Wind (TWS and TWD at 1.5 m):",
+    },
+    "wind_section_10m": {
+        "fr": "\n💨 Vent (TWS et TWD a 10 m):",
+        "en": "\n💨 Wind (TWS and TWD at 10 m):",
     },
     "gust_section": {
-        "fr": "\n💨 Rafales (Gust):",
-        "en": "\n💨 Gusts:",
+        "fr": "\n💨 Rafales (Gust) a 1,5 m:",
+        "en": "\n💨 Gusts at 1.5 m:",
+    },
+    "gust_section_10m": {
+        "fr": "\n💨 Rafales (Gust) a 10 m:",
+        "en": "\n💨 Gusts at 10 m:",
     },
     "line_mean_direction": {
         "fr": "   Moyen: {value:.2f} km/h - Direction: {deg:.0f}° ({text})",
@@ -1172,6 +1180,32 @@ def print_summary_statistics(
 
         return _getter
 
+    def _series_stats_kmh_by_key(segments: List[Dict], key: str) -> Optional[Dict[str, float]]:
+        values_kmh = []
+        km_mids = []
+        cumulative_km = 0.0
+
+        for seg in segments:
+            dist_m = float(seg.get('distance', 0.0) or 0.0)
+            value = seg.get(key)
+            if value is not None:
+                values_kmh.append(float(value) * 3.6)
+                km_mids.append(cumulative_km + dist_m / 2000.0)
+            cumulative_km += dist_m / 1000.0
+
+        if not values_kmh:
+            return None
+
+        idx_min = int(np.argmin(values_kmh))
+        idx_max = int(np.argmax(values_kmh))
+        return {
+            'avg_kmh': float(np.mean(values_kmh)),
+            'min_kmh': float(np.min(values_kmh)),
+            'max_kmh': float(np.max(values_kmh)),
+            'min_at_km': float(km_mids[idx_min]),
+            'max_at_km': float(km_mids[idx_max]),
+        }
+
     def _print_smoothed_slope_extremes(prefix: str, extremes: Optional[Dict], raw_min: float, raw_max: float):
         if extremes is not None:
             _tp(
@@ -1202,6 +1236,7 @@ def print_summary_statistics(
     # Chemin recommandé: lecture directe depuis SimulationResult (sans recalcul)
     if hasattr(data, 'distance') and hasattr(data, 'time') and hasattr(data, 'speed'):
         result = data
+        result_segments = result.get_segments()
 
         _tp("distance_total", value=result.distance.total_km)
         _tp("time_total", value=_format_hms(result.time.total_seconds))
@@ -1215,15 +1250,35 @@ def print_summary_statistics(
         _tp("line_min", value=result.wind.tws.min * 3.6)
         _tp("line_max", value=result.wind.tws.max * 3.6)
 
+        tws_10m_stats = _series_stats_kmh_by_key(result_segments, 'tws_10m')
+        if tws_10m_stats is not None:
+            avg_twd_10m_deg, avg_twd_10m_text, _ = compute_average_twd_vectorial(result_segments, tws_key='tws_10m')
+            _tp("wind_section_10m")
+            _tp(
+                "line_mean_direction",
+                value=tws_10m_stats['avg_kmh'],
+                deg=avg_twd_10m_deg,
+                text=avg_twd_10m_text,
+            )
+            _tp("line_min", value=tws_10m_stats['min_kmh'])
+            _tp("line_max", value=tws_10m_stats['max_kmh'])
+
         _tp("gust_section")
         _tp("line_mean", value=result.gusts.avg * 3.6)
         _tp("line_min_at_km", value=result.gusts.min * 3.6, km=result.gusts.min_at_km)
         _tp("line_max_at_km", value=result.gusts.max * 3.6, km=result.gusts.max_at_km)
 
+        gust_10m_stats = _series_stats_kmh_by_key(result_segments, 'gust_10m')
+        if gust_10m_stats is not None:
+            _tp("gust_section_10m")
+            _tp("line_mean", value=gust_10m_stats['avg_kmh'])
+            _tp("line_min_at_km", value=gust_10m_stats['min_kmh'], km=gust_10m_stats['min_at_km'])
+            _tp("line_max_at_km", value=gust_10m_stats['max_kmh'], km=gust_10m_stats['max_at_km'])
+
         _tp("terrain_section")
         _tp("line_mean_pct_spaced", value=result.slopes.terrain.avg_pct)
         terrain_ext = _slope_extremes_with_km(
-            result.get_segments(),
+            result_segments,
             _terrain_slope_getter,
             window_m=float(terrain_smoothing_window_m),
         )
@@ -1239,7 +1294,7 @@ def print_summary_statistics(
         _tp("virtual_section")
         _tp("line_mean_pct", value=result.slopes.virtual.avg_pct)
         virtual_ext = _slope_extremes_with_km(
-            result.get_segments(),
+            result_segments,
             _segment_slope_getter('slope_wind'),
             window_m=float(terrain_smoothing_window_m),
         )
@@ -1255,7 +1310,7 @@ def print_summary_statistics(
         _tp("effective_section")
         _tp("line_mean_pct", value=result.slopes.effective.avg_pct)
         effective_ext = _slope_extremes_with_km(
-            result.get_segments(),
+            result_segments,
             _segment_slope_getter('slope_effective', fallback_key='slope'),
             window_m=float(terrain_smoothing_window_m),
         )
@@ -1322,12 +1377,25 @@ def print_summary_statistics(
     
     if tws_values:
         # Calcul de la direction moyenne du vent (TWD) par méthode vectorielle
-        avg_twd_deg, avg_twd_text, avg_tws_kmh = compute_average_twd_vectorial(segments)
+        avg_twd_deg, avg_twd_text, _ = compute_average_twd_vectorial(segments)
         
         _tp("wind_section")
         _tp("line_mean_direction", value=np.mean(tws_values), deg=avg_twd_deg, text=avg_twd_text)
         _tp("line_min", value=np.min(tws_values))
         _tp("line_max", value=np.max(tws_values))
+
+        tws_10m_stats = _series_stats_kmh_by_key(segments, 'tws_10m')
+        if tws_10m_stats is not None:
+            avg_twd_10m_deg, avg_twd_10m_text, _ = compute_average_twd_vectorial(segments, tws_key='tws_10m')
+            _tp("wind_section_10m")
+            _tp(
+                "line_mean_direction",
+                value=tws_10m_stats['avg_kmh'],
+                deg=avg_twd_10m_deg,
+                text=avg_twd_10m_text,
+            )
+            _tp("line_min", value=tws_10m_stats['min_kmh'])
+            _tp("line_max", value=tws_10m_stats['max_kmh'])
     
     # Statistiques de rafales
     if gust_values:
@@ -1347,6 +1415,13 @@ def print_summary_statistics(
         _tp("line_mean", value=np.mean(gust_values))
         _tp("line_min_at_km", value=min_gust, km=cumulative_dists[min_idx])
         _tp("line_max_at_km", value=max_gust, km=cumulative_dists[max_idx])
+
+        gust_10m_stats = _series_stats_kmh_by_key(segments, 'gust_10m')
+        if gust_10m_stats is not None:
+            _tp("gust_section_10m")
+            _tp("line_mean", value=gust_10m_stats['avg_kmh'])
+            _tp("line_min_at_km", value=gust_10m_stats['min_kmh'], km=gust_10m_stats['min_at_km'])
+            _tp("line_max_at_km", value=gust_10m_stats['max_kmh'], km=gust_10m_stats['max_at_km'])
     
      # Statistiques de pente terrain 
     slopes = [seg.get('slope', 0) * 100 for seg in segments]  # %
@@ -1621,7 +1696,7 @@ def twd_to_text(twd_deg: float) -> str:
     return directions[idx]
 
 
-def compute_average_twd_vectorial(segments: List[Dict]) -> tuple:
+def compute_average_twd_vectorial(segments: List[Dict], tws_key: str = 'tws') -> tuple:
     """
     Calcule la direction moyenne du vent (TWD) par méthode vectorielle.
     
@@ -1631,7 +1706,9 @@ def compute_average_twd_vectorial(segments: List[Dict]) -> tuple:
     Parameters:
     -----------
     segments : List[Dict]
-        Liste des segments contenant 'twd', 'distance', et optionnellement 'tws'
+        Liste des segments contenant 'twd', 'distance', et optionnellement un champ de vitesse de vent
+    tws_key : str
+        Nom du champ vitesse vent a utiliser (defaut: 'tws')
     
     Returns:
     --------
@@ -1665,7 +1742,7 @@ def compute_average_twd_vectorial(segments: List[Dict]) -> tuple:
     for seg in segments:
         twd = seg.get('twd')
         distance = seg.get('distance', 0)
-        tws = seg.get('tws', 0)
+        tws = seg.get(tws_key, 0)
         
         if twd is None or distance <= 0:
             continue

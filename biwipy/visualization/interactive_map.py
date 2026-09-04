@@ -1164,7 +1164,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             left: 8px !important;
             right: 8px !important;
             width: auto !important;
-            bottom: 292px !important;
+            bottom: calc(302px + env(safe-area-inset-bottom)) !important;
             max-height: 76px !important;
             padding: 7px 9px !important;
             overflow: hidden !important;
@@ -1249,7 +1249,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             left: 8px !important;
             right: 8px !important;
             width: auto !important;
-            bottom: 206px !important;
+            bottom: calc(214px + env(safe-area-inset-bottom)) !important;
             max-height: 56px !important;
             padding: 6px 8px !important;
             overflow: hidden !important;
@@ -1336,7 +1336,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             left: 6px !important;
             right: 6px !important;
             width: auto !important;
-            bottom: 272px !important;
+            bottom: calc(282px + env(safe-area-inset-bottom)) !important;
             max-height: 74px !important;
             padding: 6px 8px !important;
             overflow: hidden !important;

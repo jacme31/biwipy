@@ -1001,8 +1001,10 @@ class Grib:
         effective_wind_along = wind_along + ratio_wind * (gust_along - wind_along)
         return {
             "tws_m_s": round(tws_norm, 2),
+            "tws_10m_m_s": round(tws, 2),
             "twd_deg": round(twd, 2),
             "gust_m_s": round(gust_norm, 2),
+            "gust_10m_m_s": round(gust, 2),
             "headwind_m_s": round(wind_along, 2),
             "gust_along_m_s": round(gust_along, 2),
             "effective_wind_m_s": round(effective_wind_along, 2),
