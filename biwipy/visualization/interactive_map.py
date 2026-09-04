@@ -7,11 +7,12 @@ Generates an HTML page with a Folium map and interactive elevation profiles.
 import folium
 from folium import plugins
 import numpy as np
-from typing import List, Dict, Optional
+from typing import List, Dict, Literal, Optional
 import json
 import logging
 import locale
 import os
+from datetime import datetime, timedelta
 
 
 logger = logging.getLogger(__name__)
@@ -38,6 +39,10 @@ _UI_I18N = {
         "feature_group_name": "Tracé colorisé par vent",
         "start_marker": "🏁 Départ",
         "finish_marker": "🏁 Arrivée",
+        "start_marker_short": "Départ",
+        "finish_marker_short": "Arrivée",
+        "start_marker_badge_letter": "D",
+        "finish_marker_badge_letter": "A",
         "xaxis_from_finish": "Distance depuis l'arrivée (km)",
         "xaxis_distance": "Distance (km)",
         "distance_label_remaining": "Distance restante",
@@ -93,7 +98,10 @@ _UI_I18N = {
         "btn_play": "▶ Lecture",
         "btn_pause": "⏸ Pause",
         "btn_reset": "⏮ Début",
+        "arrival_time_label": "Heure arrivée",
         "popup_current_position": "📍 Position actuelle",
+        "popup_passage_time_label": "Heure de passage",
+        "popup_elapsed_time_label": "Temps écoulé",
         "popup_speed_label": "Vitesse",
         "popup_wind_label": "Vent",
         "popup_wind_head_short": "🔴 vent de face",
@@ -112,6 +120,10 @@ _UI_I18N = {
         "feature_group_name": "Wind-colored route",
         "start_marker": "🏁 Start",
         "finish_marker": "🏁 Finish",
+        "start_marker_short": "Start",
+        "finish_marker_short": "Finish",
+        "start_marker_badge_letter": "S",
+        "finish_marker_badge_letter": "F",
         "xaxis_from_finish": "Distance to finish (km)",
         "xaxis_distance": "Distance (km)",
         "distance_label_remaining": "Remaining distance",
@@ -167,7 +179,10 @@ _UI_I18N = {
         "btn_play": "▶ Play",
         "btn_pause": "⏸ Pause",
         "btn_reset": "⏮ Start",
+        "arrival_time_label": "Arrival time",
         "popup_current_position": "📍 Current position",
+        "popup_passage_time_label": "Passage time",
+        "popup_elapsed_time_label": "Elapsed time",
         "popup_speed_label": "Speed",
         "popup_wind_label": "Wind",
         "popup_wind_head_short": "🔴 headwind",
@@ -186,6 +201,34 @@ _UI_I18N = {
 def _ui_text(key: str) -> str:
     lang = _detect_output_lang()
     return _UI_I18N.get(lang, _UI_I18N["en"]).get(key, _UI_I18N["en"].get(key, key))
+
+
+def _resolve_arrival_time(segments: List[Dict]) -> Optional[datetime]:
+    """Return the most reliable arrival timestamp for the route.
+
+    Prefer the actual end timestamp of the last segment when available, then fall
+    back to the first segment start plus the cumulated duration.
+    """
+    for seg in reversed(segments):
+        gpxtime_end = seg.get("gpxtime_end")
+        if isinstance(gpxtime_end, datetime):
+            return gpxtime_end
+
+    route_start_dt = None
+    for seg in segments:
+        gpxtime_start = seg.get("gpxtime_start")
+        if isinstance(gpxtime_start, datetime):
+            route_start_dt = gpxtime_start
+            break
+
+    if route_start_dt is None:
+        return None
+
+    total_time_s = sum(seg.get("time_s", 0) for seg in segments)
+    if total_time_s <= 0:
+        return None
+
+    return route_start_dt + timedelta(seconds=total_time_s)
 
 
 def _generate_statistics_html(segments: List[Dict], ui: Optional[Dict[str, str]] = None) -> str:
@@ -437,11 +480,110 @@ def create_popup_content(seg: Dict, seg_idx: int, cum_dist_km: float, ui: Option
     return html
 
 
+def _add_endpoint_markers(
+    m: folium.Map,
+    segments: List[Dict],
+    ui: Dict[str, str],
+    style: str,
+) -> None:
+    """Add start and finish markers to a Folium map with the chosen visual style.
+
+    Parameters
+    ----------
+    m : folium.Map
+    segments : List[Dict]
+    ui : Dict[str, str]
+        Localisation strings.
+    style : str
+        One of ``'circle'`` (default small dot), ``'badge'`` (letter inside a
+        round badge), ``'pin'`` (standard Folium/Leaflet pin), ``'none'``
+        (no markers at all).
+    """
+    if style == 'none':
+        return
+
+    start_ll = [segments[0]['lat1'], segments[0]['lon1']]
+    finish_ll = [segments[-1]['lat2'], segments[-1]['lon2']]
+
+    if style == 'circle':
+        folium.CircleMarker(
+            start_ll,
+            radius=5,
+            color='#2e7d32',
+            fill=True,
+            fill_color='#43a047',
+            fill_opacity=0.95,
+            weight=2,
+            popup=ui['start_marker'],
+            tooltip=ui['start_marker_short'],
+        ).add_to(m)
+        folium.CircleMarker(
+            finish_ll,
+            radius=5,
+            color='#c62828',
+            fill=True,
+            fill_color='#e53935',
+            fill_opacity=0.95,
+            weight=2,
+            popup=ui['finish_marker'],
+            tooltip=ui['finish_marker_short'],
+        ).add_to(m)
+
+    elif style == 'badge':
+        def _badge_icon(letter: str, bg: str) -> folium.DivIcon:
+            return folium.DivIcon(
+                html=(
+                    f'<div style="'
+                    f'background:{bg};color:white;border-radius:50%;'
+                    f'width:22px;height:22px;display:flex;align-items:center;'
+                    f'justify-content:center;font-size:11px;font-weight:bold;'
+                    f'border:2px solid white;'
+                    f'box-shadow:0 1px 4px rgba(0,0,0,0.45);'
+                    f'font-family:Arial,sans-serif;'
+                    f'">{letter}</div>'
+                ),
+                icon_size=(26, 26),
+                icon_anchor=(13, 13),
+            )
+        folium.Marker(
+            start_ll,
+            popup=ui['start_marker'],
+            tooltip=ui['start_marker_short'],
+            icon=_badge_icon(ui['start_marker_badge_letter'], '#43a047'),
+        ).add_to(m)
+        folium.Marker(
+            finish_ll,
+            popup=ui['finish_marker'],
+            tooltip=ui['finish_marker_short'],
+            icon=_badge_icon(ui['finish_marker_badge_letter'], '#e53935'),
+        ).add_to(m)
+
+    elif style == 'pin':
+        folium.Marker(
+            start_ll,
+            popup=ui['start_marker'],
+            tooltip=ui['start_marker_short'],
+            icon=folium.Icon(color='green', icon='play'),
+        ).add_to(m)
+        folium.Marker(
+            finish_ll,
+            popup=ui['finish_marker'],
+            tooltip=ui['finish_marker_short'],
+            icon=folium.Icon(color='red', icon='stop'),
+        ).add_to(m)
+
+    else:
+        raise ValueError(
+            f"marker_style must be 'circle', 'badge', 'pin' or 'none', got {style!r}"
+        )
+
+
 def create_interactive_map(segments: List[Dict],
                           output_file: str,
                           title: Optional[str] = None,
                           enable_animation: bool = True,
-                          distance_from_finish: bool = False) -> str:
+                          distance_from_finish: bool = False,
+                          marker_style: Literal['circle', 'badge', 'pin', 'none'] = 'circle') -> str:
     """
     Create an interactive HTML map with a colorized trace and elevation profile.
 
@@ -462,6 +604,12 @@ def create_interactive_map(segments: List[Dict],
     distance_from_finish : bool, optional
         If True, the interactive elevation profile uses remaining distance
         to the finish on the x-axis.
+    marker_style : str, optional
+        Visual style of the start/finish markers. One of:
+        ``'circle'`` (default – small discreet dot),
+        ``'badge'`` – round badge with a letter (D/A or S/F),
+        ``'pin'``   – standard large Leaflet pin,
+        ``'none'``  – no start/finish markers.
 
     Returns:
     --------
@@ -475,11 +623,19 @@ def create_interactive_map(segments: List[Dict],
     if not segments:
         raise ValueError(ui["error_empty_segments"])
 
-    # Calculer le centre de la carte
+    # Calculer le centre et les bornes de la carte
     all_lats = [seg['lat1'] for seg in segments] + [segments[-1]['lat2']]
     all_lons = [seg['lon1'] for seg in segments] + [segments[-1]['lon2']]
     center_lat = np.mean(all_lats)
     center_lon = np.mean(all_lons)
+
+    min_lat = min(all_lats)
+    max_lat = max(all_lats)
+    min_lon = min(all_lons)
+    max_lon = max(all_lons)
+    lat_margin = max((max_lat - min_lat) * 0.08, 0.01)
+    lon_margin = max((max_lon - min_lon) * 0.08, 0.01)
+    route_bounds = [[min_lat - lat_margin, min_lon - lon_margin], [max_lat + lat_margin, max_lon + lon_margin]]
 
     # Créer la carte Folium
     m = folium.Map(
@@ -507,6 +663,8 @@ def create_interactive_map(segments: List[Dict],
     segment_coords = []  # Pour la synchronisation et l'animation
     segment_times = []   # Pour l'animation temporelle
 
+    route_start_dt = segments[0].get('gpxtime_start') if isinstance(segments[0].get('gpxtime_start'), datetime) else None
+
     # Groupe de features pour la trace
     feature_group = folium.FeatureGroup(name=ui['feature_group_name'])
 
@@ -527,9 +685,21 @@ def create_interactive_map(segments: List[Dict],
 
         # Stocker le temps pour l'animation
         seg_time = seg.get('time_s', 0)
+        mid_time_s = cum_time + (seg_time / 2.0 if seg_time else 0.0)
+
+        passage_time_iso = None
+        gpx_start = seg.get('gpxtime_start')
+        gpx_end = seg.get('gpxtime_end')
+        if isinstance(gpx_start, datetime) and isinstance(gpx_end, datetime):
+            passage_time_iso = (gpx_start + (gpx_end - gpx_start) / 2).isoformat()
+        elif route_start_dt is not None:
+            passage_time_iso = (route_start_dt + timedelta(seconds=mid_time_s)).isoformat()
+
         segment_times.append({
             'start': cum_time,
             'end': cum_time + seg_time,
+            'mid_time_s': mid_time_s,
+            'passage_time_iso': passage_time_iso,
             'lat': mid_lat,
             'lon': mid_lon,
             'distance_km': cum_dist + seg['distance'] / 2000.0
@@ -558,18 +728,9 @@ def create_interactive_map(segments: List[Dict],
 
     feature_group.add_to(m)
 
-    # Marqueurs de départ et arrivée
-    folium.Marker(
-        [segments[0]['lat1'], segments[0]['lon1']],
-        popup=ui['start_marker'],
-        icon=folium.Icon(color='green', icon='play')
-    ).add_to(m)
+    m.fit_bounds(route_bounds, padding=(24, 24))
 
-    folium.Marker(
-        [segments[-1]['lat2'], segments[-1]['lon2']],
-        popup=ui['finish_marker'],
-        icon=folium.Icon(color='red', icon='stop')
-    ).add_to(m)
+    _add_endpoint_markers(m, segments, ui, marker_style)
 
     # Légende pour les couleurs de vent (positionnée à droite du profil d'altitude)
     legend_html = '''
@@ -622,6 +783,7 @@ def create_interactive_map(segments: List[Dict],
         wind_along_kmh.append(seg.get('wind_along', 0) * 3.6)
 
     total_distance_km = distances_km[-1]
+    arrival_time_dt = _resolve_arrival_time(segments)
     if distance_from_finish:
         distances_display_km = [total_distance_km - dist for dist in distances_km]
         segment_distances_display_km = [
@@ -640,16 +802,19 @@ def create_interactive_map(segments: List[Dict],
         'distances': distances_display_km,
         'elevations_real': elevations_real,
         'elevations_virtual': elevations_virtual,
+        'route_bounds': route_bounds,
         'segment_coords': segment_coords,
         'segment_times': segment_times,
         'segment_distances': segment_distances_display_km,
         'speeds_kmh': speeds_kmh,
         'wind_along_kmh': wind_along_kmh,
         'total_time_s': cum_time,
+        'arrival_time_iso': arrival_time_dt.isoformat() if arrival_time_dt is not None else None,
         'enable_animation': enable_animation,
         'x_axis_label': x_axis_label,
         'popup_distance_label': popup_distance_label,
         'distance_from_finish': bool(distance_from_finish),
+        'route_start_iso': route_start_dt.isoformat() if route_start_dt is not None else None,
     }
 
     # Sauvegarder la carte
@@ -695,6 +860,9 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
 
     js_ui = {
         "popupCurrentPosition": ui["popup_current_position"],
+        "popupPassageTimeLabel": ui["popup_passage_time_label"],
+        "popupElapsedTimeLabel": ui["popup_elapsed_time_label"],
+        "arrivalTimeLabel": ui["arrival_time_label"],
         "popupSpeedLabel": ui["popup_speed_label"],
         "popupWindLabel": ui["popup_wind_label"],
         "popupWindHead": ui["popup_wind_head_short"],
@@ -738,7 +906,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         height: {map_height} !important;
     }}
     #elevation-profile {{
-        width: 100%;  /* Pleine largeur maintenant que la légende est en panel */
+        width: calc(100% - 320px);
         height: {profile_height}px;
         position: fixed;
         bottom: 0;
@@ -749,7 +917,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     }}
     #animation-controls {{
-        width: 100%;  /* Pleine largeur comme le profil */
+        width: calc(100% - 320px);
         position: fixed;
         bottom: {profile_height}px;
         left: 0;
@@ -761,6 +929,32 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         align-items: center;
         gap: 15px;
         box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+    }}
+    #position-info-panel {{
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+        width: 292px;
+        max-height: calc({profile_height}px - 24px);
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #d0d7de;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        z-index: 10000;
+        padding: 12px 14px;
+        box-sizing: border-box;
+    }}
+    .position-info-title {{
+        font-size: 14px;
+        font-weight: bold;
+        color: #222;
+        margin: 0 0 8px 0;
+    }}
+    .position-info-row {{
+        font-size: 13px;
+        color: #333;
+        margin: 5px 0;
     }}
     #time-slider {{
         flex: 1;
@@ -813,6 +1007,9 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         font-size: 14px;
         font-weight: bold;
         color: #333;
+    }}
+    #recenter-toggle-label {{
+        margin-left: 4px;
     }}
 
     /* Bouton flottant pour les statistiques */
@@ -963,6 +1160,29 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             gap: 6px !important;
         }}
 
+        #position-info-panel {{
+            left: 8px !important;
+            right: 8px !important;
+            width: auto !important;
+            bottom: 292px !important;
+            max-height: 76px !important;
+            padding: 7px 9px !important;
+            overflow: hidden !important;
+            border-radius: 8px !important;
+        }}
+
+        .position-info-title {{
+            display: none !important;
+        }}
+
+        .position-info-row {{
+            display: inline-block !important;
+            margin: 0 10px 4px 0 !important;
+            font-size: 11px !important;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+        }}
+
         #stats-button {{
             top: 70px !important;
             right: 15px !important;
@@ -1023,6 +1243,29 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             bottom: 160px !important;
             padding: 4px 6px !important;
             gap: 5px !important;
+        }}
+
+        #position-info-panel {{
+            left: 8px !important;
+            right: 8px !important;
+            width: auto !important;
+            bottom: 206px !important;
+            max-height: 56px !important;
+            padding: 6px 8px !important;
+            overflow: hidden !important;
+            border-radius: 8px !important;
+        }}
+
+        .position-info-title {{
+            display: none !important;
+        }}
+
+        .position-info-row {{
+            display: inline-block !important;
+            margin: 0 8px 2px 0 !important;
+            font-size: 10px !important;
+            line-height: 1.15 !important;
+            white-space: nowrap !important;
         }}
 
         #stats-button {{
@@ -1089,6 +1332,21 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             flex-wrap: wrap !important;
         }}
 
+        #position-info-panel {{
+            left: 6px !important;
+            right: 6px !important;
+            width: auto !important;
+            bottom: 272px !important;
+            max-height: 74px !important;
+            padding: 6px 8px !important;
+            overflow: hidden !important;
+        }}
+
+        .position-info-row {{
+            margin: 0 7px 3px 0 !important;
+            font-size: 10px !important;
+        }}
+
         #stats-button {{
             top: 60px !important;
             right: 10px !important;
@@ -1152,8 +1410,11 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         <button id="pause-btn" class="anim-button" style="display:none;">{ui['btn_pause']}</button>
         <input type="range" id="time-slider" min="0" max="{int(data.get('total_time_s', 0))}" value="0" step="1">
         <div id="time-display">00:00 / {int(data.get('total_time_s', 0) // 60):02d}:{int(data.get('total_time_s', 0) % 60):02d}</div>
+        <div id="arrival-time" style="font-family:monospace;font-size:13px;color:#555;white-space:nowrap;"></div>
         <button id="reset-btn" class="anim-button">{ui['btn_reset']}</button>
     </div>
+
+    <div id="position-info-panel" style="display:none;"></div>
 
     <!-- Conteneur pour le profil -->
     <div id="elevation-profile"></div>
@@ -1252,18 +1513,147 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
     var distances = {json.dumps(data['distances'])};
     var elevationsReal = {json.dumps(data['elevations_real'])};
     var elevationsVirtual = {json.dumps(data['elevations_virtual'])};
+    var routeBounds = {json.dumps(data.get('route_bounds'))};
     var segmentCoords = {json.dumps(data['segment_coords'])};
     var segmentTimes = {json.dumps(data['segment_times'])};
     var segmentDistances = {json.dumps(data['segment_distances'])};
     var speedsKmh = {json.dumps(data.get('speeds_kmh', []))};
     var windAlongKmh = {json.dumps(data.get('wind_along_kmh', []))};
     var totalTimeS = {data.get('total_time_s', 0)};
-    var xAxisLabel = {json.dumps(data.get('x_axis_label', 'Distance (km)'))};
+    var routeStartIso = {json.dumps(data.get('route_start_iso'))};
+    var arrivalTimeIso = {json.dumps(data.get('arrival_time_iso'))};
+    var xAxisLabel = {json.dumps(data.get('x_axis_label', 'Distance (km)'))};    
     var popupDistanceLabel = {json.dumps(data.get('popup_distance_label', 'Distance'))};
     var ui = {json.dumps(js_ui, ensure_ascii=False)};
 
+    function isMobileUi() {{
+        var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        var isSmallWidth = window.innerWidth <= 768;
+        var isLandscapeMobile = window.innerHeight <= 600 && window.innerWidth <= 1024;
+        return isTouchDevice && (isSmallWidth || isLandscapeMobile);
+    }}
+
+    function formatElapsedTime(totalSeconds) {{
+        if (totalSeconds === undefined || totalSeconds === null || isNaN(totalSeconds)) {{
+            return null;
+        }}
+
+        var safeSeconds = Math.max(0, Math.floor(totalSeconds));
+        var hours = Math.floor(safeSeconds / 3600);
+        var mins = Math.floor((safeSeconds % 3600) / 60);
+        var secs = safeSeconds % 60;
+        return hours.toString().padStart(2, '0') + ':' + mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+    }}
+
+    function formatPassageTime(isoText) {{
+        if (!isoText) return null;
+
+        var dt = new Date(isoText);
+        if (isNaN(dt.getTime())) return null;
+        return dt.toLocaleTimeString([], {{ hour: '2-digit', minute: '2-digit', second: '2-digit' }});
+    }}
+
+    function getPassageTimeText(segIdx) {{
+        if (segIdx < 0 || segIdx >= segmentTimes.length) return null;
+
+        if (segmentTimes[segIdx].passage_time_iso) {{
+            return formatPassageTime(segmentTimes[segIdx].passage_time_iso);
+        }}
+
+        if (routeStartIso && segmentTimes[segIdx].mid_time_s !== undefined) {{
+            var startDt = new Date(routeStartIso);
+            if (!isNaN(startDt.getTime())) {{
+                var estimate = new Date(startDt.getTime() + (segmentTimes[segIdx].mid_time_s * 1000));
+                return estimate.toLocaleTimeString([], {{ hour: '2-digit', minute: '2-digit', second: '2-digit' }});
+            }}
+        }}
+
+        return null;
+    }}
+
+    function fitRouteInVisibleMapArea() {{
+        if (!leafletMap || !routeBounds || routeBounds.length !== 2) return;
+
+        var profileDiv = document.getElementById('elevation-profile');
+        var controlsDiv = document.getElementById('animation-controls');
+        var profileHeight = profileDiv ? profileDiv.offsetHeight : 0;
+        var controlsHeight = 0;
+        if (controlsDiv && controlsDiv.style.display !== 'none') {{
+            controlsHeight = controlsDiv.offsetHeight;
+        }}
+
+        // Shift route to the upper visible area by reserving space at the bottom.
+        var bottomReserved = profileHeight + controlsHeight + 40;
+
+        leafletMap.invalidateSize();
+        leafletMap.fitBounds(routeBounds, {{
+            paddingTopLeft: [24, 24],
+            paddingBottomRight: [24, bottomReserved],
+            maxZoom: 15
+        }});
+    }}
+
+    function updatePositionInfoPanel(distanceKm, speed, windAlong, passageTimeText, elapsedTimeS) {{
+        var panel = document.getElementById('position-info-panel');
+        if (!panel) return;
+
+        var html = '<div class="position-info-title">' + ui.popupCurrentPosition + '</div>';
+        html += '<div class="position-info-row"><b>' + popupDistanceLabel + ':</b> ' + distanceKm.toFixed(2) + ' km</div>';
+
+        if (passageTimeText) {{
+            html += '<div class="position-info-row"><b>' + ui.popupPassageTimeLabel + ':</b> ' + passageTimeText + '</div>';
+        }}
+
+        if (elapsedTimeS !== undefined && elapsedTimeS !== null && !isNaN(elapsedTimeS)) {{
+            html += '<div class="position-info-row"><b>' + ui.popupElapsedTimeLabel + ':</b> ' + formatElapsedTime(elapsedTimeS) + '</div>';
+        }}
+
+        if (speed !== undefined && !isNaN(speed)) {{
+            html += '<div class="position-info-row"><b>' + ui.popupSpeedLabel + ':</b> ' + speed.toFixed(1) + ' km/h</div>';
+        }}
+
+        if (windAlong !== undefined && !isNaN(windAlong)) {{
+            var windType = windAlong > 0 ? ui.popupWindHead : ui.popupWindTail;
+            html += '<div class="position-info-row"><b>' + ui.popupWindLabel + ':</b> ' + Math.abs(windAlong).toFixed(1) + ' km/h ' + windType + '</div>';
+        }}
+
+        panel.innerHTML = html;
+        panel.style.display = 'block';
+    }}
+
+    function getAdjustedCenterForProfile(lat, lon) {{
+        if (!leafletMap) return [lat, lon];
+
+        var profileDiv = document.getElementById('elevation-profile');
+        var profileHeight = profileDiv ? profileDiv.offsetHeight : 0;
+        var popupHeight = 0;
+
+        if (currentMarker && currentMarker.getPopup && currentMarker.getPopup()) {{
+            var popupEl = currentMarker.getPopup().getElement();
+            if (popupEl) {{
+                popupHeight = popupEl.offsetHeight || 0;
+            }}
+        }}
+
+        var offsetPx = 0;
+        if (profileHeight > 0) {{
+            offsetPx += Math.max(40, Math.round(profileHeight * 0.26));
+        }}
+        if (popupHeight > 0) {{
+            offsetPx += Math.max(35, Math.round(popupHeight * 0.55));
+        }}
+        if (offsetPx === 0) {{
+            offsetPx = 70;
+        }}
+
+        var point = leafletMap.project([lat, lon], leafletMap.getZoom());
+        var adjustedPoint = leafletMap.unproject([point.x, point.y - offsetPx], leafletMap.getZoom());
+        return [adjustedPoint.lat, adjustedPoint.lng];
+    }}
+
     // Fonction pour créer/déplacer le marqueur de position sur la carte
-    function updateMarkerOnMap(lat, lon, distanceKm, speed, windAlong) {{
+    function updateMarkerOnMap(lat, lon, distanceKm, speed, windAlong, passageTimeText, elapsedTimeS) {{
+
         if (!leafletMap) {{
             console.warn('⚠️ Carte non disponible');
             return;
@@ -1278,6 +1668,15 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                           '<h4 style="margin: 0 0 10px 0; color: #FF4500;">' + ui.popupCurrentPosition + '</h4>' +
                           '<p style="margin: 4px 0; font-size: 13px;"><b>' + popupDistanceLabel + ':</b> ' + distanceKm.toFixed(2) + ' km</p>';
 
+        if (passageTimeText) {{
+            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>' + ui.popupPassageTimeLabel + ':</b> ' + passageTimeText + '</p>';
+        }}
+
+        var elapsedText = formatElapsedTime(elapsedTimeS);
+        if (elapsedText) {{
+            popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>' + ui.popupElapsedTimeLabel + ':</b> ' + elapsedText + '</p>';
+        }}
+
         if (speed !== undefined && !isNaN(speed)) {{
             popupContent += '<p style="margin: 4px 0; font-size: 13px;"><b>' + ui.popupSpeedLabel + ':</b> ' + speed.toFixed(1) + ' km/h</p>';
         }}
@@ -1287,10 +1686,24 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         }}
         popupContent += '</div>';
 
+        updatePositionInfoPanel(distanceKm, speed, windAlong, passageTimeText, elapsedTimeS);
+        var showMapPopup = !isMobileUi();
+
         if (currentMarker) {{
             // Déplacer le marqueur existant
             currentMarker.setLatLng([lat, lon]);
-            currentMarker.setPopupContent(popupContent);
+            if (showMapPopup) {{
+                if (currentMarker.getPopup()) {{
+                    currentMarker.setPopupContent(popupContent);
+                }} else {{
+                    currentMarker.bindPopup(popupContent, {{
+                        autoPan: false,
+                        closeButton: true
+                    }});
+                }}
+            }} else if (currentMarker.getPopup()) {{
+                currentMarker.unbindPopup();
+            }}
         }} else {{
             // Créer un nouveau marqueur avec icône personnalisée
             var pulsingIcon = L.divIcon({{
@@ -1320,7 +1733,12 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 zIndexOffset: 10000
             }}).addTo(leafletMap);
 
-            currentMarker.bindPopup(popupContent);
+            if (showMapPopup) {{
+                currentMarker.bindPopup(popupContent, {{
+                    autoPan: false,
+                    closeButton: true
+                }});
+            }}
             console.log('✅ Marqueur créé à', lat, lon);
         }}
 
@@ -1347,8 +1765,9 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         var dist = segmentDistances[segIdx];
         var speed = speedsKmh[segIdx];
         var wind = windAlongKmh[segIdx];
+        var passageTime = getPassageTimeText(segIdx);
 
-        updateMarkerOnMap(coord[0], coord[1], dist, speed, wind);
+        updateMarkerOnMap(coord[0], coord[1], dist, speed, wind, passageTime, timeS);
 
         // Mettre à jour la ligne verticale sur le graphique
         if (typeof Plotly !== 'undefined') {{
@@ -1370,6 +1789,30 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             }});
         }}
     }}
+
+    // Afficher l'heure d'arrivée estimée
+    document.addEventListener('DOMContentLoaded', function() {{
+        var arrivalDiv = document.getElementById('arrival-time');
+        if (arrivalDiv) {{
+            if (arrivalTimeIso) {{
+                var arrivalDt = new Date(arrivalTimeIso);
+                if (!isNaN(arrivalDt.getTime())) {{
+                    arrivalDiv.textContent = ui.arrivalTimeLabel + ': ' +
+                        arrivalDt.toLocaleTimeString([], {{hour: '2-digit', minute: '2-digit'}});
+                    return;
+                }}
+            }}
+
+            if (routeStartIso && totalTimeS > 0) {{
+                var startDt = new Date(routeStartIso);
+                if (!isNaN(startDt.getTime())) {{
+                    var arrivalDt = new Date(startDt.getTime() + totalTimeS * 1000);
+                    arrivalDiv.textContent = ui.arrivalTimeLabel + ': ' +
+                        arrivalDt.toLocaleTimeString([], {{hour: '2-digit', minute: '2-digit'}});
+                }}
+            }}
+        }}
+    }});
 
     // Contrôles d'animation
     document.addEventListener('DOMContentLoaded', function() {{
@@ -1452,14 +1895,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
 
     // Attendre que Plotly soit chargé
     window.addEventListener('load', function() {{
-        // 📱 Fonction pour détecter si on est sur mobile (incluant paysage)
-        function isMobileDevice() {{
-            // Détection basée sur taille ET capacités tactiles
-            var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            var isSmallWidth = window.innerWidth <= 768;
-            var isLandscapeMobile = window.innerHeight <= 600 && window.innerWidth <= 1024;
-            return isTouchDevice && (isSmallWidth || isLandscapeMobile);
-        }}
+        var mobileMode = isMobileUi();
 
         var traceReal = {{
             customdata: distances.map(function(v) {{
@@ -1517,13 +1953,20 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             plot_bgcolor: '#fafafa',
             paper_bgcolor: 'white',
             // 📱 Désactiver le drag sur mobile (portrait ET paysage)
-            dragmode: isMobileDevice() ? false : 'zoom'
+            dragmode: mobileMode ? false : 'zoom'
         }};
+
+        if (mobileMode) {{
+            layout.xaxis.fixedrange = true;
+            layout.yaxis.fixedrange = true;
+        }}
 
         var config = {{
             responsive: true,
-            displayModeBar: !isMobileDevice(),  // Masquer toolbar sur mobile
-            modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+            displayModeBar: !mobileMode,  // Masquer toolbar sur mobile
+            modeBarButtonsToRemove: mobileMode
+                ? ['lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d']
+                : ['lasso2d', 'select2d'],
             displaylogo: false,
             // 📱 Désactiver le zoom mais GARDER les événements click/hover
             doubleClick: false,
@@ -1535,7 +1978,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         // 📱 Empêcher le zoom sur mobile (portrait ET paysage)
         var plotlyDiv = document.getElementById('elevation-profile');
 
-        if (isMobileDevice()) {{
+        if (mobileMode) {{
             // Empêcher le pinch-to-zoom (2+ doigts)
             plotlyDiv.addEventListener('touchstart', function(e) {{
                 if (e.touches.length > 1) {{
@@ -1555,12 +1998,14 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         }}
 
         // 📱 Adapter les marges pour mobile
-        if (isMobileDevice()) {{
+        if (mobileMode) {{
             Plotly.relayout('elevation-profile', {{
                 'margin.l': 35,
                 'margin.r': 5,
                 'margin.t': 30,
                 'margin.b': 35,
+                'xaxis.fixedrange': true,
+                'yaxis.fixedrange': true,
                 'xaxis.title.font.size': 10,
                 'yaxis.title.font.size': 10,
                 'title.font.size': 11
@@ -1572,7 +2017,7 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
             Plotly.Plots.resize('elevation-profile');
 
             // Redétecter si mobile après rotation
-            var isMobileNow = isMobileDevice();
+            var isMobileNow = isMobileUi();
             Plotly.relayout('elevation-profile', {{
                 'dragmode': isMobileNow ? false : 'zoom'
             }});
@@ -1582,14 +2027,18 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                     'margin.l': 35,
                     'margin.r': 5,
                     'margin.t': 30,
-                    'margin.b': 35
+                    'margin.b': 35,
+                    'xaxis.fixedrange': true,
+                    'yaxis.fixedrange': true
                 }});
             }} else {{
                 Plotly.relayout('elevation-profile', {{
                     'margin.l': 60,
                     'margin.r': 40,
                     'margin.t': 50,
-                    'margin.b': 50
+                    'margin.b': 50,
+                    'xaxis.fixedrange': false,
+                    'yaxis.fixedrange': false
                 }});
             }}
         }});
@@ -1619,13 +2068,14 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 var coord = segmentCoords[closestSegIdx];
                 var speed = speedsKmh[closestSegIdx];
                 var wind = windAlongKmh[closestSegIdx];
+                var elapsedTimeS = segmentTimes[closestSegIdx] ? segmentTimes[closestSegIdx].mid_time_s : null;
+                var passageTime = getPassageTimeText(closestSegIdx);
 
                 waitForMap(function() {{
-                    updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind);
-                    if (currentMarker && leafletMap) {{
+                    updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind, passageTime, elapsedTimeS);
+                    if (!isMobileUi() && currentMarker && leafletMap) {{
                         currentMarker.openPopup();
-                        leafletMap.setView([coord[0], coord[1]], leafletMap.getZoom());
-                        console.log('✅ Marqueur créé/déplacé et popup ouvert');
+                        console.log('✅ Marqueur créé/déplacé et panneau d’infos mis à jour');
                     }}
                 }});
             }}
@@ -1651,9 +2101,11 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
                 var coord = segmentCoords[closestSegIdx];
                 var speed = speedsKmh[closestSegIdx];
                 var wind = windAlongKmh[closestSegIdx];
+                var elapsedTimeS = segmentTimes[closestSegIdx] ? segmentTimes[closestSegIdx].mid_time_s : null;
+                var passageTime = getPassageTimeText(closestSegIdx);
 
                 waitForMap(function() {{
-                    updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind);
+                    updateMarkerOnMap(coord[0], coord[1], distanceKm, speed, wind, passageTime, elapsedTimeS);
                 }});
             }}
         }});
@@ -1667,14 +2119,22 @@ def _add_plotly_profile(html_file: str, data: Dict, title: str, segments: List[D
         console.log('🚀 Initialisation de la synchronisation carte-profil...');
         waitForMap(function() {{
             console.log('✅ Synchronisation activée - Cliquez sur le profil pour localiser');
+            fitRouteInVisibleMapArea();
             // Test de création du marqueur au premier point
             if (segmentCoords.length > 0 && speedsKmh.length > 0) {{
                 var firstCoord = segmentCoords[0];
                 var firstSpeed = speedsKmh[0];
                 var firstWind = windAlongKmh[0];
-                updateMarkerOnMap(firstCoord[0], firstCoord[1], segmentDistances[0], firstSpeed, firstWind);
+                var firstElapsed = segmentTimes[0] ? segmentTimes[0].mid_time_s : 0;
+                var firstPassage = getPassageTimeText(0);
+                updateMarkerOnMap(firstCoord[0], firstCoord[1], segmentDistances[0], firstSpeed, firstWind, firstPassage, firstElapsed);
                 console.log('✅ Marqueur initial créé au point de départ');
             }}
+        }});
+
+        window.addEventListener('resize', function() {{
+            if (!leafletMap) return;
+            fitRouteInVisibleMapArea();
         }});
     }});
     </script>
