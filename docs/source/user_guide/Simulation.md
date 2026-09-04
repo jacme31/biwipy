@@ -138,7 +138,7 @@ Top-level fields include:
 - `time`: total seconds, minutes, hours
 - `speed`: average, min, max, moving average
 - `power` (optional): average/min/max and calibrated `P0` when available
-- `wind`: TWS and average TWD
+- `wind`: TWS/TWD at 1.5 m and TWS/TWD at 10 m
 - `gusts`: gust statistics and positions
 - `slopes`: terrain, virtual (wind), and effective slopes
 - `wind_along_trajectory`: headwind/tailwind split
@@ -175,6 +175,9 @@ Nested fields:
     - `tws`: `avg`, `min`, `max`, `min_at_km`, `max_at_km`
     - `twd_avg`, `twd_compass`
     - convenience properties: `tws_avg_kmh`, `tws_min_kmh`, `tws_max_kmh`
+    - `tws_10m`: optional `NumericStats` with `avg`, `min`, `max`
+    - `twd_10m_avg`, `twd_10m_compass`
+    - convenience properties: `tws_10m_avg_kmh`, `tws_10m_min_kmh`, `tws_10m_max_kmh`
 - `gusts`: `avg`, `min`, `max`, `min_at_km`, `max_at_km`
 - `slopes`:
     - `terrain`: `avg_pct`, `min_pct`, `max_pct`, `deniv_pos_m`, `deniv_neg_m`
@@ -206,12 +209,18 @@ print(result.speed.avg)
 print(result.speed.max)
 print(result.speed.moving_avg)
 
-# Wind metrics
-print(result.wind.tws.avg)          # m/s (raw)
+# Wind metrics at cyclist level (1.5 m)
+print(result.wind.tws.avg)          # m/s
 print(result.wind.tws.avg_kmh)      # km/h (convenience)
 print(result.wind.tws_avg_kmh)      # km/h (shortcut)
 print(result.wind.twd_avg)          # degrees
 print(result.wind.twd_compass)      # N, NE, E, ...
+
+# Meteorological wind metrics at 10 m
+print(result.wind.tws_10m.avg)      # m/s
+print(result.wind.tws_10m_avg_kmh)  # km/h (convenience)
+print(result.wind.twd_10m_avg)      # degrees
+print(result.wind.twd_10m_compass)  # N, NE, E, ...
 
 # Gusts and crosswind
 print(result.gusts.max)             # m/s (raw)
@@ -222,6 +231,25 @@ print(result.crosswind.avg_kmh)
 print(result.wind_score.grade)
 print(result.wind_score.reason)
 ```
+
+### Wind Measurement Heights
+
+The wind values use two measurement heights:
+
+- `tws` and `gust` are normalized to cyclist level (1.5 m). These existing
+    fields are preserved for the physics model and existing processing.
+- `tws_10m` and `gust_10m` are the corresponding meteorological values at 10 m,
+    provided for reporting and display.
+- `twd` is the wind direction and is shared by both height representations;
+    `twd_10m_avg` and `twd_10m_compass` expose the aggregated 10 m direction in
+    `SimulationResult.wind`.
+
+At segment level, the same fields are available in the raw dictionaries:
+`tws`, `gust`, `tws_10m`, `gust_10m`, and `twd`. Values are stored in m/s,
+except directions, which are in degrees.
+
+When converted with `result.to_dict()`, the aggregated 10 m values are exposed
+under `wind.tws_10m` and `wind.twd_10m`.
 
 ### Slope Breakdown
 
