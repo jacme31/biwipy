@@ -1250,18 +1250,16 @@ def print_summary_statistics(
         _tp("line_min", value=result.wind.tws.min * 3.6)
         _tp("line_max", value=result.wind.tws.max * 3.6)
 
-        tws_10m_stats = _series_stats_kmh_by_key(result_segments, 'tws_10m')
-        if tws_10m_stats is not None:
-            avg_twd_10m_deg, avg_twd_10m_text, _ = compute_average_twd_vectorial(result_segments, tws_key='tws_10m')
+        if result.wind.tws_10m is not None:
             _tp("wind_section_10m")
             _tp(
                 "line_mean_direction",
-                value=tws_10m_stats['avg_kmh'],
-                deg=avg_twd_10m_deg,
-                text=avg_twd_10m_text,
+                value=result.wind.tws_10m.avg * 3.6,
+                deg=result.wind.twd_10m_avg,
+                text=result.wind.twd_10m_compass,
             )
-            _tp("line_min", value=tws_10m_stats['min_kmh'])
-            _tp("line_max", value=tws_10m_stats['max_kmh'])
+            _tp("line_min", value=result.wind.tws_10m.min * 3.6)
+            _tp("line_max", value=result.wind.tws_10m.max * 3.6)
 
         _tp("gust_section")
         _tp("line_mean", value=result.gusts.avg * 3.6)

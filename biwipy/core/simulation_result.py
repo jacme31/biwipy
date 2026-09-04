@@ -137,6 +137,9 @@ class WindAnalysis:
     tws: NumericStats  # True Wind Speed (m/s internally, km/h in output)
     twd_avg: float     # Average True Wind Direction (degrees)
     twd_compass: str   # Cardinal direction (N, NE, E, etc)
+    tws_10m: Optional[NumericStats] = None  # True Wind Speed at 10m
+    twd_10m_avg: Optional[float] = None     # Average True Wind Direction at 10m
+    twd_10m_compass: Optional[str] = None   # Cardinal direction at 10m
 
     @property
     def tws_avg_kmh(self) -> float:
@@ -149,9 +152,21 @@ class WindAnalysis:
     @property
     def tws_max_kmh(self) -> float:
         return self.tws.max_kmh
+
+    @property
+    def tws_10m_avg_kmh(self) -> Optional[float]:
+        return self.tws_10m.avg_kmh if self.tws_10m is not None else None
+
+    @property
+    def tws_10m_min_kmh(self) -> Optional[float]:
+        return self.tws_10m.min_kmh if self.tws_10m is not None else None
+
+    @property
+    def tws_10m_max_kmh(self) -> Optional[float]:
+        return self.tws_10m.max_kmh if self.tws_10m is not None else None
     
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        result = {
             'tws': {
                 'avg_kmh': round(self.tws.avg * 3.6, 2),
                 'min_kmh': round(self.tws.min * 3.6, 2),
@@ -162,6 +177,18 @@ class WindAnalysis:
                 'compass': self.twd_compass,
             }
         }
+        if self.tws_10m is not None:
+            result['tws_10m'] = {
+                'avg_kmh': round(self.tws_10m.avg * 3.6, 2),
+                'min_kmh': round(self.tws_10m.min * 3.6, 2),
+                'max_kmh': round(self.tws_10m.max * 3.6, 2),
+            }
+        if self.twd_10m_avg is not None or self.twd_10m_compass is not None:
+            result['twd_10m'] = {
+                'avg_degrees': round(self.twd_10m_avg, 1) if self.twd_10m_avg is not None else None,
+                'compass': self.twd_10m_compass,
+            }
+        return result
 
 
 @dataclass

@@ -645,16 +645,29 @@ def create_interactive_map(segments: List[Dict],
         control_scale=True
     )
 
-    # Ajouter d'autres fonds de carte avec attributions
+    # Ajouter d'autres fonds de carte avec attributions (fournisseurs gratuits sans clé API)
+    # Stadia (Stamen Terrain) et CartoDB nécessitent désormais une clé API / un compte
+    # (filigrane sinon) : on utilise des alternatives libres à la place.
     folium.TileLayer(
-        tiles='https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.jpg',
-        attr='Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL',
+        tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        attr='Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA)',
         name='Terrain'
     ).add_to(m)
 
+    # CyclOSM (openstreetmap.fr) is prone to outages (502); Esri is a more reliable
+    # independent infrastructure with no API key required.
     folium.TileLayer(
-        tiles='CartoDB positron',
-        name='CartoDB'
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        attr='Tiles &copy; Esri &mdash; Source: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P',
+        name='Esri Street Map'
+    ).add_to(m)
+
+    # Light Gray Canvas: no-key alternative to CartoDB Positron, keeps the colored
+    # route legible against a plain light background.
+    folium.TileLayer(
+        tiles='https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+        attr='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        name='Light'
     ).add_to(m)
 
     # Créer les coordonnées pour la trace et les popups

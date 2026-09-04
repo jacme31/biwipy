@@ -9,6 +9,8 @@ __all__ = [
 	"anareswind",
 	"gravel_detection",
 	"tactical_analysis",
+	"CLIMB_PROFILES",
+	"get_climb_profile",
 ]
 
 
@@ -19,5 +21,9 @@ def __getattr__(name: str) -> Any:
 
 	if name in {"gpx_tools", "anareswind", "gravel_detection", "tactical_analysis"}:
 		return import_module(f".{name}", __name__)
+
+	if name in {"CLIMB_PROFILES", "get_climb_profile"}:
+		module = import_module(".anareswind", __name__)
+		return getattr(module, name)
 
 	raise AttributeError(f"module 'refwindcycle.analysis' has no attribute {name!r}")

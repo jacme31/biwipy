@@ -144,6 +144,9 @@ def result():
             tws=NumericStats(avg=1.092, min=0.637, max=2.231, min_at_km=0.0, max_at_km=40.0),
             twd_avg=161.0,
             twd_compass='SSE',
+            tws_10m=NumericStats(avg=1.8, min=1.0, max=3.2),
+            twd_10m_avg=161.0,
+            twd_10m_compass='SSE',
         ),
         gusts=GustAnalysis(
             avg=1.407,  # m/s
@@ -222,6 +225,8 @@ def test_simulation_result_building(result):
     assert result.speed.avg == 23.95
     assert result.power.P0_calibrated == 180.0
     assert result.wind.twd_compass == 'SSE'
+    assert result.wind.tws_10m_avg_kmh == 1.8 * 3.6
+    assert result.wind.twd_10m_compass == 'SSE'
     print("✓ SimulationResult construction OK")
 
 
@@ -231,6 +236,8 @@ def test_to_dict_serialization(result):
     
     # Segments NE DOIVENT PAS être inclus
     assert 'segments' not in data
+    assert data['wind']['tws_10m']['avg_kmh'] == 6.48
+    assert data['wind']['twd_10m']['compass'] == 'SSE'
     
     # Tous les domaines doivent être présents
     assert 'distance' in data
