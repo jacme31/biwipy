@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "biwipy"
-version = "0.11.0"
+version = "0.12.0"
 description = "Biwipy: cycling performance simulation with GRIB wind data"
 authors = [
   { name="jacme", email="your.email@example.com" },

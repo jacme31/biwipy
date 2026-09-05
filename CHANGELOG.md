@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0 - 2026-09-07
+
+### Changed
+
+- improvements to the interactive map;
+- 10m TWS/TWD metrics and gusts.
+- tolerance for data gaps in climb detections;
+
 ## 0.11.0 - 2026-05-16
 
 ### Changed

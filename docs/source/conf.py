@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 project = "biwipy"
 copyright = "2026, Jacques"
 author = "Jacques"
-release = "0.11.0"
+release = "0.12.0"
 
 extensions = [
     "sphinx.ext.autodoc",
